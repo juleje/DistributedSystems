@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8c8c422d-7ff2-4eb8-b28b-063e9dd2fa22" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaRMI.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hotel/HotelServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hotel/iRemoteBookingManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/ant.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ant.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assignement1.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bin/hotel/BookingDetail.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/hotel/BookingDetail.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bin/hotel/BookingManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/hotel/BookingManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bin/hotel/Room.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/hotel/Room.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bin/staff/AbstractScriptedSimpleTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/staff/AbstractScriptedSimpleTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bin/staff/BookingClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/staff/BookingClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/Assignement1/hotel/BookingDetail.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/Assignement1/hotel/BookingManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/Assignement1/hotel/Room.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/Assignement1/staff/AbstractScriptedSimpleTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/Assignement1/staff/BookingClient.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/hotel/BookingDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hotel/BookingDetail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/hotel/BookingManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hotel/BookingManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/hotel/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hotel/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/staff/AbstractScriptedSimpleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/staff/AbstractScriptedSimpleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/staff/BookingClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/staff/BookingClient.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2WZAET67fGCCNbNw5yOGfobzIqF" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="Application.HotelServer">
+    <configuration name="BookingClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="staff.BookingClient" />
+      <module name="JavaRMI" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="hotel.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HotelServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="hotel.HotelServer" />
+      <module name="JavaRMI" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="hotel.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.BookingClient" />
+        <item itemvalue="Application.HotelServer" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8c8c422d-7ff2-4eb8-b28b-063e9dd2fa22" name="Changes" comment="" />
+      <created>1696929620680</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1696929620680</updated>
+      <workItem from="1696929621991" duration="5987000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
