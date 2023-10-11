@@ -1,0 +1,54 @@
+\documentclass{ds-report}
+
+\assignment{Remote communication} % Set to `Remote communication` or `Project`.
+\authorOne{Jules Verbessem} % Name of first team partner.
+\studentnumberOne{r0957436} % Student number of first team partner.
+\authorTwo{Gert-Jan Gillis} % Name of second team partner.
+\studentnumberTwo{r0674083}  % Student number of second team partner.
+
+\begin{document}
+	\maketitle
+
+	\paragraph{What is the role of stub and skeleton in Java RMI? Does REST have similar concepts?} 
+	Stub in Java RMI wordt aangesproken als de client een call doet naar het remote object. Dan wordt de call ontvangen door de Stub en deze geeft die door. De stub is een object dat je in de front-end gebruikt om de methodes te invoken van het skeleton object in de back-end. Je bind de stub in het registry aan een bepaalde naam als een key-value pair.
+    Skeleton in Java RMI vertaalt remote request in methode calls. Het skeleton object is deel van het class diagram van de backend. 
+    Er is geen stub in REST dat het skeleton object moet voorstellen. Maar er is wel een soortgelijk object dat requests fetcht van de backend. Er is echter wel een skeleton object want deze wordt gebruikt voor de business logica.
+	
+	\paragraph{What is the difference between serializable and remote? In your Java RMI assignment, which classes were made serializable and which classes were made remote? Motivate your choice.} 
+    De serializable klassen zijn de klassen die gebruikt worden als DTO(Data Transfer Object). Deze worden doorgegeven van de back-end naar de front-end en terug. Bv in de assignment "BookingDetail". De Remote interface wordt overgeërfd door een zelf gemaakte interface. Dan zal uw skeleton deze interface implementeren. Bv in de assignment "BookingManager". Dit object wordt gebruikt om remote requests af te handelen.
+
+    \paragraph{What role does the RMI registry play? Why is there no registry in REST?}
+    De registry wordt gebruikt om remote object op te slaan onder een naam als een key-value pair. Zo kan de front-end aan het remote object. REST heeft geen registry omdat deze niet rechtstreeks aan het remote object moet kunnen. Hier wordt het HTTP protocol gebruikt om data door te geven. Als je de Java RMI registry wilt gebruiken moeten de 2 systemen die met elkaar communiceren allebei Java gebruiken. Bij REST is dit niet het geval.
+
+    \paragraph{How do you make sure that your Java RMI implementation is thread-safe? Moreover, which methods were required and selected to be thread-safe? Can you motivate your decisions?}
+    Thread-safe code manipuleert alleen gedeelde data. Het gedeelde data object is de serializable objecten (?) en deze mag de client niet aanpassen. ????????????
+    
+    \paragraph{Level 3 RESTful APIs are hypermedia-driven. How does this affect the evolution of your software, and more specifically your APIs in terms of coupling and future upgrades?}
+    Bij level 3 REST API zal in de response staan welke end-point je moet gebruiken voor de volgende actie. Bij alle lagere levels moet je de end-point weten en manueel coderen. Maar bij level 3 geeft de back-end aan welk de end-point zijn voor deze acties. Nu moet je bij de client zeggen "gebruik de end-point gekregen van de back-end" voor de actie uit te voeren. Dit zorgt ervoor dat als er besloten wordt om de end-points in de backend te wijzigen dat dit in de front-end ook automatisch gebeurt. Dit maakt toekomstige upgrades makkelijker.
+
+    \paragraph{During the REST session, you used a code generator to generate the server side of the application. What other components could you generate from the OpenAPI specification? }
+    ??????
+
+    \paragraph{Your OpenAPI specification indicates that “Name” is a mandatory field for a meal. Your client received the specification, can you be sure “Name” will always be present when you receive a request from that client? When you generate server code from this specification, will your application check if “Name” is always present? }
+    ????????
+
+    \paragraph{What is the advantage of using code generation, e.g. using OpenAPI, over a language-integrated solution such as Java RMI? What are the downsides of using code generation from an implementation perspective?}
+    Je moet minder code zelf schrijven bij code generation. Dit kan ook in verschillende talen. Het nadeel van code generation is dat je het systeem moet specificieren zoals de componenten, path en de securityschemes. ???????????
+
+    \paragraph{How do Java RMI and a RESTful service compare in terms of flexibility (e.g., at platform level), extensibility (in particular when working with third parties), and susceptibility to protocol errors?}
+    REST is meer flexibel dan Java RMI want bij REST kunnen de verschillende systeems die communiceren op verschillende platformen draaien. Terwijl bij Java RMI moeten de systemen allebei Java gebruiken. REST is ook meer uitbereidbaar. Als "third parties" een ander platform gebruiken kan je via REST er toch met communiceren. Bij Java RMI gaat dit niet. REST is meer vatbaar voor protocol errors. Omdat als het één systeems met HTTP1.0 werkt en het andere met HTTP1.1, zal dit fouten geven als ze dit niet onderhandelen. Dit probleem bestaat niet bij Java RMI.
+
+    \paragraph{Suppose that you are tasked with developing the following applications, which of the two remote communication technologies (Java RMI, REST) would you use to realize them? What is your motivation for choosing a specific technology? If you choose REST, is it beneficial to also use OpenAPI? }
+    \subparagraph{A public web API that can be used by applications all over the world.}
+    REST (+ OpenAPI???) is hier het beste. Niet heel de wereld gebruikt Java. Met REST kan heel de wereld je public web API gebruiken.
+    \subparagraph{The internal communication of a high-performance SaaS application that consists of multiple distributed components, written in various programming languages}
+    REST (+ OpenAPI????) is hier het beste. Omdat je applicatie verschillende programmeer talen gebruikt kan je Java RMI niet gebruiken.
+    \subparagraph{An internal distributed application of a large company, written in Java only.}
+    Hier kan je kiezen voor REST en Java RMI. Omdat zowel client en server side Java gebruiken is het makkelijker om in Java te blijven werken. En geen hele REST API op te stellen.
+
+    
+	\clearpage
+	
+	% You can include diagrams here.
+	
+\end{document}
