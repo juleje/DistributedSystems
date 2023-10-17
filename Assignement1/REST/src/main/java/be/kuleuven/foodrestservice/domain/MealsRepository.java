@@ -64,4 +64,28 @@ public class MealsRepository {
         }
         return Optional.ofNullable(meal);
     }
+
+    public Optional<Meal> getLargestMeal() {
+        Meal meal = meals.values().stream().findFirst().get();
+        for (Meal m: meals.values()) {
+            if(m.getKcal() > meal.getKcal()){
+                meal = m;
+            }
+        }
+        return Optional.ofNullable(meal);
+    }
+
+    public void updateMeal(String id, Meal updatedMeal) {
+        meals.remove(id);
+        meals.put(id,updatedMeal);
+    }
+
+    public void addNewMeal(Meal newMeal) {
+        newMeal.setId(String.valueOf(UUID.randomUUID()));
+        meals.put(newMeal.getId(),newMeal);
+    }
+
+    public void deleteMeal(String id) {
+        meals.remove(id);
+    }
 }
