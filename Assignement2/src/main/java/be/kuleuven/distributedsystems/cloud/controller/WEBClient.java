@@ -44,7 +44,6 @@ public class WEBClient {
                         .pathSegment("trains")
                         .queryParam("key",reliableTrainsKey)
                         .build())
-                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<CollectionModel<Train>>() {})
                 .block()

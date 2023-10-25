@@ -13,6 +13,7 @@ import java.util.Collection;
 public class RESTController {
     private WEBClient webClient;
 
+    //http://localhost:8080/swagger-ui/index.html
     @Autowired
     public RESTController(WEBClient webClient){
         this.webClient = webClient;
@@ -20,17 +21,7 @@ public class RESTController {
 
     @GetMapping("/getTrains")
     public Collection<Train> getTrains(){ //ResponseEntity<?>
-
-        System.out.println("api called");
-
         var result = webClient.getTrains();
-
-        //406 Not Acceptable from GET https://reliabletrains.com/trains?key=JViZPgNadspVcHsMbDFrdGg0XXxyiE
-        // getrequest is done right
-        // serialization is croqued because of '_links'
-
-
-        System.out.println("data");
         System.out.println(result.size());
         return result;
         // var model = EntityModel.of(result);
