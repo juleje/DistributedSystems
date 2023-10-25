@@ -14,6 +14,7 @@ Gert-Jan Gillis
 normal user: 
 - username: test@mail.be
 - password: usertest
-admin user:
-- username
--password: 
+
+admin user (not made yet):
+- username: admin@mail.be
+- password: admintest
