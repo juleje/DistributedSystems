@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "Meal", description = "A Delicious meal")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-17T12:26:56.822201100+02:00[Europe/Brussels]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-27T13:25:05.386910300+02:00[Europe/Brussels]")
 public class Meal {
 
   private UUID id;

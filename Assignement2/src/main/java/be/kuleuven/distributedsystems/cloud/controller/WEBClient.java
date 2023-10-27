@@ -37,11 +37,26 @@ public class WEBClient {
 
     }
 
-    public Collection<Train> getTrains(){
+    public Collection<Train> getTrains() {
         return webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder
                         .pathSegment("trains")
+                        .queryParam("key",reliableTrainsKey)
+                        .build())
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<CollectionModel<Train>>() {})
+                .block()
+                .getContent();
+    }
+
+    public Train getTrain(String companyId, String trainId) {
+        return webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .pathSegment("trains")
+                        .queryParam("trainCompany", companyId)
+                        .queryParam("trainId", trainId)
                         .queryParam("key",reliableTrainsKey)
                         .build())
                 .retrieve()
