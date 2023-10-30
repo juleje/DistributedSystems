@@ -1,6 +1,8 @@
 package be.kuleuven.distributedsystems.cloud.controller;
 
+import be.kuleuven.distributedsystems.cloud.entities.Seat;
 import be.kuleuven.distributedsystems.cloud.entities.Train;
+import com.google.type.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +30,18 @@ public class RESTController {
     @GetMapping("/getTrain")
     public Train getTrain(@RequestParam String trainCompany, @RequestParam String trainId) { //ResponseEntity<?>
         return webClient.getTrain(trainCompany, trainId);
+    }
+
+    //http://localhost:8080/api/getTrainTimes?trainCompany=reliabletrains.com&trainId=c3c7dec3-4901-48ce-970d-dd9418ed9bcf
+    @GetMapping("/getTrainTimes")
+    public Collection<String> getTrainTimes(@RequestParam String trainCompany, @RequestParam String trainId) { //ResponseEntity<?>
+        return webClient.getTrainTimes(trainCompany, trainId);
+    }
+
+    //http://localhost:8080/api/getAvailableSeats?trainCompany=reliabletrains.com&trainId=c3c7dec3-4901-48ce-970d-dd9418ed9bcf&time=2024-02-05T13:52:00
+    @GetMapping("/getAvailableSeats")
+    public Collection<Seat> getAvailableSeats(@RequestParam String trainCompany, @RequestParam String trainId, @RequestParam String time) { //ResponseEntity<?>
+        return webClient.getAvailableSeats(trainCompany, trainId, time);
     }
 
 }

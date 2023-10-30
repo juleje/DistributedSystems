@@ -1,6 +1,8 @@
 package be.kuleuven.distributedsystems.cloud.controller;
 
+import be.kuleuven.distributedsystems.cloud.entities.Seat;
 import be.kuleuven.distributedsystems.cloud.entities.Train;
+import com.google.type.DateTime;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,10 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient.Builder;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Component
 public class WEBClient {
@@ -35,7 +34,6 @@ public class WEBClient {
                 .baseUrl("https://reliabletrains.com")
 //                .defaultUriVariables(uriVars)
                 .build();
-
     }
 
     public Collection<Train> getTrains() {
@@ -62,10 +60,49 @@ public class WEBClient {
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<Train>() {})
                     .block();
-        }/*else if(Objects.equals(companyId, "onreliabletrains.com")){
+        }/*else if(Objects.equals(companyId, "unreliabletrains.com")){
             return null;
         }*/
         return null;
     }
 
+    public Collection<String> getTrainTimes(String companyId, String trainId) {
+        if(Objects.equals(companyId, "reliabletrains.com")){
+            return webClient
+                    .get()
+                    .uri(uriBuilder -> uriBuilder
+                            .pathSegment("trains/"+trainId)
+                            .pathSegment("times")
+                            .queryParam("key",reliableTrainsKey)
+                            .build())
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<CollectionModel<String>>() {})
+                    .block()
+                    .getContent();
+        }/*else if(Objects.equals(companyId, "unreliabletrains.com")){
+            return null;
+        }*/
+        return null;
+    }
+
+    public Collection<Seat> getAvailableSeats(String companyId, String trainId, String time) {
+        if(Objects.equals(companyId, "reliabletrains.com")){
+            return webClient
+                    .get()
+                    .uri(uriBuilder -> uriBuilder
+                            .pathSegment("trains/"+trainId)
+                            .pathSegment("seats")
+                            .queryParam("time", time)
+                            .queryParam("available", "true")
+                            .queryParam("key",reliableTrainsKey)
+                            .build())
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<CollectionModel<Seat>>() {})
+                    .block()
+                    .getContent();
+        }/*else if(Objects.equals(companyId, "unreliabletrains.com")){
+            return null;
+        }*/
+        return null;
+    }
 }
