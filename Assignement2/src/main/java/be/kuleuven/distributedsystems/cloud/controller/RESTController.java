@@ -2,10 +2,7 @@ package be.kuleuven.distributedsystems.cloud.controller;
 
 import be.kuleuven.distributedsystems.cloud.entities.Train;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
@@ -22,20 +19,15 @@ public class RESTController {
 
     @GetMapping("/getTrains")
     public Collection<Train> getTrains() { //ResponseEntity<?>
-        var result = webClient.getTrains();
-        System.out.println(result.size());
-        return result;
+        return webClient.getTrains();
         // var model = EntityModel.of(result);
         // return ResponseEntity.ok(model);
     }
 
-    @GetMapping("/getTrain/{companyId}/{trainId}")
-    public Train getTrain(@PathVariable String companyId, @PathVariable String trainId) { //ResponseEntity<?>
-        var result = webClient.getTrain(companyId, trainId);
-        System.out.println(result);
-        return result;
-        // var model = EntityModel.of(result);
-        // return ResponseEntity.ok(model);
+    //http://localhost:8080/api/getTrain?trainCompany=reliabletrains.com&trainId=c3c7dec3-4901-48ce-970d-dd9418ed9bcf
+    @GetMapping("/getTrain")
+    public Train getTrain(@RequestParam String trainCompany, @RequestParam String trainId) { //ResponseEntity<?>
+        return webClient.getTrain(trainCompany, trainId);
     }
 
 }

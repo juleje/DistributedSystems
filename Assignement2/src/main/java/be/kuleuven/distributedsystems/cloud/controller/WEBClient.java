@@ -14,6 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class WEBClient {
@@ -51,18 +52,20 @@ public class WEBClient {
     }
 
     public Train getTrain(String companyId, String trainId) {
-        return webClient
-                .get()
-                .uri(uriBuilder -> uriBuilder
-                        .pathSegment("trains")
-                        .queryParam("trainCompany", companyId)
-                        .queryParam("trainId", trainId)
-                        .queryParam("key",reliableTrainsKey)
-                        .build())
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<CollectionModel<Train>>() {})
-                .block()
-                .getContent();
+        if(Objects.equals(companyId, "reliabletrains.com")){
+            return webClient
+                    .get()
+                    .uri(uriBuilder -> uriBuilder
+                            .pathSegment("trains/"+trainId)
+                            .queryParam("key",reliableTrainsKey)
+                            .build())
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<Train>() {})
+                    .block();
+        }/*else if(Objects.equals(companyId, "onreliabletrains.com")){
+            return null;
+        }*/
+        return null;
     }
 
 }
