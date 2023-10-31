@@ -54,6 +54,7 @@ export class TrainSeats extends Component {
       return html`${await response2.text()}`;
     }
     const seats = await response2.json();
+    console.log(seats)
 
     this.setState({ train, seats, time });
   }
