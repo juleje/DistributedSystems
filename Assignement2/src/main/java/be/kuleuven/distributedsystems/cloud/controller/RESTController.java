@@ -49,4 +49,11 @@ public class RESTController {
         return result;
     }
 
+    //http://localhost:8080/api/getSeat?trainCompany=reliabletrains.com&trainId=c3c7dec3-4901-48ce-970d-dd9418ed9bcf&seatId=cac56bf4-28d1-4e46-b912-8165c919b6c8
+    ///api/getAvailableSeats?trainCompany=${trainCompany}&trainId=${trainId}&seatId=${seatId}`
+    @GetMapping("/getSeat")
+    public Seat getSeat(@RequestParam String trainCompany, @RequestParam String trainId, @RequestParam String seatId) { //ResponseEntity<?>
+        return webClient.getSeat(trainCompany, trainId, seatId);
+    }
+
 }

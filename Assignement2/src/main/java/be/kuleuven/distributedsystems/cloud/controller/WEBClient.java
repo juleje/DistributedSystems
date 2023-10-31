@@ -105,4 +105,22 @@ public class WEBClient {
         }*/
         return null;
     }
+
+    public Seat getSeat(String companyId, String trainId, String seatId) {
+        if(Objects.equals(companyId, "reliabletrains.com")){
+            return webClient
+                    .get()
+                    .uri(uriBuilder -> uriBuilder
+                            .pathSegment("trains/"+trainId)
+                            .pathSegment("seats/"+seatId)
+                            .queryParam("key",reliableTrainsKey)
+                            .build())
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<Seat>() {})
+                    .block();
+        }/*else if(Objects.equals(companyId, "unreliabletrains.com")){
+            return null;
+        }*/
+        return null;
+    }
 }
