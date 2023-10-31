@@ -1,5 +1,6 @@
 package be.kuleuven.distributedsystems.cloud.controller;
 
+import be.kuleuven.distributedsystems.cloud.entities.Booking;
 import be.kuleuven.distributedsystems.cloud.entities.Seat;
 import be.kuleuven.distributedsystems.cloud.entities.Train;
 import com.google.type.DateTime;
@@ -55,5 +56,16 @@ public class RESTController {
     public Seat getSeat(@RequestParam String trainCompany, @RequestParam String trainId, @RequestParam String seatId) { //ResponseEntity<?>
         return webClient.getSeat(trainCompany, trainId, seatId);
     }
+
+    @PostMapping("/confirmQuotes")
+    public void confirmQuotes() {
+
+    }
+
+    @GetMapping("/getBookings")
+    public Collection<Booking> getBookings() { //ResponseEntity<?>
+        return webClient.getBookings();
+    }
+
 
 }

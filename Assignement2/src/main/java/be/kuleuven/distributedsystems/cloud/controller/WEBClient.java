@@ -1,5 +1,6 @@
 package be.kuleuven.distributedsystems.cloud.controller;
 
+import be.kuleuven.distributedsystems.cloud.entities.Booking;
 import be.kuleuven.distributedsystems.cloud.entities.Seat;
 import be.kuleuven.distributedsystems.cloud.entities.Train;
 import com.google.type.DateTime;
@@ -122,5 +123,22 @@ public class WEBClient {
             return null;
         }*/
         return null;
+    }
+
+    public void confirmQuotes() {
+
+    }
+
+    public Collection<Booking> getBookings() {
+        return webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .pathSegment("account")
+                        //.queryParam("key",reliableTrainsKey)
+                        .build())
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<CollectionModel<Booking>>() {})
+                .block()
+                .getContent();
     }
 }
