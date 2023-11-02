@@ -55,7 +55,7 @@ export class TrainSeats extends Component {
     }
     const seats = await response2.json();
     console.log(seats)
-
+    console.log(Array.isArray(seats))
     this.setState({ train, seats, time });
   }
 
@@ -88,33 +88,33 @@ export class TrainSeats extends Component {
                 <div>
                   <div class="seats-type">${name}</div>
                   <div class="seats seats-${name}">
-                    ${seats
-                      .filter((seat) => !seatsInCart.has(seat.seatId))
-                      .map(
-                        (seat) => html`
-                          <div
-                            class="seat seat-${seat.name.slice(
-                              seat.name.length - 1
-                            )}"
+                   ${seats
+                    .filter((seat) => !seatsInCart.has(seat.seatId))
+                    .map(
+                      (seat) => html`
+                        <div
+                          class="seat seat-${seat.name.slice(
+                            seat.name.length - 1
+                          )}"
+                        >
+                          <button
+                            class="seats-button"
+                            onClick="${() => {
+                              quotes = [
+                                ...quotes,
+                                {
+                                  trainCompany: seat.trainCompany,
+                                  trainId: seat.trainId,
+                                  seatId: seat.seatId,
+                                },
+                              ];
+                              setQuotes(quotes);
+                            }}"
                           >
-                            <button
-                              class="seats-button"
-                              onClick="${() => {
-                                quotes = [
-                                  ...quotes,
-                                  {
-                                    trainCompany: seat.trainCompany,
-                                    trainId: seat.trainId,
-                                    seatId: seat.seatId,
-                                  },
-                                ];
-                                setQuotes(quotes);
-                              }}"
-                            >
-                              ${seat.name}
-                            </button>
-                          </div>
-                        `
+                            ${seat.name}
+                          </button>
+                        </div>
+                      `
                       )}
                   </div>
                 </div>
