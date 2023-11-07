@@ -1,0 +1,62 @@
+[debug] [2023-11-07T09:40:34.851Z] ----------------------------------------------------------------------
+[debug] [2023-11-07T09:40:34.864Z] Command:       C:\Drivers en beheer\NodeJS\node.exe C:\Users\jules\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --project demo-distributed-systems-kul
+[debug] [2023-11-07T09:40:34.866Z] CLI Version:   12.7.0
+[debug] [2023-11-07T09:40:34.868Z] Platform:      win32
+[debug] [2023-11-07T09:40:34.870Z] Node Version:  v18.18.1
+[debug] [2023-11-07T09:40:34.877Z] Time:          Tue Nov 07 2023 10:40:34 GMT+0100 (Midden-Europese standaardtijd)
+[debug] [2023-11-07T09:40:34.877Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-11-07T09:40:34.896Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2023-11-07T09:40:36.185Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-11-07T09:40:36.187Z] > authorizing via signed-in user (jules.verbessem@gmail.com)
+[debug] [2023-11-07T09:40:36.665Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2023-11-07T09:40:36.666Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2023-11-07T09:40:37.088Z] java version "17.0.9" 2023-10-17 LTS
+
+[debug] [2023-11-07T09:40:37.090Z] Java(TM) SE Runtime Environment (build 17.0.9+11-LTS-201)
+Java HotSpot(TM) 64-Bit Server VM (build 17.0.9+11-LTS-201, mixed mode, sharing)
+
+[debug] [2023-11-07T09:40:37.172Z] Parsed Java major version: 17
+[info] i  emulators: Starting emulators: auth, firestore, pubsub {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, firestore, pubsub"}}
+[info] i  emulators: Detected demo project ID "demo-distributed-systems-kul", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail. {"metadata":{"emulator":{"name":"hub"},"message":"Detected demo project ID \"demo-distributed-systems-kul\", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail."}}
+[debug] [2023-11-07T09:40:37.271Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-11-07T09:40:37.273Z] assigned listening specs for emulators {"user":{"ui":[{"address":"0.0.0.0","family":"IPv4","port":8081}],"auth":[{"address":"0.0.0.0","family":"IPv4","port":8082}],"firestore":[{"address":"0.0.0.0","family":"IPv4","port":8084}],"firestore.websocket":[{"address":"0.0.0.0","family":"IPv4","port":9150}],"pubsub":[{"address":"0.0.0.0","family":"IPv4","port":8083}],"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2023-11-07T09:40:37.343Z] [hub] writing locator at C:\Users\jules\AppData\Local\Temp\hub-demo-distributed-systems-kul.json
+[warn] !  firestore: Cloud Firestore Emulator does not support multiple databases yet. {"metadata":{"emulator":{"name":"firestore"},"message":"Cloud Firestore Emulator does not support multiple databases yet."}}
+[warn] !  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file. {"metadata":{"emulator":{"name":"firestore"},"message":"Did not find a Cloud Firestore rules file specified in a firebase.json config file."}}
+[warn] !  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration. {"metadata":{"emulator":{"name":"firestore"},"message":"The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration."}}
+[debug] [2023-11-07T09:40:37.403Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2023-11-07T09:40:37.404Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
+[debug] [2023-11-07T09:40:37.405Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\jules\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.18.2.jar","--host","0.0.0.0","--port",8084,"--websocket_port",9150,"--project_id","demo-distributed-systems-kul","--single_project_mode",true],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\jules\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.18.2.jar\",\"--host\",\"0.0.0.0\",\"--port\",8084,\"--websocket_port\",9150,\"--project_id\",\"demo-distributed-systems-kul\",\"--single_project_mode\",true],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[info] +  firestore: Firestore Emulator UI websocket is running on 9150. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9150."}}
+[debug] [2023-11-07T09:41:32.812Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"pubsub"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2023-11-07T09:41:32.813Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"pubsub"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2023-11-07T09:41:32.813Z] Starting Pub/Sub Emulator with command {"binary":"C:\\Users\\jules\\.cache\\firebase\\emulators\\pubsub-emulator-0.7.1\\pubsub-emulator\\bin\\cloud-pubsub-emulator.bat","args":["--host=0.0.0.0","--port=8083"],"optionalArgs":["port","host"],"joinArgs":true} {"metadata":{"emulator":{"name":"pubsub"},"message":"Starting Pub/Sub Emulator with command {\"binary\":\"C:\\\\Users\\\\jules\\\\.cache\\\\firebase\\\\emulators\\\\pubsub-emulator-0.7.1\\\\pubsub-emulator\\\\bin\\\\cloud-pubsub-emulator.bat\",\"args\":[\"--host=0.0.0.0\",\"--port=8083\"],\"optionalArgs\":[\"port\",\"host\"],\"joinArgs\":true}"}}
+[info] i  pubsub: Pub/Sub Emulator logging to pubsub-debug.log {"metadata":{"emulator":{"name":"pubsub"},"message":"Pub/Sub Emulator logging to \u001b[1mpubsub-debug.log\u001b[22m"}}
+[debug] [2023-11-07T09:41:44.449Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2023-11-07T09:41:44.450Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2023-11-07T09:41:44.450Z] Starting Emulator UI with command {"binary":"node","args":["C:\\Users\\jules\\.cache\\firebase\\emulators\\ui-v1.11.7\\server\\server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"C:\\\\Users\\\\jules\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.11.7\\\\server\\\\server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
+[debug] [2023-11-07T09:41:45.052Z] Web / API server started at 0.0.0.0:8081
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at 0.0.0.0:8081\n"}}
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:8081/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌────────────────┬──────────────┬─────────────────────────────────┐
+│ Emulator       │ Host:Port    │ View in Emulator UI             │
+├────────────────┼──────────────┼─────────────────────────────────┤
+│ Authentication │ 0.0.0.0:8082 │ http://127.0.0.1:8081/auth      │
+├────────────────┼──────────────┼─────────────────────────────────┤
+│ Firestore      │ 0.0.0.0:8084 │ http://127.0.0.1:8081/firestore │
+├────────────────┼──────────────┼─────────────────────────────────┤
+│ Pub/Sub        │ 0.0.0.0:8083 │ n/a                             │
+└────────────────┴──────────────┴─────────────────────────────────┘
+  Emulator Hub running at 127.0.0.1:4400
+  Other reserved ports: 4500, 9150
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 

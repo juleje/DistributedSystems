@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.List;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
@@ -27,7 +28,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        // TODO: (level 1) decode Identity Token and assign correct email and role
+        // (level 1) decode Identity Token and assign correct email and role
         String authorizationHeaderValue = request.getHeader("Authorization");
         if (authorizationHeaderValue != null && authorizationHeaderValue.startsWith("Bearer")) {
 
@@ -49,6 +50,18 @@ public class SecurityFilter extends OncePerRequestFilter {
 
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(new FirebaseAuthentication(user));
+
+            List<String> restrictedEndpoints = new ArrayList<>();
+            restrictedEndpoints.add("/api/getAllBookings");
+            restrictedEndpoints.add("/api/getBestCustomers");
+
+            assert user != null;
+            if(!user.isManager()&&restrictedEndpoints.contains(request.getRequestURI())){
+
+                System.out.println("User " +user.getEmail()+ " is unauhterized to acces endpoint: "+request.getRequestURI());
+                response.sendError(401);
+            }
+
 
             filterChain.doFilter(request, response);
 
