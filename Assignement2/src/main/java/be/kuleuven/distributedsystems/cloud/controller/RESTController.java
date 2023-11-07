@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -42,10 +42,44 @@ public class RESTController {
     //http://localhost:8080/api/getAvailableSeats?trainCompany=reliabletrains.com&trainId=c3c7dec3-4901-48ce-970d-dd9418ed9bcf&time=2024-02-05T13:52:00
     ///api/getAvailableSeats?trainCompany=${trainCompany}&trainId=${trainId}&time=${time}`
     @GetMapping("/getAvailableSeats")
-    public Collection<Collection<Seat>> getAvailableSeats(@RequestParam String trainCompany, @RequestParam String trainId, @RequestParam String time) {
-        return webClient.getAvailableSeats(trainCompany, trainId, time);
+    public Map<String, Collection<Seat>>  getAvailableSeats(@RequestParam String trainCompany, @RequestParam String trainId, @RequestParam String time) {
+        List<Seat> orderSeats = new ArrayList<>(webClient.getAvailableSeats(trainCompany, trainId, time));
+        orderSeats.sort(Comparator.comparing(Seat::getName));
+        List<Seat> firstClass = new ArrayList<>();
+        List<Seat> secondClass = new ArrayList<>();
+
+        for (Seat seat: orderSeats) {
+            if(seat.getType().equals("1st class")){
+                firstClass.add(seat);
+                System.out.println("first");
+            }else if(seat.getType().equals("2nd class")){
+                secondClass.add(seat);
+            }else {
+                System.out.println("Seat with wrong class" + seat.getType());
+            }
+        }
+
+        Map<String, Collection<Seat>> elements = new HashMap<>();
+        elements.put("first class",firstClass);//
+        elements.put("2nd class",secondClass);//
+
+        /*
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            String json = objectMapper.writeValueAsString(elements);
+            System.out.println(json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        */
+
+        return elements;
+
+
     }
 
+    /*
     //http://localhost:8080/api/getSeat?trainCompany=reliabletrains.com&trainId=c3c7dec3-4901-48ce-970d-dd9418ed9bcf&seatId=cac56bf4-28d1-4e46-b912-8165c919b6c8
     ///api/getAvailableSeats?trainCompany=${trainCompany}&trainId=${trainId}&seatId=${seatId}`
     @GetMapping("/getSeat")
@@ -62,6 +96,6 @@ public class RESTController {
     public Collection<Booking> getBookings() { //ResponseEntity<?>
         return webClient.getBookings();
     }
-
+*/
 
 }

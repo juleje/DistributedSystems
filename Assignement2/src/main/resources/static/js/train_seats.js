@@ -8,61 +8,60 @@ const html = htm.bind(h);
 const sortingOrder = ["First", "Business", "Economy"];
 
 export class TrainSeats extends Component {
-  constructor() {
-    super();
-    this.state = {
-      train: null,
-      seats: {},
-      time: "",
-    };
-    effect(() => {
-      this.setState({
-        ...this.state,
-        quotes: getQuotes(),
-      });
-    });
-  }
-
-  async componentDidMount() {
-    const [, , trainCompany, trainId, time] = location.pathname.split("/");
-    const response1 = await fetch(
-      `/api/getTrain?trainCompany=${trainCompany}&trainId=${trainId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${await getAuth().currentUser.getIdToken(
-            false
-          )}`,
-        },
-      }
-    );
-    if (!response1.ok) {
-      return html`${await response1.text()}`;
+    constructor() {
+        super();
+        this.state = {
+            train: null,
+            seats: {},
+            time: "",
+        };
+        effect(() => {
+            this.setState({
+                ...this.state,
+                quotes: getQuotes(),
+            });
+        });
     }
-    const train = await response1.json();
 
-    const response2 = await fetch(
-      `/api/getAvailableSeats?trainCompany=${trainCompany}&trainId=${trainId}&time=${time}`,
-      {
-        headers: {
-          Authorization: `Bearer ${await getAuth().currentUser.getIdToken(
-            false
-          )}`,
-        },
-      }
-    );
-    if (!response2.ok) {
-      return html`${await response2.text()}`;
+    async componentDidMount() {
+        const [, , trainCompany, trainId, time] = location.pathname.split("/");
+        const response1 = await fetch(
+            `/api/getTrain?trainCompany=${trainCompany}&trainId=${trainId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${await getAuth().currentUser.getIdToken(
+                        false
+                    )}`,
+                },
+            }
+        );
+        if (!response1.ok) {
+            return html`${await response1.text()}`;
+        }
+        const train = await response1.json();
+
+        const response2 = await fetch(
+            `/api/getAvailableSeats?trainCompany=${trainCompany}&trainId=${trainId}&time=${time}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${await getAuth().currentUser.getIdToken(
+                        false
+                    )}`,
+                },
+            }
+        );
+        if (!response2.ok) {
+            return html`${await response2.text()}`;
+        }
+        const seats = await response2.json();
+
+        this.setState({ train, seats, time });
     }
-    const seats = await response2.json();
-    console.log(seats)
-    console.log(Array.isArray(seats))
-    this.setState({ train, seats, time });
-  }
 
-  render() {
-    let quotes = this.state.quotes;
-    const seatsInCart = new Set(quotes.map((quote) => quote.seatId));
-    return html`
+    render() {
+        let quotes = this.state.quotes;
+        const seatsInCart = new Set(quotes.map((quote) => quote.seatId));
+        return html`
       <div class="page">
         <div class="trains-item">
           ${this.state.train != null
@@ -81,41 +80,41 @@ export class TrainSeats extends Component {
         <div>
           ${Object.entries(this.state.seats)
             .sort(
-              (a, b) => sortingOrder.indexOf(a[0]) - sortingOrder.indexOf(b[0])
+                (a, b) => sortingOrder.indexOf(a[0]) - sortingOrder.indexOf(b[0])
             )
             .map(
-              ([name, seats]) => html`
+                ([name, seats]) => html`
                 <div>
                   <div class="seats-type">${name}</div>
                   <div class="seats seats-${name}">
-                   ${seats
+                    ${seats
                     .filter((seat) => !seatsInCart.has(seat.seatId))
                     .map(
-                      (seat) => html`
-                        <div
-                          class="seat seat-${seat.name.slice(
+                        (seat) => html`
+                          <div
+                            class="seat seat-${seat.name.slice(
                             seat.name.length - 1
-                          )}"
-                        >
-                          <button
-                            class="seats-button"
-                            onClick="${() => {
-                              quotes = [
+                        )}"
+                          >
+                            <button
+                              class="seats-button"
+                              onClick="${() => {
+                            quotes = [
                                 ...quotes,
                                 {
-                                  trainCompany: seat.trainCompany,
-                                  trainId: seat.trainId,
-                                  seatId: seat.seatId,
+                                    trainCompany: seat.trainCompany,
+                                    trainId: seat.trainId,
+                                    seatId: seat.seatId,
                                 },
-                              ];
-                              setQuotes(quotes);
-                            }}"
-                          >
-                            ${seat.name}
-                          </button>
-                        </div>
-                      `
-                      )}
+                            ];
+                            setQuotes(quotes);
+                        }}"
+                            >
+                              ${seat.name}
+                            </button>
+                          </div>
+                        `
+                    )}
                   </div>
                 </div>
               `
@@ -123,5 +122,5 @@ export class TrainSeats extends Component {
         </div>
       </div>
     `;
-  }
+    }
 }

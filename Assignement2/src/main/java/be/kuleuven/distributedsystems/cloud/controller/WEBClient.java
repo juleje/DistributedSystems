@@ -129,9 +129,10 @@ public class WEBClient {
     }
 
     //check response
-    public Collection<Collection<Seat>> getAvailableSeats(String companyId, String trainId, String time) {
+    public Collection<Seat> getAvailableSeats(String companyId, String trainId, String time) {
         if(Objects.equals(companyId, "reliabletrains.com")){
-            Collection<Seat> seatsReliableTrains = webClientReliableTrains
+
+            return webClientReliableTrains
                     .get()
                     .uri(uriBuilder -> uriBuilder
                             .pathSegment("trains/"+trainId)
@@ -144,11 +145,9 @@ public class WEBClient {
                     .bodyToMono(new ParameterizedTypeReference<CollectionModel<Seat>>() {})
                     .block()
                     .getContent();
-
-            return getGroupedTrainSeats(seatsReliableTrains);
 
         }else if(Objects.equals(companyId, "unreliabletrains.com")){
-            Collection<Seat> seatsUnReliableTrains = webClientUnReliableTrains
+            return webClientUnReliableTrains
                     .get()
                     .uri(uriBuilder -> uriBuilder
                             .pathSegment("trains/"+trainId)
@@ -161,33 +160,8 @@ public class WEBClient {
                     .bodyToMono(new ParameterizedTypeReference<CollectionModel<Seat>>() {})
                     .block()
                     .getContent();
-
-            return getGroupedTrainSeats(seatsUnReliableTrains);
         }
         return null;
     }
-
-    private static Collection<Collection<Seat>> getGroupedTrainSeats(Collection<Seat> seats) {
-        List<Seat> orderSeats = new ArrayList<>(seats);
-        orderSeats.sort(Comparator.comparing(Seat::getName));
-        List<Seat> firstClass = new ArrayList<>();
-        List<Seat> secondClass = new ArrayList<>();
-
-        for (Seat seat: orderSeats) {
-            if(seat.getType().equals("1st class")){
-                firstClass.add(seat);
-            }else if(seat.getType().equals("2nd class")){
-                secondClass.add(seat);
-            }else {
-                System.out.println("Seat with wrong class" + seat.getType());
-            }
-        }
-
-        Collection<Collection<Seat>> returnable = new ArrayList<>();
-        returnable.add(firstClass);
-        returnable.add(secondClass);
-        return returnable;
-    }
-
 
 }
