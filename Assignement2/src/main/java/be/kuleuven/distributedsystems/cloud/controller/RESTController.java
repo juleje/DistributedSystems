@@ -1,8 +1,6 @@
 package be.kuleuven.distributedsystems.cloud.controller;
 
-import be.kuleuven.distributedsystems.cloud.entities.Booking;
-import be.kuleuven.distributedsystems.cloud.entities.Seat;
-import be.kuleuven.distributedsystems.cloud.entities.Train;
+import be.kuleuven.distributedsystems.cloud.entities.*;
 import be.kuleuven.distributedsystems.cloud.persistance.FirestoreRepository;
 import com.google.type.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +37,6 @@ public class RESTController {
         return webClient.getTrainTimes(trainCompany, trainId);
     }
 
-    //http://localhost:8080/api/getAvailableSeats?trainCompany=reliabletrains.com&trainId=c3c7dec3-4901-48ce-970d-dd9418ed9bcf&time=2024-02-05T13:52:00
-    ///api/getAvailableSeats?trainCompany=${trainCompany}&trainId=${trainId}&time=${time}`
     @GetMapping("/getAvailableSeats")
     public Map<String, Collection<Seat>>  getAvailableSeats(@RequestParam String trainCompany, @RequestParam String trainId, @RequestParam String time) {
         List<Seat> orderSeats = new ArrayList<>(webClient.getAvailableSeats(trainCompany, trainId, time));
@@ -51,7 +47,6 @@ public class RESTController {
         for (Seat seat: orderSeats) {
             if(seat.getType().equals("1st class")){
                 firstClass.add(seat);
-                System.out.println("first");
             }else if(seat.getType().equals("2nd class")){
                 secondClass.add(seat);
             }else {
@@ -68,23 +63,34 @@ public class RESTController {
     }
 
 
-    //http://localhost:8080/api/getSeat?trainCompany=reliabletrains.com&trainId=c3c7dec3-4901-48ce-970d-dd9418ed9bcf&seatId=cac56bf4-28d1-4e46-b912-8165c919b6c8
-    ///api/getAvailableSeats?trainCompany=${trainCompany}&trainId=${trainId}&seatId=${seatId}`
     @GetMapping("/getSeat")
     public Seat getSeat(@RequestParam String trainCompany, @RequestParam String trainId, @RequestParam String seatId) { //ResponseEntity<?>
         return webClient.getSeat(trainCompany, trainId, seatId);
     }
 
-/*
+
     @PostMapping("/confirmQuotes")
-    public void confirmQuotes() {
+    public void confirmQuotes(@RequestBody List<Quote> body) {
+        //todo do this later with pub/sub
+        webClient.confirmQuotes(body);
 
     }
 
     @GetMapping("/getBookings")
-    public Collection<Booking> getBookings() { //ResponseEntity<?>
+    public Collection<Booking> getBookings() {
+        //todo do this later with firestore repository
         return webClient.getBookings();
     }
-*/
 
+    @GetMapping("/getAllBookings")
+    public Collection<Booking> getAllBookings() {
+        //todo do this later with firestore repository
+        return webClient.getAllBookings();
+    }
+
+    @GetMapping("/getBestCustomers")
+    public Collection<String> getBestCustomers(){
+        //todo do this later with firstore repository
+        return webClient.geBestCustomers();
+    }
 }

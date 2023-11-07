@@ -1,8 +1,6 @@
 package be.kuleuven.distributedsystems.cloud.controller;
 
-import be.kuleuven.distributedsystems.cloud.entities.Booking;
-import be.kuleuven.distributedsystems.cloud.entities.Seat;
-import be.kuleuven.distributedsystems.cloud.entities.Train;
+import be.kuleuven.distributedsystems.cloud.entities.*;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -16,14 +14,18 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static be.kuleuven.distributedsystems.cloud.auth.SecurityFilter.getUser;
+
 @Component
 public class WEBClient {
 
     @Resource(name="webClientBuilder")
     private Builder builder;
-    private WebClient webClientReliableTrains;
-    private WebClient webClientUnReliableTrains;
+    private final WebClient webClientReliableTrains;
+    private final WebClient webClientUnReliableTrains;
     private final String reliableTrainsKey = "JViZPgNadspVcHsMbDFrdGg0XXxyiE";
+
+    private List<Booking> bookings = new ArrayList<>();
 
     @Autowired
     public WEBClient(Builder builder){
@@ -184,7 +186,7 @@ public class WEBClient {
                     .get()
                     .uri(uriBuilder -> uriBuilder
                             .pathSegment("trains/"+trainId)
-                            .pathSegment("/seats/"+seatId)
+                            .pathSegment("seats/"+seatId)
                             .queryParam("key",reliableTrainsKey)
                             .build())
                     .retrieve()
@@ -194,6 +196,113 @@ public class WEBClient {
         return null;
     }
 
+    //"/trains/c3c7dec3-4901-48ce-970d-dd9418ed9bcf/seats/3865d890-f659-4c55-bf84-3b3a79cb377a/ticket?customer={customer}&bookingReference={bookingReference}&key=JViZPgNadspVcHsMbDFrdGg0XXxyiE",
+    public void confirmQuotes(List<Quote> quotes) {
+        //todo make transaction
+        UUID bookingReference = UUID.randomUUID();
+        User user = getUser();
+
+        List<Ticket> tickets = new ArrayList<>();
+        for (Quote quote:quotes) {
+            if(isReliableTrainCompany(quote.getTrainCompany())){
+                tickets.add(webClientReliableTrains
+                        .put()
+                        .uri(uriBuilder -> uriBuilder
+                                .pathSegment("trains/"+quote.getTrainId())
+                                .pathSegment("seats/"+quote.getSeatId())
+                                .pathSegment("ticket")
+                                .queryParam("customer",user.getEmail())
+                                .queryParam("bookingReference",bookingReference)
+                                .queryParam("key",reliableTrainsKey)
+                                .build())
+                        .retrieve()
+                        .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
+                        .block());
+            }else if(isUnReliableTrainCompany(quote.getTrainCompany())){
+                tickets.add(webClientUnReliableTrains
+                        .put()
+                        .uri(uriBuilder -> uriBuilder
+                                .pathSegment("trains/"+quote.getTrainId())
+                                .pathSegment("/seats/"+quote.getSeatId())
+                                .pathSegment("/ticket")
+                                .queryParam("customer",user.getEmail())
+                                .queryParam("bookingReference",bookingReference)
+                                .queryParam("key",reliableTrainsKey)
+                                .build())
+                        .retrieve()
+                        .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
+                        .block());
+            }
+        }
+
+        Booking booking = new Booking(bookingReference,LocalDateTime.now(),tickets,user.getEmail());
+        //todo make persitence with Firstore
+        bookings.add(booking);
+    }
+
+    //todo verwijder
+    public Collection<Booking> getBookings() {
+        List<Booking> userBookings = new ArrayList<>();
+        for (Booking booking:bookings) {
+            if(booking.getCustomer().equals(getUser().getEmail())){
+                userBookings.add(booking);
+            }
+        }
+        return userBookings;
+    }
+    //""""""""""""""""""""""""""""""""""""""""""""""""""
+    //todo verplaats naar firestore repo
+    public Collection<Booking> getAllBookings() {
+        return bookings;
+    }
+
+    public Collection<String> geBestCustomers() {
+        HashMap<String,Integer> usersAndBookings = new HashMap<>();
+        for (Booking booking:bookings) {
+            int value = 0;
+            if(usersAndBookings.get(booking.getCustomer()) != null){
+                value = usersAndBookings.get(booking.getCustomer())+1;
+            }
+            usersAndBookings.put(booking.getCustomer(),value);
+        }
+        Map<String, Integer> sortedUsers = sortByValue(usersAndBookings);
+
+        List<String> bestUsers = new ArrayList<>();
+        int initialValue = sortedUsers.values().stream().findFirst().get();
+        for (String username:sortedUsers.keySet()) {
+            if(sortedUsers.get(username) == initialValue){
+                bestUsers.add(username);
+
+            }
+        }
+
+        return bestUsers;
+    }
+
+    // function to sort hashmap by values
+    public HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm)
+    {
+        // Create a list from elements of HashMap
+        List<Map.Entry<String, Integer> > list =
+                new LinkedList<Map.Entry<String, Integer> >(hm.entrySet());
+
+        // Sort the list
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() {
+            public int compare(Map.Entry<String, Integer> o1,
+                               Map.Entry<String, Integer> o2)
+            {
+                return (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+
+        // put data from sorted list to hashmap
+        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
+        for (Map.Entry<String, Integer> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
+    }
+    //"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     private static boolean isUnReliableTrainCompany(String trainCompany) {
         return Objects.equals(trainCompany, "unreliabletrains.com");
     }
@@ -201,4 +310,5 @@ public class WEBClient {
     private static boolean isReliableTrainCompany(String trainCompany) {
         return Objects.equals(trainCompany, "reliabletrains.com");
     }
+
 }
