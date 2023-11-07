@@ -34,3 +34,4 @@ admin user (not made yet):
 - password: admintest
 
 ## Questions
+- best customer is with most bookings or most tickets?
