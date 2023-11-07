@@ -60,26 +60,14 @@ public class RESTController {
         }
 
         Map<String, Collection<Seat>> elements = new HashMap<>();
-        elements.put("first class",firstClass);//
-        elements.put("2nd class",secondClass);//
-
-        /*
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        try {
-            String json = objectMapper.writeValueAsString(elements);
-            System.out.println(json);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        */
-
+        elements.put("first class",firstClass);
+        elements.put("2nd class",secondClass);
         return elements;
 
 
     }
 
-    /*
+
     //http://localhost:8080/api/getSeat?trainCompany=reliabletrains.com&trainId=c3c7dec3-4901-48ce-970d-dd9418ed9bcf&seatId=cac56bf4-28d1-4e46-b912-8165c919b6c8
     ///api/getAvailableSeats?trainCompany=${trainCompany}&trainId=${trainId}&seatId=${seatId}`
     @GetMapping("/getSeat")
@@ -87,6 +75,7 @@ public class RESTController {
         return webClient.getSeat(trainCompany, trainId, seatId);
     }
 
+/*
     @PostMapping("/confirmQuotes")
     public void confirmQuotes() {
 

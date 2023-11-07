@@ -68,7 +68,7 @@ public class WEBClient {
     }
 
     public Train getTrain(String companyId, String trainId) {
-        if(Objects.equals(companyId, "reliabletrains.com")){
+        if(isReliableTrainCompany(companyId)){
             return webClientReliableTrains
                     .get()
                     .uri(uriBuilder -> uriBuilder
@@ -78,7 +78,7 @@ public class WEBClient {
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<Train>() {})
                     .block();
-        }else if(Objects.equals(companyId, "unreliabletrains.com")){
+        }else if(isUnReliableTrainCompany(companyId)){
             return webClientUnReliableTrains
                     .get()
                     .uri(uriBuilder -> uriBuilder
@@ -94,7 +94,7 @@ public class WEBClient {
 
 
     public Collection<LocalDateTime> getTrainTimes(String companyId, String trainId) {
-        if(Objects.equals(companyId, "reliabletrains.com")){
+        if(isReliableTrainCompany(companyId)){
             Collection<LocalDateTime> times =  webClientReliableTrains
                     .get()
                     .uri(uriBuilder -> uriBuilder
@@ -109,7 +109,7 @@ public class WEBClient {
             List<LocalDateTime> returnable = new ArrayList<>(times);
             Collections.sort(returnable);
             return returnable;
-        }else if(Objects.equals(companyId, "unreliabletrains.com")){
+        }else if(isUnReliableTrainCompany(companyId)){
             Collection<LocalDateTime> times = webClientUnReliableTrains
                     .get()
                     .uri(uriBuilder -> uriBuilder
@@ -130,7 +130,7 @@ public class WEBClient {
 
     //check response
     public Collection<Seat> getAvailableSeats(String companyId, String trainId, String time) {
-        if(Objects.equals(companyId, "reliabletrains.com")){
+        if(isReliableTrainCompany(companyId)){
 
             return webClientReliableTrains
                     .get()
@@ -146,7 +146,7 @@ public class WEBClient {
                     .block()
                     .getContent();
 
-        }else if(Objects.equals(companyId, "unreliabletrains.com")){
+        }else if(isUnReliableTrainCompany(companyId)){
             return webClientUnReliableTrains
                     .get()
                     .uri(uriBuilder -> uriBuilder
@@ -164,4 +164,41 @@ public class WEBClient {
         return null;
     }
 
+    ///trains/c3c7dec3-4901-48ce-970d-dd9418ed9bcf/seats/3865d890-f659-4c55-bf84-3b3a79cb377a?key=JViZPgNadspVcHsMbDFrdGg0XXxyiE
+    public Seat getSeat(String trainCompany, String trainId, String seatId) {
+        if(isReliableTrainCompany(trainCompany)){
+
+            return webClientReliableTrains
+                    .get()
+                    .uri(uriBuilder -> uriBuilder
+                            .pathSegment("trains/"+trainId)
+                            .pathSegment("seats/"+seatId)
+                            .queryParam("key",reliableTrainsKey)
+                            .build())
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<Seat>() {})
+                    .block();
+
+        }else if(isUnReliableTrainCompany(trainCompany)){
+            return webClientUnReliableTrains
+                    .get()
+                    .uri(uriBuilder -> uriBuilder
+                            .pathSegment("trains/"+trainId)
+                            .pathSegment("/seats/"+seatId)
+                            .queryParam("key",reliableTrainsKey)
+                            .build())
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<Seat>() {})
+                    .block();
+        }
+        return null;
+    }
+
+    private static boolean isUnReliableTrainCompany(String trainCompany) {
+        return Objects.equals(trainCompany, "unreliabletrains.com");
+    }
+
+    private static boolean isReliableTrainCompany(String trainCompany) {
+        return Objects.equals(trainCompany, "reliabletrains.com");
+    }
 }

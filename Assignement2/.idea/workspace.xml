@@ -5,26 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25_10_2023_14_12_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25_10_2023_14_12_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25_10_2023_14_12__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25_10_2023_14_12__Changes_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/RESTController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/RESTController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/WEBClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/WEBClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/train_seats.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/train_seats.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/RESTController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/RESTController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$8.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/train_seats.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/train_seats.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
