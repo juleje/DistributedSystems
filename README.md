@@ -36,3 +36,4 @@ admin user (not made yet):
 ## Questions
 - best customer is with most bookings or most tickets?
 - getBestCustomerS is the most? all of them sorted? of one or more with the same amount?
+- authenticatie: user inloggen maar bestaat nog ni -> automatisch sign up. Maar geeft iedereen toegang. wilt dat enkel toegang geeft aan bestaande users?
