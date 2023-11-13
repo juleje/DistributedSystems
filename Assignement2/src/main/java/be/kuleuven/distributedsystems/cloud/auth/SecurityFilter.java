@@ -23,8 +23,6 @@ import java.util.List;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
-
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -58,7 +56,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             assert user != null;
             if(!user.isManager()&&restrictedEndpoints.contains(request.getRequestURI())){
 
-                System.out.println("User " +user.getEmail()+ " is unauhterized to acces endpoint: "+request.getRequestURI());
+                System.out.println("User " +user.getEmail()+ " is unauthorized to access endpoint: " + request.getRequestURI());
                 response.sendError(401);
             }
 
@@ -80,11 +78,11 @@ public class SecurityFilter extends OncePerRequestFilter {
                 System.out.println(role);
                 System.out.println(jwt.getClaim("email"));
             }catch(JWTVerificationException ex){
-                //unautherizd
+                //unauthorized
             }
             */
         }else{
-            //unautherized
+            //unauthorized
         }
     }
 
