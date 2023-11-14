@@ -92,26 +92,10 @@ public class RESTController {
         webClient.confirmQuotes(body);
 
         String projectId = "TrainTickets";
-        String topicId = "Quotes to confirm";
+        String topicId = "confirmQuotes";
         String subscriptionId = "subscriptionId";
         publishMessage(projectId, topicId, body);
-        createPushSubscription(projectId, subscriptionId, topicId);
-    }
-
-    public static void createPushSubscription(String projectId, String subscriptionId, String topicId) throws IOException {
-        try (SubscriptionAdminClient subscriptionAdminClient = SubscriptionAdminClient.create()) {
-            TopicName topicName = TopicName.of(projectId, topicId);
-            SubscriptionName subscriptionName = SubscriptionName.of(projectId, subscriptionId);
-            PushConfig pushConfig = PushConfig.newBuilder()
-                    .setPushEndpoint("???")
-                    .build();
-            // Create a push subscription with default acknowledgement deadline of 10 seconds.
-            // Messages not successfully acknowledged within 10 seconds will get resent by the server.
-            Subscription subscription =
-                    subscriptionAdminClient.createSubscription(
-                            subscriptionName, topicName, pushConfig, 10);
-            System.out.println("Created push subscription: " + subscription.getName());
-        }
+        ticketStore.subscribe(projectId, subscriptionId);
     }
 
     public static void publishMessage(String projectId, String topicId, List<Quote> body) throws IOException, InterruptedException, ExecutionException {
