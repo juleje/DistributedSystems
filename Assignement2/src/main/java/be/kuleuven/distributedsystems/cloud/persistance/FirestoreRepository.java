@@ -1,24 +1,29 @@
 package be.kuleuven.distributedsystems.cloud.persistance;
 
+import be.kuleuven.distributedsystems.cloud.entities.Booking;
+import be.kuleuven.distributedsystems.cloud.entities.Ticket;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.FirestoreOptions;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
+
+import static be.kuleuven.distributedsystems.cloud.auth.SecurityFilter.getUser;
 
 @Component
 public class FirestoreRepository {
 
     private Firestore db;
+    private DateTimeFormatter formatter;
+
     public FirestoreRepository(){
         FirestoreOptions firestoreOptions =
                 FirestoreOptions.getDefaultInstance().toBuilder()
@@ -28,40 +33,109 @@ public class FirestoreRepository {
                         .build();
 
         db = firestoreOptions.getService();
+        formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     }
 
-    public void test() throws IOException, ExecutionException, InterruptedException {
-        DocumentReference test = db.collection("test").document("rx8lGI5eZOuZGp1GzRvA");
-        System.out.println(test.get().get());
+    private Booking mapQueryDocumentSnapshotToBooking(QueryDocumentSnapshot snapshot){
+        Map<String, Object> data = snapshot.getData();
+        UUID id = UUID.fromString((String) data.get("id"));
+        LocalDateTime time = LocalDateTime.parse((String) data.get("time"), formatter);
+        String customer = (String) data.get("customer");
+        List<Ticket> tickets = (List<Ticket>) data.get("tickets");
+        return new Booking(id,time,tickets,customer);
     }
-
-    public void testPost() {
-        Map<String, Object> bookingData = new HashMap<>();
-        bookingData.put("id","testId");
-        bookingData.put("time", LocalDateTime.now());
-        bookingData.put("customer", "testCustomer");//todo get from data
-
-        Map<String, Object> ticketData = new HashMap<>();
-        ticketData.put("trainCompany","trainCompanyTest");//todo get from data
-        ticketData.put("trainId","trainIdTest");//todo get from data
-        ticketData.put("seatId","seatIdTest");//todo get from data
-        ticketData.put("ticketId","ticketIdTest");//todo get from data
-        ticketData.put("customer","customerTest");//todo get from data
-        ticketData.put("bookingReference","bookingReferenceTest");//todo get from data
-
-        bookingData.put("tickets",ticketData);
-
-        ApiFuture<WriteResult> future = db.collection("Bookings")
-                .document("testId")//todo get from data
-                .set(bookingData);
-
-        WriteResult result = null;
-        try {
-            result = future.get();
-        } catch (InterruptedException | ExecutionException e) {
-            System.out.println("make docu fout"+ e.getMessage());
+    public Collection<Booking> getBookings() throws ExecutionException, InterruptedException {
+        List<QueryDocumentSnapshot> snapshots = db.collection("bookings").get().get().getDocuments();
+        List<Booking> userBookings = new ArrayList<>();
+        for (QueryDocumentSnapshot bookingSnapshot:snapshots) {
+            Booking booking = mapQueryDocumentSnapshotToBooking(bookingSnapshot);
+            if(booking.getCustomer().equals(getUser().getEmail())){
+                userBookings.add(booking);
+            }
         }
-        assert result != null;
-        System.out.println(result.getUpdateTime());
+        return userBookings;
+    }
+
+    public void addBooking(Booking booking) throws ExecutionException, InterruptedException {
+
+        Map<String, Object> bookingData = new HashMap<>();
+        bookingData.put("id",booking.getId().toString());
+        bookingData.put("time", booking.getTime().format(formatter));
+        bookingData.put("customer", booking.getCustomer());
+
+        List<Map<String,Object>> tickets = new ArrayList<>();
+        for (Ticket ticket: booking.getTickets()){
+            Map<String, Object> ticketData = new HashMap<>();
+            ticketData.put("trainCompany",ticket.getTrainCompany());
+            ticketData.put("trainId",ticket.getTrainId().toString());
+            ticketData.put("seatId",ticket.getSeatId().toString());
+            ticketData.put("ticketId",ticket.getTicketId().toString());
+            ticketData.put("customer",ticket.getCustomer());
+            ticketData.put("bookingReference",ticket.getBookingReference());
+            tickets.add(ticketData);
+        }
+        bookingData.put("tickets",tickets);
+
+
+        ApiFuture<WriteResult> future = db.collection("bookings")
+                .document(booking.getId().toString())
+                .set(bookingData);
+        future.get();
+    }
+
+    public Collection<Booking> getAllBookings() throws ExecutionException, InterruptedException {
+        List<QueryDocumentSnapshot> snapshots = db.collection("bookings").get().get().getDocuments();
+        List<Booking> allBookings = new ArrayList<>();
+        for (QueryDocumentSnapshot bookingSnapshot:snapshots) {
+            allBookings.add(mapQueryDocumentSnapshotToBooking(bookingSnapshot));
+        }
+        return allBookings;
+    }
+
+    public Collection<String> geBestCustomers() throws ExecutionException, InterruptedException {
+        HashMap<String,Integer> usersAndBookings = new HashMap<>();
+        for (Booking booking:getAllBookings()) {
+            int value = 0;
+            if(usersAndBookings.get(booking.getCustomer()) != null){
+                value = usersAndBookings.get(booking.getCustomer())+1;
+            }
+            usersAndBookings.put(booking.getCustomer(),value);
+        }
+        Map<String, Integer> sortedUsers = sortByValue(usersAndBookings);
+
+        List<String> bestUsers = new ArrayList<>();
+        int initialValue = sortedUsers.values().stream().findFirst().get();
+        for (String username:sortedUsers.keySet()) {
+            if(sortedUsers.get(username) == initialValue){
+                bestUsers.add(username);
+
+            }
+        }
+
+        return bestUsers;
+    }
+
+    // function to sort hashmap by values
+    public HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm)
+    {
+        // Create a list from elements of HashMap
+        List<Map.Entry<String, Integer> > list =
+                new LinkedList<Map.Entry<String, Integer> >(hm.entrySet());
+
+        // Sort the list
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() {
+            public int compare(Map.Entry<String, Integer> o1,
+                               Map.Entry<String, Integer> o2)
+            {
+                return (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+
+        // put data from sorted list to hashmap
+        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
+        for (Map.Entry<String, Integer> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
     }
 }

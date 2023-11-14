@@ -1,6 +1,7 @@
 package be.kuleuven.distributedsystems.cloud.controller;
 
 import be.kuleuven.distributedsystems.cloud.entities.*;
+import be.kuleuven.distributedsystems.cloud.persistance.FirestoreRepository;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -12,6 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import static be.kuleuven.distributedsystems.cloud.auth.SecurityFilter.getUser;
@@ -25,6 +27,8 @@ public class WEBClient {
     private final WebClient webClientUnReliableTrains;
     private final String reliableTrainsKey = "JViZPgNadspVcHsMbDFrdGg0XXxyiE";
 
+    @Autowired
+    private FirestoreRepository firestore;
     private List<Booking> bookings = new ArrayList<>();
 
     @Autowired
@@ -236,73 +240,13 @@ public class WEBClient {
         }
 
         Booking booking = new Booking(bookingReference,LocalDateTime.now(),tickets,user.getEmail());
-        //todo make persitence with Firstore
         bookings.add(booking);
-    }
-
-    //todo verwijder
-    public Collection<Booking> getBookings() {
-        List<Booking> userBookings = new ArrayList<>();
-        for (Booking booking:bookings) {
-            if(booking.getCustomer().equals(getUser().getEmail())){
-                userBookings.add(booking);
-            }
+        try {
+            firestore.addBooking(booking);
+        } catch (ExecutionException | InterruptedException e) {
+            System.out.println("fail the transaction");
         }
-        return userBookings;
     }
-    //""""""""""""""""""""""""""""""""""""""""""""""""""
-    //todo verplaats naar firestore repo
-    public Collection<Booking> getAllBookings() {
-        return bookings;
-    }
-
-    public Collection<String> geBestCustomers() {
-        HashMap<String,Integer> usersAndBookings = new HashMap<>();
-        for (Booking booking:bookings) {
-            int value = 0;
-            if(usersAndBookings.get(booking.getCustomer()) != null){
-                value = usersAndBookings.get(booking.getCustomer())+1;
-            }
-            usersAndBookings.put(booking.getCustomer(),value);
-        }
-        Map<String, Integer> sortedUsers = sortByValue(usersAndBookings);
-
-        List<String> bestUsers = new ArrayList<>();
-        int initialValue = sortedUsers.values().stream().findFirst().get();
-        for (String username:sortedUsers.keySet()) {
-            if(sortedUsers.get(username) == initialValue){
-                bestUsers.add(username);
-
-            }
-        }
-
-        return bestUsers;
-    }
-
-    // function to sort hashmap by values
-    public HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm)
-    {
-        // Create a list from elements of HashMap
-        List<Map.Entry<String, Integer> > list =
-                new LinkedList<Map.Entry<String, Integer> >(hm.entrySet());
-
-        // Sort the list
-        Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() {
-            public int compare(Map.Entry<String, Integer> o1,
-                               Map.Entry<String, Integer> o2)
-            {
-                return (o1.getValue()).compareTo(o2.getValue());
-            }
-        });
-
-        // put data from sorted list to hashmap
-        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
-        for (Map.Entry<String, Integer> aa : list) {
-            temp.put(aa.getKey(), aa.getValue());
-        }
-        return temp;
-    }
-    //"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     private static boolean isUnReliableTrainCompany(String trainCompany) {
         return Objects.equals(trainCompany, "unreliabletrains.com");
     }

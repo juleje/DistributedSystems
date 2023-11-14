@@ -41,12 +41,16 @@ public class SecurityFilter extends OncePerRequestFilter {
             try {
                 JSONObject json = new JSONObject(payload);
                 String[] roles = new String[1];
-                roles[0] = json.getString("roles");
+                try {
+                    roles[0] = json.getString("roles");
+                } catch (JSONException e) {
+                    System.out.println(e.getMessage());
+                }
                 user = new User(json.getString("email"),  roles);
-
             } catch (JSONException e) {
                 System.out.println(e.getMessage());
             }
+
 
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(new FirebaseAuthentication(user));

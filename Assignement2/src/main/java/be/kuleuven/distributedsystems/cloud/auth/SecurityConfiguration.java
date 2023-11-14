@@ -29,9 +29,7 @@ public class SecurityConfiguration {
                 httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests((authz) -> authz
 //                .requestMatchers("/api/getTrains").hasRole("manager")
-
                 .requestMatchers("/api/**").authenticated()
-
                 .anyRequest().permitAll());
         http.addFilterBefore(this.securityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/api")
@@ -21,7 +22,6 @@ public class RESTController {
 
     @GetMapping("/getTrains")
     public Collection<Train> getTrains() {
-        //firestore.testPost();
         return webClient.getTrains();
     }
 
@@ -78,19 +78,34 @@ public class RESTController {
 
     @GetMapping("/getBookings")
     public Collection<Booking> getBookings() {
-        //todo do this later with firestore repository
-        return webClient.getBookings();
+        try {
+            return firestore.getBookings();
+        } catch (ExecutionException | InterruptedException e) {
+            System.out.println("Problem with fetching bookings of users: "+e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @GetMapping("/getAllBookings")
     public Collection<Booking> getAllBookings() {
-        //todo do this later with firestore repository
-        return webClient.getAllBookings();
+        try {
+            return firestore.getAllBookings();
+        }catch (ExecutionException | InterruptedException e) {
+            System.out.println("Problem with fetching all bookings: "+e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @GetMapping("/getBestCustomers")
     public Collection<String> getBestCustomers(){
-        //todo do this later with firstore repository
-        return webClient.geBestCustomers();
+        try {
+            return firestore.geBestCustomers();
+        }catch (ExecutionException | InterruptedException e) {
+            System.out.println("Problem with fetching all bookings: "+e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
     }
 }
