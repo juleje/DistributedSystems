@@ -35,12 +35,8 @@ public class WEBClient {
     public WEBClient(Builder builder){
         this.builder = builder;
 
-        Map<String, String> uriVars = new HashMap<>();
-        uriVars.put("key",reliableTrainsKey);
-
         this.webClientReliableTrains =builder
                 .baseUrl("https://reliabletrains.com")
-//                .defaultUriVariables(uriVars)
                 .build();
         this.webClientUnReliableTrains = builder
                 .baseUrl("https://unreliabletrains.com")
@@ -59,16 +55,20 @@ public class WEBClient {
                 .bodyToMono(new ParameterizedTypeReference<CollectionModel<Train>>() {})
                 .block()
                 .getContent());
-        returnable.addAll(webClientUnReliableTrains
-                .get()
-                .uri(uriBuilder -> uriBuilder
-                        .pathSegment("trains")
-                        .queryParam("key",reliableTrainsKey)
-                        .build())
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<CollectionModel<Train>>() {})
-                .block()
-                .getContent());
+        try{
+            returnable.addAll(webClientUnReliableTrains
+                    .get()
+                    .uri(uriBuilder -> uriBuilder
+                            .pathSegment("trains")
+                            .queryParam("key",reliableTrainsKey)
+                            .build())
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<CollectionModel<Train>>() {})
+                    .block()
+                    .getContent());
+        }catch (Exception ex){
+            System.out.println("There went something wrong with the Unreliable Train Company: "+ex.getMessage());
+        }
 
         return returnable;
     }
@@ -134,10 +134,8 @@ public class WEBClient {
         return null;
     }
 
-    //check response
     public Collection<Seat> getAvailableSeats(String companyId, String trainId, String time) {
         if(isReliableTrainCompany(companyId)){
-
             return webClientReliableTrains
                     .get()
                     .uri(uriBuilder -> uriBuilder
