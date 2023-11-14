@@ -93,49 +93,33 @@ public class FirestoreRepository {
     }
 
     public Collection<String> geBestCustomers() throws ExecutionException, InterruptedException {
+        Collection<Booking> bookings = getAllBookings();
         HashMap<String,Integer> usersAndBookings = new HashMap<>();
-        for (Booking booking:getAllBookings()) {
-            int value = 0;
-            if(usersAndBookings.get(booking.getCustomer()) != null){
-                value = usersAndBookings.get(booking.getCustomer())+1;
-            }
-            usersAndBookings.put(booking.getCustomer(),value);
+
+        for (Booking booking:bookings) {
+            usersAndBookings.merge(booking.getCustomer(), booking.getTickets().size(), Integer::sum);
         }
-        Map<String, Integer> sortedUsers = sortByValue(usersAndBookings);
 
-        List<String> bestUsers = new ArrayList<>();
-        int initialValue = sortedUsers.values().stream().findFirst().get();
-        for (String username:sortedUsers.keySet()) {
-            if(sortedUsers.get(username) == initialValue){
-                bestUsers.add(username);
-
+        String userWithMaxTickets = "";
+        int max = 0;
+        for (String user:usersAndBookings.keySet()) {
+            int usersTicket = usersAndBookings.get(user);
+            if(usersTicket>=max){
+                max = usersTicket;
+                userWithMaxTickets = user;
             }
         }
 
-        return bestUsers;
+
+        List<String> maxUsers = new ArrayList<>();
+        for (String user:usersAndBookings.keySet()) {
+            int usersTicket = usersAndBookings.get(user);
+            if(usersTicket==max){
+                maxUsers.add(user);
+            }
+        }
+
+        return maxUsers;
     }
 
-    // function to sort hashmap by values
-    public HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm)
-    {
-        // Create a list from elements of HashMap
-        List<Map.Entry<String, Integer> > list =
-                new LinkedList<Map.Entry<String, Integer> >(hm.entrySet());
-
-        // Sort the list
-        Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() {
-            public int compare(Map.Entry<String, Integer> o1,
-                               Map.Entry<String, Integer> o2)
-            {
-                return (o1.getValue()).compareTo(o2.getValue());
-            }
-        });
-
-        // put data from sorted list to hashmap
-        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
-        for (Map.Entry<String, Integer> aa : list) {
-            temp.put(aa.getKey(), aa.getValue());
-        }
-        return temp;
-    }
 }
