@@ -23,21 +23,7 @@ public class TicketStore {
     public TicketStore(){
         subscribe();
     }
-    public String subscriptionId = "confirmQuotes";
-    public String pushEndpoint = "http://localhost:8083/confirmQuotes";
-
-    //todo vind een manier waar en wanneer te subscriben
-    private void subscribe(){
-        try{
-            SubscriptionAdminClient subscriptionAdminClient = SubscriptionAdminClient.create();
-            PushConfig pushConfig = PushConfig.newBuilder().setPushEndpoint(this.pushEndpoint).build();
-
-            Subscription subscription =
-                    subscriptionAdminClient.createSubscription(subscriptionId, topicId, pushConfig, 60);
-            System.out.println("Created push subscription: " + subscription.getName());
-        }catch(IOException e){
-            System.out.println("Error with subscribing");
-        }
+   
 
     }
     @PostMapping("/confirmQuotes")

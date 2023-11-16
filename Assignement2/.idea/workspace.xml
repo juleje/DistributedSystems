@@ -10,7 +10,9 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/RESTController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/RESTController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/pubsub/MessagePublisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/pubsub/MessagePublisher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/pubsub/TicketStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/pubsub/TicketStore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/Application.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/RESTController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/RESTController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/pubsub/MessagePublisher.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/pubsub/MessagePublisher.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/pubsub/TicketStore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/pubsub/TicketStore.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -135,15 +137,6 @@
     <option name="version" value="3" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/RESTController.java</url>
-          <line>108</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="org.apache.catalina.connector.RequestFacade" memberName="request" />
