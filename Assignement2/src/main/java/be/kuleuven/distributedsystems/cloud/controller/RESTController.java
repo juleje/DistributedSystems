@@ -2,6 +2,7 @@ package be.kuleuven.distributedsystems.cloud.controller;
 
 import be.kuleuven.distributedsystems.cloud.entities.*;
 import be.kuleuven.distributedsystems.cloud.persistance.FirestoreRepository;
+import be.kuleuven.distributedsystems.cloud.pubsub.MessagePublisher;
 import be.kuleuven.distributedsystems.cloud.pubsub.TicketStore;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.pubsub.v1.Publisher;
@@ -29,9 +30,7 @@ public class RESTController {
     @Autowired
     private FirestoreRepository firestore;
     @Autowired
-    private TicketStore ticketStore;
-    private final String projectId = "demo-distributed-systems-kul";
-    private final String topicId = "confirmQuotes";
+    private MessagePublisher messagePublisher;
 
 
     @GetMapping("/getTrains")
@@ -102,23 +101,22 @@ public class RESTController {
 
 
     @PostMapping("/confirmQuotes")
-    public void confirmQuotes(@RequestBody List<Quote> body) throws IOException, InterruptedException, ExecutionException {
-        //todo do this later with pub/sub
-        //webClient.confirmQuotes(body);
+    public ResponseEntity<?> confirmQuotes(@RequestBody List<Quote> body) {
+        try{
+            Publisher publisher = messagePublisher.publisher();
+            String message = new Gson().toJson(body);
+            ByteString data = ByteString.copyFromUtf8(message);
+            PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
+            publisher.publish(pubsubMessage);
+            publisher.shutdown();
+            return ResponseEntity.ok().body("Booking confirmed");
+        }catch (Exception ex){
+            return ResponseEntity.status(503).body("There was a problem with the Unreliable Train Company: "+ex.getMessage());
+        }
 
-        String subscriptionId = "subscriptionId";
-        publishMessage(topicId, body);
-        ticketStore.subscribe(projectId, subscriptionId);
     }
     private void publishMessage(String topicId, List<Quote> body) throws IOException, InterruptedException, ExecutionException {
-        TopicName topicName = TopicName.of(projectId, topicId);
-        Publisher publisher = Publisher.newBuilder(topicName).build();
-        String message = new Gson().toJson(body);
-        ByteString data = ByteString.copyFromUtf8(message);
-        PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
 
-        publisher.publish(pubsubMessage);
-        publisher.shutdown();
     }
 
     /*

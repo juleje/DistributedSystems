@@ -6,6 +6,10 @@ import com.google.api.gax.rpc.FixedTransportChannelProvider;
 import com.google.api.gax.rpc.TransportChannel;
 import com.google.api.gax.rpc.TransportChannelProvider;
 import com.google.cloud.pubsub.v1.Publisher;
+import com.google.cloud.pubsub.v1.SubscriptionAdminClient;
+import com.google.pubsub.v1.PushConfig;
+import com.google.pubsub.v1.Subscription;
+import com.google.pubsub.v1.SubscriptionName;
 import com.google.pubsub.v1.TopicName;
 import io.grpc.ManagedChannelBuilder;
 import org.apache.http.client.CredentialsProvider;
@@ -29,6 +33,8 @@ import java.util.Objects;
 @SpringBootApplication
 public class Application {
 
+    public static String projectId = "demo-distributed-systems-kul";
+    public static String topicId = "confirmQuotes";
     @SuppressWarnings("unchecked")
     public static void main(String[] args) throws IOException {
         System.setProperty("server.port", System.getenv().getOrDefault("PORT", "8080"));
@@ -39,6 +45,8 @@ public class Application {
         String data = new String(new ClassPathResource("data.json").getInputStream().readAllBytes());
     }
 
+
+
     @Bean
     public boolean isProduction() {
         return Objects.equals(System.getenv("GAE_ENV"), "standard");
@@ -48,6 +56,7 @@ public class Application {
     public String projectId() {
         return "demo-distributed-systems-kul";
     }
+    
 
     /*
      * You can use this builder to create a Spring WebClient instance which can be used to make REST-calls.
@@ -57,21 +66,6 @@ public class Application {
         return configurer.registerHypermediaTypes(WebClient.builder()
                 .clientConnector(new ReactorClientHttpConnector(HttpClient.create()))
                 .codecs(clientCodecConfigurer -> clientCodecConfigurer.defaultCodecs().maxInMemorySize(100 * 1024 * 1024)));
-    }
-
-    @Bean
-    public Publisher publisher(TopicName name) throws IOException{
-        TransportChannelProvider channel = FixedTransportChannelProvider.create(
-                GrpcTransportChannel.create(
-                        ManagedChannelBuilder.forTarget("localhost:8083").usePlaintext().build()
-                )
-        );
-        var credentialsProvider = NoCredentialsProvider.create();
-        return Publisher
-                .newBuilder(name)
-                .setChannelProvider(channel)
-                .setCredentialsProvider(credentialsProvider)
-                .build();
     }
 
     @Bean

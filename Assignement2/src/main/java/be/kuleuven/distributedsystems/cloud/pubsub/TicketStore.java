@@ -3,48 +3,46 @@ package be.kuleuven.distributedsystems.cloud.pubsub;
 import com.google.cloud.pubsub.v1.AckReplyConsumer;
 import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.cloud.pubsub.v1.Subscriber;
+import com.google.cloud.pubsub.v1.SubscriptionAdminClient;
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-@Component
+import static be.kuleuven.distributedsystems.cloud.Application.topicId;
+@RestController
 public class TicketStore {
 
-    public static void subscribe(String projectId, String subscriptionId) {
-        ProjectSubscriptionName subscriptionName =
-                ProjectSubscriptionName.of(projectId, subscriptionId);
+    public TicketStore(){
+        subscribe();
+    }
+    public String subscriptionId = "confirmQuotes";
+    public String pushEndpoint = "http://localhost:8083/confirmQuotes";
 
-        // Instantiate an asynchronous message receiver.
-        MessageReceiver receiver =
-                (PubsubMessage message, AckReplyConsumer consumer) -> {
-                    // Handle incoming message, then ack the received message.
-                    System.out.println("Id: " + message.getMessageId());
-                    System.out.println("Data: " + message.getData().toStringUtf8());
-                    handleConfirmQuotes(message.getData());
-                    consumer.ack();
-                };
+    //todo vind een manier waar en wanneer te subscriben
+    private void subscribe(){
+        try{
+            SubscriptionAdminClient subscriptionAdminClient = SubscriptionAdminClient.create();
+            PushConfig pushConfig = PushConfig.newBuilder().setPushEndpoint(this.pushEndpoint).build();
 
-        Subscriber subscriber = null;
-        try {
-            subscriber = Subscriber.newBuilder(subscriptionName, receiver).build();
-            // Start the subscriber.
-            subscriber.startAsync().awaitRunning();
-            System.out.printf("Listening for messages on %s:\n", subscriptionName.toString());
-            // Allow the subscriber to run for 30s unless an unrecoverable error occurs.
-            subscriber.awaitTerminated(30, TimeUnit.SECONDS);
-        } catch (TimeoutException timeoutException) {
-            // Shut down the subscriber after 30s. Stop receiving messages.
-            subscriber.stopAsync();
+            Subscription subscription =
+                    subscriptionAdminClient.createSubscription(subscriptionId, topicId, pushConfig, 60);
+            System.out.println("Created push subscription: " + subscription.getName());
+        }catch(IOException e){
+            System.out.println("Error with subscribing");
         }
+
+    }
+    @PostMapping("/confirmQuotes")
+    public void subscription(@RequestBody String body){
+        System.out.println("yeessss");
     }
 
-    public static void handleConfirmQuotes(ByteString data) {
-        String body = new Gson().toJson(data);
-        System.out.println(body);
-    }
 }
