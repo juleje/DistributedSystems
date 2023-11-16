@@ -31,6 +31,7 @@ public class RESTController {
     @Autowired
     private TicketStore ticketStore;
     private final String projectId = "demo-distributed-systems-kul";
+    private final String topicId = "confirmQuotes";
 
 
     @GetMapping("/getTrains")
@@ -105,13 +106,22 @@ public class RESTController {
         //todo do this later with pub/sub
         //webClient.confirmQuotes(body);
 
-        String topicId = "confirmQuotes";
         String subscriptionId = "subscriptionId";
         publishMessage(topicId, body);
         ticketStore.subscribe(projectId, subscriptionId);
     }
     private void publishMessage(String topicId, List<Quote> body) throws IOException, InterruptedException, ExecutionException {
         TopicName topicName = TopicName.of(projectId, topicId);
+        Publisher publisher = Publisher.newBuilder(topicName).build();
+        String message = new Gson().toJson(body);
+        ByteString data = ByteString.copyFromUtf8(message);
+        PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
+
+        publisher.publish(pubsubMessage);
+        publisher.shutdown();
+    }
+
+    /*
         Publisher publisher = null;
 
         try {
@@ -131,13 +141,16 @@ public class RESTController {
             System.out.println("Published a message with custom attributes: " + messageId);
 
         } finally {
+
             if (publisher != null) {
                 // When finished with the publisher, shutdown to free up resources.
                 publisher.shutdown();
                 publisher.awaitTermination(1, TimeUnit.MINUTES);
             }
+
         }
-    }
+
+         */
 
 
     @GetMapping("/getBookings")

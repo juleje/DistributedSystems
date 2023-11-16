@@ -5,26 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/pubsub/TicketStore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Assignement1/OpenAPI/target/classes/be/kuleuven/foodrestservice/Application.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Assignement1/OpenAPI/target/classes/be/kuleuven/foodrestservice/api/ApiUtil.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Assignement1/OpenAPI/target/classes/be/kuleuven/foodrestservice/api/MealsApi.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Assignement1/OpenAPI/target/classes/be/kuleuven/foodrestservice/controller/MealsController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Assignement1/OpenAPI/target/classes/be/kuleuven/foodrestservice/domain/MealsRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Assignement1/OpenAPI/target/classes/be/kuleuven/foodrestservice/exceptions/MealNotFoundAdvice.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Assignement1/OpenAPI/target/classes/be/kuleuven/foodrestservice/exceptions/MealNotFoundException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Assignement1/OpenAPI/target/classes/be/kuleuven/foodrestservice/model/Meal$MealTypeEnum.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Assignement1/OpenAPI/target/classes/be/kuleuven/foodrestservice/model/Meal.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Assignement1/OpenAPI/target/classes/be/kuleuven/foodrestservice/model/MealUpdateRequest$MealTypeEnum.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Assignement1/OpenAPI/target/classes/be/kuleuven/foodrestservice/model/MealUpdateRequest.class" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/pubsub/MessagePublisher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-<<<<<<< HEAD
-      <change beforePath="$PROJECT_DIR$/firebase-debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/firebase-debug.log" afterDir="false" />
-=======
+      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/Application.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/RESTController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/RESTController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
->>>>>>> f1e8b58707d9fb6baa3f0f626a7056cb55fcf324
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/RESTController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/RESTController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,26 +52,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/gertj/OneDrive/Bureaublad/School/Master/Semester 1/Distributed Systems/git/Assignement2",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "spring.configuration.checksum": "a1234b3161b4fbfdfb96dd576b65bbea",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/gertj/OneDrive/Bureaublad/School/Master/Semester 1/Distributed Systems/git/Assignement2&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;a1234b3161b4fbfdfb96dd576b65bbea&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -137,13 +122,10 @@
       <workItem from="1699390682493" duration="43000" />
       <workItem from="1699447032705" duration="1023000" />
       <workItem from="1699454921545" duration="2212000" />
-<<<<<<< HEAD
       <workItem from="1699954605192" duration="10218000" />
       <workItem from="1700149027026" duration="984000" />
-=======
       <workItem from="1699954605192" duration="10020000" />
       <workItem from="1700056015256" duration="342000" />
->>>>>>> f1e8b58707d9fb6baa3f0f626a7056cb55fcf324
     </task>
     <servers />
   </component>

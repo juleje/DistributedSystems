@@ -1,5 +1,14 @@
 package be.kuleuven.distributedsystems.cloud;
 
+import com.google.api.gax.core.NoCredentialsProvider;
+import com.google.api.gax.grpc.GrpcTransportChannel;
+import com.google.api.gax.rpc.FixedTransportChannelProvider;
+import com.google.api.gax.rpc.TransportChannel;
+import com.google.api.gax.rpc.TransportChannelProvider;
+import com.google.cloud.pubsub.v1.Publisher;
+import com.google.pubsub.v1.TopicName;
+import io.grpc.ManagedChannelBuilder;
+import org.apache.http.client.CredentialsProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -48,6 +57,21 @@ public class Application {
         return configurer.registerHypermediaTypes(WebClient.builder()
                 .clientConnector(new ReactorClientHttpConnector(HttpClient.create()))
                 .codecs(clientCodecConfigurer -> clientCodecConfigurer.defaultCodecs().maxInMemorySize(100 * 1024 * 1024)));
+    }
+
+    @Bean
+    public Publisher publisher(TopicName name) throws IOException{
+        TransportChannelProvider channel = FixedTransportChannelProvider.create(
+                GrpcTransportChannel.create(
+                        ManagedChannelBuilder.forTarget("localhost:8083").usePlaintext().build()
+                )
+        );
+        var credentialsProvider = NoCredentialsProvider.create();
+        return Publisher
+                .newBuilder(name)
+                .setChannelProvider(channel)
+                .setCredentialsProvider(credentialsProvider)
+                .build();
     }
 
     @Bean
