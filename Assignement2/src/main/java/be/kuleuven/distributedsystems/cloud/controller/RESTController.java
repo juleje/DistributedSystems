@@ -1,29 +1,23 @@
 package be.kuleuven.distributedsystems.cloud.controller;
 
+import be.kuleuven.distributedsystems.cloud.controller.pubsub.BookingDTO;
+import be.kuleuven.distributedsystems.cloud.controller.pubsub.TicketStore;
 import be.kuleuven.distributedsystems.cloud.entities.*;
 import be.kuleuven.distributedsystems.cloud.persistance.FirestoreRepository;
-import be.kuleuven.distributedsystems.cloud.pubsub.MessagePublisher;
-import be.kuleuven.distributedsystems.cloud.pubsub.TicketStore;
-import com.google.api.core.ApiFuture;
+import be.kuleuven.distributedsystems.cloud.controller.pubsub.MessagePublisher;
 import com.google.cloud.pubsub.v1.Publisher;
-import com.google.cloud.pubsub.v1.SubscriptionAdminClient;
 import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.*;
-import com.google.type.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
-import static be.kuleuven.distributedsystems.cloud.Application.subscriptionId;
-import static be.kuleuven.distributedsystems.cloud.Application.topicId;
+import static be.kuleuven.distributedsystems.cloud.auth.SecurityFilter.getUser;
+import static be.kuleuven.distributedsystems.cloud.auth.SecurityFilter.getUser;
 
 @RestController
 @RequestMapping("/api")
@@ -34,7 +28,6 @@ public class RESTController {
     private FirestoreRepository firestore;
     @Autowired
     private MessagePublisher messagePublisher;
-
 
     @GetMapping("/getTrains")
     public Collection<Train> getTrains() {
@@ -104,23 +97,23 @@ public class RESTController {
     @PostMapping("/confirmQuotes")
     public ResponseEntity<?> confirmQuotes(@RequestBody List<Quote> body) {
         try{
-            System.out.println("enter publish method");
+            //Config Pub/Sub
             Publisher publisher = messagePublisher.publisher();
-            String message = new Gson().toJson(body);
-            System.out.println("message: " + message);
+            messagePublisher.topic();
+            messagePublisher.subscribe();
+
+            //Publish
+            User user = getUser();
+            BookingDTO dto = new BookingDTO(body,user.getEmail());
+            String message = new Gson().toJson(dto);
             ByteString data = ByteString.copyFromUtf8(message);
-            System.out.println("data: " + data);
             PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
-            Topic topic = messagePublisher.topic();
-            System.out.println("topic: " + topic);
-            Subscription subscription = messagePublisher.subscribe();
-            System.out.println("subscription: " + subscription);
             publisher.publish(pubsubMessage);
-            System.out.println("pubsub: " + pubsubMessage);
+
             publisher.shutdown();
-            System.out.println("shutdown happened");
             return ResponseEntity.ok().body("Booking confirmed");
         }catch (Exception ex){
+            ex.printStackTrace();
             return ResponseEntity.status(503).body("There was a problem with the Unreliable Train Company: " + ex.getMessage());
         }
     }

@@ -199,10 +199,9 @@ public class WEBClient {
     }
 
     //"/trains/c3c7dec3-4901-48ce-970d-dd9418ed9bcf/seats/3865d890-f659-4c55-bf84-3b3a79cb377a/ticket?customer={customer}&bookingReference={bookingReference}&key=JViZPgNadspVcHsMbDFrdGg0XXxyiE",
-    public void confirmQuotes(List<Quote> quotes) {
+    public void confirmQuotes(List<Quote> quotes,String user) {
         //todo make transaction
         UUID bookingReference = UUID.randomUUID();
-        User user = getUser();
 
         List<Ticket> tickets = new ArrayList<>();
         for (Quote quote:quotes) {
@@ -213,7 +212,7 @@ public class WEBClient {
                                 .pathSegment("trains/"+quote.getTrainId())
                                 .pathSegment("seats/"+quote.getSeatId())
                                 .pathSegment("ticket")
-                                .queryParam("customer",user.getEmail())
+                                .queryParam("customer",user)
                                 .queryParam("bookingReference",bookingReference)
                                 .queryParam("key",reliableTrainsKey)
                                 .build())
@@ -227,7 +226,7 @@ public class WEBClient {
                                 .pathSegment("trains/"+quote.getTrainId())
                                 .pathSegment("/seats/"+quote.getSeatId())
                                 .pathSegment("/ticket")
-                                .queryParam("customer",user.getEmail())
+                                .queryParam("customer",user)
                                 .queryParam("bookingReference",bookingReference)
                                 .queryParam("key",reliableTrainsKey)
                                 .build())
@@ -237,7 +236,7 @@ public class WEBClient {
             }
         }
 
-        Booking booking = new Booking(bookingReference,LocalDateTime.now(),tickets,user.getEmail());
+        Booking booking = new Booking(bookingReference,LocalDateTime.now(),tickets,user);
         bookings.add(booking);
         try {
             firestore.addBooking(booking);

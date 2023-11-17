@@ -4,33 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="pubsub create topic &amp; subscription">
+    <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/pubsub/BookingDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/RESTController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/RESTController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/pubsub/MessagePublisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/pubsub/MessagePublisher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/pubsub/TicketStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/pubsub/TicketStore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/account.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/account.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/cart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/manager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/train_seats.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/train_seats.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/train_times.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/train_times.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/trains.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/trains.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/WEBClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/WEBClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/pubsub/MessagePublisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/pubsub/MessagePublisher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/pubsub/TicketStore.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/RESTController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/RESTController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/pubsub/MessagePublisher.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/pubsub/MessagePublisher.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/pubsub/TicketStore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/pubsub/TicketStore.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/account.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/account.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/cart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/manager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/train_seats.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/train_seats.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/train_times.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/train_times.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/trains.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/trains.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/WEBClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/pubsub/MessagePublisher.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/pubsub/TicketStore.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui-debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/ui-debug.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

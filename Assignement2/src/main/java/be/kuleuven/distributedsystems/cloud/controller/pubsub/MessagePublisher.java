@@ -1,6 +1,5 @@
-package be.kuleuven.distributedsystems.cloud.pubsub;
+package be.kuleuven.distributedsystems.cloud.controller.pubsub;
 
-import be.kuleuven.distributedsystems.cloud.Application;
 import com.google.api.gax.core.NoCredentialsProvider;
 import com.google.api.gax.grpc.GrpcTransportChannel;
 import com.google.api.gax.rpc.FixedTransportChannelProvider;
@@ -8,18 +7,15 @@ import com.google.api.gax.rpc.TransportChannelProvider;
 import com.google.cloud.pubsub.v1.*;
 import com.google.pubsub.v1.*;
 import io.grpc.ManagedChannelBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 import static be.kuleuven.distributedsystems.cloud.Application.*;
 
-@Service
+@Component
 public class MessagePublisher {
 
-
-    @Bean
     public Publisher publisher() throws IOException {
         TransportChannelProvider channel = FixedTransportChannelProvider.create(
                 GrpcTransportChannel.create(
@@ -36,8 +32,7 @@ public class MessagePublisher {
                 .build();
     }
 
-    public Topic topic() throws IOException {
-        System.out.println("Creating topic");
+    public void topic() throws IOException {
         TransportChannelProvider channel = FixedTransportChannelProvider.create(
                 GrpcTransportChannel.create(
                         ManagedChannelBuilder.forTarget("localhost:8083").usePlaintext().build()
@@ -52,11 +47,15 @@ public class MessagePublisher {
                         .setCredentialsProvider(credentialsProvider)
                         .build();
         TopicAdminClient topicAdminClient = TopicAdminClient.create(topicAdminSettings);
-        return topicAdminClient.createTopic(topicName);
+        try{
+            topicAdminClient.createTopic(topicName);
+        }catch (Exception ex){
+            System.out.println("Something went wrong with creating the topic: "+ex.getMessage());
+        }
+
     }
 
-    public Subscription subscribe() throws IOException {
-        System.out.println("creating subscription");
+    public void subscribe() throws IOException {
         TransportChannelProvider channel = FixedTransportChannelProvider.create(
                 GrpcTransportChannel.create(
                         ManagedChannelBuilder.forTarget("localhost:8083").usePlaintext().build()
@@ -74,9 +73,13 @@ public class MessagePublisher {
         SubscriptionAdminClient subscriptionAdminClient =
                 SubscriptionAdminClient.create(subscriptionAdminSettings);
 
-        PushConfig pushConfig = PushConfig.newBuilder().setPushEndpoint("http://localhost:8080/subscription/confirmQuotes").build();
-        System.out.println("pushconfig: " + pushConfig);
-        System.out.println("Creating push subscription: " + subscriptionName);
-        return subscriptionAdminClient.createSubscription(subscriptionName, topicName, pushConfig, 60);
+        PushConfig pushConfig =
+                PushConfig.newBuilder().setPushEndpoint("http://localhost:8080/subscription/confirmQuotes").build();
+        try{
+            subscriptionAdminClient.createSubscription(subscriptionName, topicName, pushConfig, 60);
+        }catch (Exception ex){
+            System.out.println("Something went wrong with creating the subscriptoin: "+ex.getMessage());
+        }
+
     }
 }
