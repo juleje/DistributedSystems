@@ -6,10 +6,10 @@ import be.kuleuven.distributedsystems.cloud.pubsub.MessagePublisher;
 import be.kuleuven.distributedsystems.cloud.pubsub.TicketStore;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.pubsub.v1.Publisher;
+import com.google.cloud.pubsub.v1.SubscriptionAdminClient;
 import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
-import com.google.pubsub.v1.PubsubMessage;
-import com.google.pubsub.v1.TopicName;
+import com.google.pubsub.v1.*;
 import com.google.type.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +21,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+
+import static be.kuleuven.distributedsystems.cloud.Application.subscriptionId;
+import static be.kuleuven.distributedsystems.cloud.Application.topicId;
 
 @RestController
 @RequestMapping("/api")
@@ -89,7 +92,6 @@ public class RESTController {
         return ResponseEntity.ok().body(elements);
     }
 
-
     @GetMapping("/getSeat")
     public ResponseEntity<?> getSeat(@RequestParam String trainCompany, @RequestParam String trainId, @RequestParam String seatId) { //ResponseEntity<?>
         try{
@@ -99,57 +101,26 @@ public class RESTController {
         }
     }
 
-
     @PostMapping("/confirmQuotes")
     public ResponseEntity<?> confirmQuotes(@RequestBody List<Quote> body) {
         try{
+            System.out.println("enter publish method");
             Publisher publisher = messagePublisher.publisher();
             String message = new Gson().toJson(body);
+            System.out.println("message: " + message);
             ByteString data = ByteString.copyFromUtf8(message);
+            System.out.println("data: " + data);
             PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
             publisher.publish(pubsubMessage);
+            System.out.println("pubsub: " + pubsubMessage);
+            Topic topic = messagePublisher.topic();
+            Subscription subscription = messagePublisher.subscribe();
             publisher.shutdown();
             return ResponseEntity.ok().body("Booking confirmed");
         }catch (Exception ex){
-            return ResponseEntity.status(503).body("There was a problem with the Unreliable Train Company: "+ex.getMessage());
+            return ResponseEntity.status(503).body("There was a problem with the Unreliable Train Company: " + ex.getMessage());
         }
-
     }
-    private void publishMessage(String topicId, List<Quote> body) throws IOException, InterruptedException, ExecutionException {
-
-    }
-
-    /*
-        Publisher publisher = null;
-
-        try {
-            // Create a publisher instance with default settings bound to the topic
-            publisher = Publisher.newBuilder(topicName).build();
-
-            String message = new Gson().toJson(body);
-            ByteString data = ByteString.copyFromUtf8(message);
-            PubsubMessage pubsubMessage =
-                    PubsubMessage.newBuilder()
-                            .setData(data)
-                            .build();
-
-            // Once published, returns a server-assigned message id (unique within the topic)
-            ApiFuture<String> messageIdFuture = publisher.publish(pubsubMessage);
-            String messageId = messageIdFuture.get();
-            System.out.println("Published a message with custom attributes: " + messageId);
-
-        } finally {
-
-            if (publisher != null) {
-                // When finished with the publisher, shutdown to free up resources.
-                publisher.shutdown();
-                publisher.awaitTermination(1, TimeUnit.MINUTES);
-            }
-
-        }
-
-         */
-
 
     @GetMapping("/getBookings")
     public ResponseEntity<?> getBookings() {

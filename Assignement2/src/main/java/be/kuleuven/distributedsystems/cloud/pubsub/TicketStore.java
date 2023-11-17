@@ -1,5 +1,6 @@
 package be.kuleuven.distributedsystems.cloud.pubsub;
 
+import be.kuleuven.distributedsystems.cloud.Application;
 import com.google.cloud.pubsub.v1.AckReplyConsumer;
 import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.cloud.pubsub.v1.Subscriber;
@@ -20,13 +21,7 @@ import static be.kuleuven.distributedsystems.cloud.Application.topicId;
 @RestController
 public class TicketStore {
 
-    public TicketStore(){
-        subscribe();
-    }
-   
-
-    }
-    @PostMapping("/confirmQuotes")
+    @PostMapping("/subscription")
     public void subscription(@RequestBody String body){
         System.out.println("yeessss");
     }

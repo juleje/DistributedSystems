@@ -25,7 +25,6 @@ import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
-
 import java.io.IOException;
 import java.util.Objects;
 
@@ -35,34 +34,17 @@ public class Application {
 
     public static String projectId = "demo-distributed-systems-kul";
     public static String topicId = "confirmQuotes";
-
-   public String subscriptionId = "confirmQuotes";
-    public String pushEndpoint = "http://localhost:8083/confirmQuotes";
-
-    //todo vind een manier waar en wanneer te subscriben
-    private void subscribe(){
-        try{
-            SubscriptionAdminClient subscriptionAdminClient = SubscriptionAdminClient.create();
-            PushConfig pushConfig = PushConfig.newBuilder().setPushEndpoint(this.pushEndpoint).build();
-
-            Subscription subscription =
-                    subscriptionAdminClient.createSubscription(subscriptionId, topicId, pushConfig, 60);
-            System.out.println("Created push subscription: " + subscription.getName());
-        }catch(IOException e){
-            System.out.println("Error with subscribing");
-        }
+    public static String subscriptionId = "confirmQuotes";
+    public String pushEndpoint = "http://localhost:8083/subscription";
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args) throws IOException {
         System.setProperty("server.port", System.getenv().getOrDefault("PORT", "8080"));
-	subscribe();
         ApplicationContext context = SpringApplication.run(Application.class, args);
 
         // TODO: (level 2) load this data into Firestore
         String data = new String(new ClassPathResource("data.json").getInputStream().readAllBytes());
     }
-
-
 
     @Bean
     public boolean isProduction() {
