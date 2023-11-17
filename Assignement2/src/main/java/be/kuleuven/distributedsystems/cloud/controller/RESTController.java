@@ -111,11 +111,14 @@ public class RESTController {
             ByteString data = ByteString.copyFromUtf8(message);
             System.out.println("data: " + data);
             PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
+            Topic topic = messagePublisher.topic();
+            System.out.println("topic: " + topic);
+            Subscription subscription = messagePublisher.subscribe();
+            System.out.println("subscription: " + subscription);
             publisher.publish(pubsubMessage);
             System.out.println("pubsub: " + pubsubMessage);
-            Topic topic = messagePublisher.topic();
-            Subscription subscription = messagePublisher.subscribe();
             publisher.shutdown();
+            System.out.println("shutdown happened");
             return ResponseEntity.ok().body("Booking confirmed");
         }catch (Exception ex){
             return ResponseEntity.status(503).body("There was a problem with the Unreliable Train Company: " + ex.getMessage());

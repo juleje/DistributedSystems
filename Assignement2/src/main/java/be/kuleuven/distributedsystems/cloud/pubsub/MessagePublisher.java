@@ -74,7 +74,8 @@ public class MessagePublisher {
         SubscriptionAdminClient subscriptionAdminClient =
                 SubscriptionAdminClient.create(subscriptionAdminSettings);
 
-        PushConfig pushConfig = PushConfig.newBuilder().setPushEndpoint("http://localhost:8083/subscription").build();
+        PushConfig pushConfig = PushConfig.newBuilder().setPushEndpoint("http://localhost:8080/subscription/confirmQuotes").build();
+        System.out.println("pushconfig: " + pushConfig);
         System.out.println("Creating push subscription: " + subscriptionName);
         return subscriptionAdminClient.createSubscription(subscriptionName, topicName, pushConfig, 60);
     }
