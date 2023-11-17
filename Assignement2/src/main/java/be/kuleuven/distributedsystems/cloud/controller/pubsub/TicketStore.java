@@ -25,7 +25,7 @@ public class TicketStore {
     private WEBClient webClient;
 
     @PostMapping("confirmQuotes")
-    public void processSubscriberMessage(@RequestBody LinkedHashMap body) throws IOException, ExecutionException, InterruptedException {
+    public void processSubscriberMessage(@RequestBody LinkedHashMap body) throws Exception {
        LinkedHashMap<String, String> wrapped = (LinkedHashMap) body.get("message");
         String bytesString =  wrapped.get("data");
         // Decode Base64 string to byte array
