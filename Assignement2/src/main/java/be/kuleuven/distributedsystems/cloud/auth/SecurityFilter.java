@@ -1,6 +1,16 @@
 package be.kuleuven.distributedsystems.cloud.auth;
 
 import be.kuleuven.distributedsystems.cloud.entities.User;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpResponse;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,15 +25,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Collection;
-import java.util.List;
+import java.net.URI;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.interfaces.RSAPublicKey;
+import java.util.*;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
-
+    private static final String pubKeyUrl = "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -67,29 +79,51 @@ public class SecurityFilter extends OncePerRequestFilter {
             }
 
 
-            filterChain.doFilter(request, response);
+            // get public keys
+            JsonObject publicKeys = getPublicKeysJson();
 
-            // TODO: (level 2) verify Identity Token
-            /*
-            //verification???
-            try{
-                var kid = JWT.decode(authorizationHeaderValue).getKeyId();
-                var pubKey = "PublicKey";
-                Algorithm algorithm = Algorithm.RSA256(pubKey);
-                DecodedJWT jwt = JWT.require(algorithm)
-                        .withIssuer("https://securetoken.google.com/demo-distributed-systems-kul")
-                        .build()
-                        .verify(authorizationHeaderValue);
-                var role = jwt.getClaim("role");
-                System.out.println(role);
-                System.out.println(jwt.getClaim("email"));
-            }catch(JWTVerificationException ex){
-                //unautherizd
+            for (Map.Entry<String, JsonElement> entry: publicKeys.entrySet()) {
+                System.out.println(entry.getKey());
+                System.out.println(entry.getValue().toString());
+                //Jwts.parser().setSigningKey(publicKey).parse(token.getTokenId());
             }
-            */
-        }else{
-            //unautherized
+/*
+
+            var kid = JWT.decode(token).getKeyId();
+            Algorithm algorithm = Algorithm.RSA256(publicKey,null);
+            DecodedJWT jwt = JWT.require(algorithm)
+                    .withIssuer("https://securetoken.google.com/demo-distributed-systems-kul")
+                    .build()
+                    .verify(token);
+            System.out.println(jwt.getClaim("email"));
+
+ */
+
+        }else {
+            System.out.println("User is not authenticated");
         }
+
+
+        filterChain.doFilter(request, response);
+
+    }
+
+    private JsonObject getPublicKeysJson() throws IOException {
+        // get public keys
+        URI uri = URI.create(pubKeyUrl);
+        GenericUrl url = new GenericUrl(uri);
+        HttpTransport http = new NetHttpTransport();
+        HttpResponse response = http.createRequestFactory().buildGetRequest(url).execute();
+
+        // store json from request
+        String json = response.parseAsString();
+        // disconnect
+        response.disconnect();
+
+        // parse json to object
+        JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+
+        return jsonObject;
     }
 
     @Override
