@@ -27,7 +27,13 @@ if (location.hostname === "localhost") {
   };
 } else {
   firebaseConfig = {
-    // TODO: for level 2, paste your config here
+    apiKey: "AIzaSyDr96EsMgB4SpIhus-kI8g-GNSiBnl652Q",
+    authDomain: "distributedsystems-597e7.firebaseapp.com",
+    projectId: "distributedsystems-597e7",
+    storageBucket: "distributedsystems-597e7.appspot.com",
+    messagingSenderId: "1017317483701",
+    appId: "1:1017317483701:web:0b03b43b825b8743418afc",
+    measurementId: "G-03HD6NWLGP"
   };
 }
 
