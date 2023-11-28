@@ -32,10 +32,11 @@ import java.util.Objects;
 @SpringBootApplication
 public class Application {
 
-    public static String projectId = "demo-distributed-systems-kul";
+    public static String projectIdDev = "demo-distributed-systems-kul";
+    public static String projectIdPub = "distributedsystems-597e7";
     public static String topicId = "confirmQuotes";
-    public static String subscriptionId = "confirmQuotes";
-    public String pushEndpoint = "http://localhost:8083/subscription";
+    public static String subscriptionDev = "confirmQuotes";
+    public static String subscriptionPub = "confirmQuotes";
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args) throws IOException {
@@ -55,7 +56,7 @@ public class Application {
     public String projectId() {
         return "demo-distributed-systems-kul";
     }
-    
+
 
     /*
      * You can use this builder to create a Spring WebClient instance which can be used to make REST-calls.

@@ -4,6 +4,7 @@ import be.kuleuven.distributedsystems.cloud.entities.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.RSAKeyProvider;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
@@ -79,6 +80,8 @@ public class SecurityFilter extends OncePerRequestFilter {
             }
 
 
+
+
             // get public keys
             JsonObject publicKeys = getPublicKeysJson();
 
@@ -87,17 +90,27 @@ public class SecurityFilter extends OncePerRequestFilter {
                 System.out.println(entry.getValue().toString());
                 //Jwts.parser().setSigningKey(publicKey).parse(token.getTokenId());
             }
-/*
 
+            //jwk om keys terug te krijgen
+
+//            RSAKeyProvider rsaKeyProvider = new
+            //eigen interface maken voor rsakeyprovider
+            /*
             var kid = JWT.decode(token).getKeyId();
+
             Algorithm algorithm = Algorithm.RSA256(publicKey,null);
             DecodedJWT jwt = JWT.require(algorithm)
                     .withIssuer("https://securetoken.google.com/demo-distributed-systems-kul")
+                    .withAudience("projectId")//todo
                     .build()
                     .verify(token);
             System.out.println(jwt.getClaim("email"));
 
- */
+
+             */
+
+
+
 
         }else {
             System.out.println("User is not authenticated");

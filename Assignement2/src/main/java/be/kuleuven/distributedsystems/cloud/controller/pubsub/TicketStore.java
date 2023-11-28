@@ -1,10 +1,8 @@
 package be.kuleuven.distributedsystems.cloud.controller.pubsub;
 
-import be.kuleuven.distributedsystems.cloud.controller.WEBClient;
 import be.kuleuven.distributedsystems.cloud.entities.Booking;
 import be.kuleuven.distributedsystems.cloud.entities.Quote;
 import be.kuleuven.distributedsystems.cloud.entities.Ticket;
-import be.kuleuven.distributedsystems.cloud.entities.User;
 import be.kuleuven.distributedsystems.cloud.persistance.FirestoreRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -34,7 +31,7 @@ public class TicketStore {
     private WebClient.Builder builder;
     private final WebClient webClientReliableTrains;
     private final WebClient webClientUnReliableTrains;
-    private final String reliableTrainsKey = "JViZPgNadspVcHsMbDFrdGg0XXxyiE";
+    private final String trainsKey = "JViZPgNadspVcHsMbDFrdGg0XXxyiE";
     @Autowired
     private FirestoreRepository firestore;
 
@@ -52,7 +49,10 @@ public class TicketStore {
 
     @PostMapping("confirmQuotes")
     public void processSubscriberMessage(@RequestBody LinkedHashMap body) throws Exception {
-       LinkedHashMap<String, String> wrapped = (LinkedHashMap) body.get("message");
+        System.out.println("I'm inn!!!!");
+
+        /*
+        LinkedHashMap<String, String> wrapped = (LinkedHashMap) body.get("message");
         String bytesString =  wrapped.get("data");
         // Decode Base64 string to byte array
         byte[] decodedBytes = Base64.getDecoder().decode(bytesString);
@@ -65,6 +65,8 @@ public class TicketStore {
 
         BookingDTO bookingDTO = mapper.readValue(utf8String, new TypeReference<BookingDTO>(){});
         confirmQuotes(bookingDTO.getQuotes(),bookingDTO.getUser());
+
+         */
 
     }
 
@@ -84,7 +86,7 @@ public class TicketStore {
                                 .pathSegment("ticket")
                                 .queryParam("customer",user)
                                 .queryParam("bookingReference",bookingReference)
-                                .queryParam("key",reliableTrainsKey)
+                                .queryParam("key", trainsKey)
                                 .build())
                         .retrieve()
                         .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
@@ -99,7 +101,7 @@ public class TicketStore {
                                     .pathSegment("/ticket")
                                     .queryParam("customer",user)
                                     .queryParam("bookingReference",bookingReference)
-                                    .queryParam("key",reliableTrainsKey)
+                                    .queryParam("key", trainsKey)
                                     .build())
                             .retrieve()
                             .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
@@ -143,7 +145,7 @@ public class TicketStore {
                                     .pathSegment("trains/"+trainId)
                                     .pathSegment("seats/"+seatId)
                                     .pathSegment("ticket")
-                                    .queryParam("key",reliableTrainsKey)
+                                    .queryParam("key", trainsKey)
                                     .build())
                             .retrieve()
                             .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
@@ -155,7 +157,7 @@ public class TicketStore {
                                     .pathSegment("trains/"+trainId)
                                     .pathSegment("seats/"+seatId)
                                     .pathSegment("ticket"+ticket.getTicketId())
-                                    .queryParam("key",reliableTrainsKey)
+                                    .queryParam("key", trainsKey)
                                     .build())
                             .retrieve()
                             .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
@@ -168,7 +170,7 @@ public class TicketStore {
                                     .pathSegment("trains/"+trainId)
                                     .pathSegment("seats/"+seatId)
                                     .pathSegment("ticket")
-                                    .queryParam("key",reliableTrainsKey)
+                                    .queryParam("key", trainsKey)
                                     .build())
                             .retrieve()
                             .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
@@ -180,7 +182,7 @@ public class TicketStore {
                                     .pathSegment("trains/"+trainId)
                                     .pathSegment("seats/"+seatId)
                                     .pathSegment("ticket/"+ticket.getTicketId())
-                                    .queryParam("key",reliableTrainsKey)
+                                    .queryParam("key", trainsKey)
                                     .build())
                             .retrieve()
                             .bodyToMono(new ParameterizedTypeReference<Ticket>() {})

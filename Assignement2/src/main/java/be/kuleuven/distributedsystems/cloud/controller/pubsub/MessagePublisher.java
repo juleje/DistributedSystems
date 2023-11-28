@@ -1,5 +1,6 @@
 package be.kuleuven.distributedsystems.cloud.controller.pubsub;
 
+import com.google.api.gax.core.GoogleCredentialsProvider;
 import com.google.api.gax.core.NoCredentialsProvider;
 import com.google.api.gax.grpc.GrpcTransportChannel;
 import com.google.api.gax.rpc.FixedTransportChannelProvider;
@@ -13,34 +14,41 @@ import java.io.IOException;
 
 import static be.kuleuven.distributedsystems.cloud.Application.*;
 
+
 @Component
 public class MessagePublisher {
+    private final TransportChannelProvider channel = FixedTransportChannelProvider.create(
+            GrpcTransportChannel.create(
+                    ManagedChannelBuilder.forTarget("localhost:8083").usePlaintext().build()
+            )
+    );
+    private final NoCredentialsProvider credentialsProvider = NoCredentialsProvider.create();
+
 
     public Publisher publisher() throws IOException {
-        TransportChannelProvider channel = FixedTransportChannelProvider.create(
-                GrpcTransportChannel.create(
-                        ManagedChannelBuilder.forTarget("localhost:8083").usePlaintext().build()
-                )
-        );
-        var credentialsProvider = NoCredentialsProvider.create();
-        TopicName topicName = TopicName.of(projectId, topicId);
+        //PUB env
+        TopicName topicName = TopicName.of(projectIdPub, topicId);
+
+        return Publisher
+                .newBuilder(topicName)
+                .build();
+
+        /*
+        //DEV env
+        TopicName topicName = TopicName.of(projectIdDev, topicId);
 
         return Publisher
                 .newBuilder(topicName)
                 .setChannelProvider(channel)
                 .setCredentialsProvider(credentialsProvider)
                 .build();
+         */
     }
 
     public void topic() throws IOException {
-        TransportChannelProvider channel = FixedTransportChannelProvider.create(
-                GrpcTransportChannel.create(
-                        ManagedChannelBuilder.forTarget("localhost:8083").usePlaintext().build()
-                )
-        );
-        var credentialsProvider = NoCredentialsProvider.create();
-        TopicName topicName = TopicName.of(projectId, topicId);
+        //DEV env
 
+    TopicName topicName = TopicName.of(projectIdDev,topicId);
         TopicAdminSettings topicAdminSettings =
                 TopicAdminSettings.newBuilder()
                         .setTransportChannelProvider(channel)
@@ -53,17 +61,13 @@ public class MessagePublisher {
             System.out.println("Something went wrong with creating the topic: "+ex.getMessage());
         }
 
+
     }
 
     public void subscribe() throws IOException {
-        TransportChannelProvider channel = FixedTransportChannelProvider.create(
-                GrpcTransportChannel.create(
-                        ManagedChannelBuilder.forTarget("localhost:8083").usePlaintext().build()
-                )
-        );
-        var credentialsProvider = NoCredentialsProvider.create();
-        TopicName topicName = TopicName.of(projectId, topicId);
-        SubscriptionName subscriptionName = SubscriptionName.of(projectId, subscriptionId);
+        //PUB env
+        TopicName topicName = TopicName.of(projectIdDev, topicId);
+        SubscriptionName subscriptionName = SubscriptionName.of(projectIdDev, subscriptionDev);
 
         SubscriptionAdminSettings subscriptionAdminSettings =
                 SubscriptionAdminSettings.newBuilder()
@@ -75,6 +79,9 @@ public class MessagePublisher {
 
         PushConfig pushConfig =
                 PushConfig.newBuilder().setPushEndpoint("http://localhost:8080/subscription/confirmQuotes").build();
+
+
+
         try{
             subscriptionAdminClient.createSubscription(subscriptionName, topicName, pushConfig, 60);
         }catch (Exception ex){

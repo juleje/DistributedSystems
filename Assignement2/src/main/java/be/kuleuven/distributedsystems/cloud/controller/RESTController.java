@@ -5,6 +5,7 @@ import be.kuleuven.distributedsystems.cloud.controller.pubsub.TicketStore;
 import be.kuleuven.distributedsystems.cloud.entities.*;
 import be.kuleuven.distributedsystems.cloud.persistance.FirestoreRepository;
 import be.kuleuven.distributedsystems.cloud.controller.pubsub.MessagePublisher;
+import com.google.api.core.ApiFuture;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
@@ -99,8 +100,13 @@ public class RESTController {
         try{
             //Config Pub/Sub
             Publisher publisher = messagePublisher.publisher();
+            /*
+            //DEV env
             messagePublisher.topic();
             messagePublisher.subscribe();
+             */
+
+            System.out.println(publisher.getTopicNameString());
 
             //Publish
             User user = getUser();
@@ -108,7 +114,10 @@ public class RESTController {
             String message = new Gson().toJson(dto);
             ByteString data = ByteString.copyFromUtf8(message);
             PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
-            publisher.publish(pubsubMessage);
+            System.out.println("PublisherMessag builed");
+            ApiFuture<String> response = publisher.publish(pubsubMessage);
+            System.out.println(response.toString());
+            System.out.println(response.isDone());
 
             publisher.shutdown();
             return ResponseEntity.ok().body("Booking confirmed");
