@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
+import static be.kuleuven.distributedsystems.cloud.Application.projectIdPub;
 import static be.kuleuven.distributedsystems.cloud.auth.SecurityFilter.getUser;
 
 @Component
@@ -25,6 +26,8 @@ public class FirestoreRepository {
     private DateTimeFormatter formatter;
 
     public FirestoreRepository(){
+        /*
+        //DEV env
         FirestoreOptions firestoreOptions =
                 FirestoreOptions.getDefaultInstance().toBuilder()
                         .setEmulatorHost("localhost:8084")
@@ -32,6 +35,12 @@ public class FirestoreRepository {
                         .setProjectId("demo-distributed-systems-kul")
                         .build();
 
+         */
+        //PUB env
+        FirestoreOptions firestoreOptions =
+                FirestoreOptions.getDefaultInstance().toBuilder()
+                        .setProjectId(projectIdPub)
+                        .build();
         db = firestoreOptions.getService();
         formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     }
