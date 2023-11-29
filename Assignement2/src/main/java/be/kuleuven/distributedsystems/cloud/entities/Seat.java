@@ -1,5 +1,7 @@
 package be.kuleuven.distributedsystems.cloud.entities;
 
+import com.google.gson.annotations.Expose;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -7,6 +9,7 @@ public class Seat {
     private String trainCompany;
     private UUID trainId;
     private UUID seatId;
+    @Expose
     private LocalDateTime time;
     private String type;
     private String name;

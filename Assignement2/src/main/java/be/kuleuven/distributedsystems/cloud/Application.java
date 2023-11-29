@@ -1,18 +1,10 @@
 package be.kuleuven.distributedsystems.cloud;
 
-import com.google.api.gax.core.NoCredentialsProvider;
-import com.google.api.gax.grpc.GrpcTransportChannel;
-import com.google.api.gax.rpc.FixedTransportChannelProvider;
-import com.google.api.gax.rpc.TransportChannel;
-import com.google.api.gax.rpc.TransportChannelProvider;
-import com.google.cloud.pubsub.v1.Publisher;
-import com.google.cloud.pubsub.v1.SubscriptionAdminClient;
-import com.google.pubsub.v1.PushConfig;
-import com.google.pubsub.v1.Subscription;
-import com.google.pubsub.v1.SubscriptionName;
-import com.google.pubsub.v1.TopicName;
-import io.grpc.ManagedChannelBuilder;
-import org.apache.http.client.CredentialsProvider;
+import be.kuleuven.distributedsystems.cloud.persistance.LocalDateTimeTypeAdapter;
+import be.kuleuven.distributedsystems.cloud.persistance.TrainDTO;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -26,6 +18,8 @@ import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
@@ -39,11 +33,16 @@ public class Application {
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args) throws IOException {
+
         System.setProperty("server.port", System.getenv().getOrDefault("PORT", "8080"));
         ApplicationContext context = SpringApplication.run(Application.class, args);
 
         // TODO: (level 2) load this data into Firestore
         String data = new String(new ClassPathResource("data.json").getInputStream().readAllBytes());
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
+                .create();
+        TrainDTO trainDTO = gson.fromJson(data, TrainDTO.class);
     }
 
     @Bean
