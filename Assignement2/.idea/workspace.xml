@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="firestore extension: read data">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/entities/Seat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/entities/Seat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/entities/Train.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/entities/Train.java" afterDir="false" />
-    </list>
+    <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="convert DTO to objects" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -133,7 +128,7 @@
       <workItem from="1700216121901" duration="1497000" />
       <workItem from="1700217706947" duration="329000" />
       <workItem from="1701348225289" duration="1932000" />
-      <workItem from="1701362694274" duration="1994000" />
+      <workItem from="1701362694274" duration="2305000" />
     </task>
     <task id="LOCAL-00001" summary="pubsub create topic &amp; subscription">
       <created>1700181735241</created>
@@ -156,7 +151,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701349117311</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="convert DTO to objects">
+      <created>1701365030380</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1701365030380</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,7 +190,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="pubsub create topic &amp; subscription" />
     <MESSAGE value="firestore extension: read data" />
-    <option name="LAST_COMMIT_MESSAGE" value="firestore extension: read data" />
+    <MESSAGE value="convert DTO to objects" />
+    <option name="LAST_COMMIT_MESSAGE" value="convert DTO to objects" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
