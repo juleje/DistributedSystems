@@ -2,6 +2,7 @@ package be.kuleuven.distributedsystems.cloud;
 
 import be.kuleuven.distributedsystems.cloud.persistance.LocalDateTimeTypeAdapter;
 import be.kuleuven.distributedsystems.cloud.persistance.TrainDTO;
+import be.kuleuven.distributedsystems.cloud.persistance.TrainsDTO;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,7 +43,14 @@ public class Application {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
                 .create();
-        TrainDTO trainDTO = gson.fromJson(data, TrainDTO.class);
+        TrainsDTO trainsDTO = gson.fromJson(data, TrainsDTO.class);
+        System.out.println(trainsDTO.getTrains());
+        TrainDTO trainDTO = trainsDTO.getTrains().get(0);
+        try {
+            System.out.println(trainDTO.getSeats());
+        } catch (NullPointerException e) {
+            System.out.println(e);
+        }
     }
 
     @Bean

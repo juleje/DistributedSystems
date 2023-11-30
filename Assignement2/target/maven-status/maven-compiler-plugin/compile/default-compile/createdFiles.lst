@@ -1,6 +1,7 @@
 be\kuleuven\distributedsystems\cloud\controller\WEBClient.class
 be\kuleuven\distributedsystems\cloud\controller\WEBClient$4.class
 be\kuleuven\distributedsystems\cloud\persistance\LocalDateTimeTypeAdapter.class
+be\kuleuven\distributedsystems\cloud\persistance\TrainsDTO.class
 be\kuleuven\distributedsystems\cloud\controller\RESTController.class
 be\kuleuven\distributedsystems\cloud\controller\WEBClient$6.class
 be\kuleuven\distributedsystems\cloud\controller\WEBClient$3.class
