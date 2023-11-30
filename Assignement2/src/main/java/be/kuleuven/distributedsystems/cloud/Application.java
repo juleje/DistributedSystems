@@ -2,12 +2,15 @@ package be.kuleuven.distributedsystems.cloud;
 
 import be.kuleuven.distributedsystems.cloud.entities.Seat;
 import be.kuleuven.distributedsystems.cloud.entities.Train;
+import be.kuleuven.distributedsystems.cloud.persistance.FirestoreRepository;
 import be.kuleuven.distributedsystems.cloud.persistance.LocalDateTimeTypeAdapter;
 import be.kuleuven.distributedsystems.cloud.persistance.TrainDTO;
 import be.kuleuven.distributedsystems.cloud.persistance.TrainsDTO;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.WriteResult;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -21,20 +24,22 @@ import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
 @SpringBootApplication
 public class Application {
-
+    private static FirestoreRepository firestoreRepository;
     public static String projectId = "demo-distributed-systems-kul";
     public static String topicId = "confirmQuotes";
     public static String subscriptionId = "confirmQuotes";
     public String pushEndpoint = "http://localhost:8083/subscription";
+
+    @Autowired
+    public Application(FirestoreRepository firestoreRepository) {
+        this.firestoreRepository = firestoreRepository;
+    }
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args) throws IOException {
@@ -48,9 +53,10 @@ public class Application {
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
                 .create();
         TrainsDTO trainsDTO = gson.fromJson(data, TrainsDTO.class);
-        System.out.println(trainsDTO.getTrains());
         TrainDTO trainDTO = trainsDTO.getTrains().get(0);
         List<Seat> seats = trainDTO.getSeats();
+
+        // make objects
         String trainCompany = "DataCompany";
         UUID trainId = UUID.randomUUID();
         for (Seat seat : seats) {
@@ -58,8 +64,15 @@ public class Application {
             seat.setTrainId(trainId);
             seat.setSeatId(UUID.randomUUID());
         }
-        System.out.println(seats.get(0));
         Train train = new Train(trainCompany, trainId, trainDTO.getName(), trainDTO.getLocation(), trainDTO.getImage());
+
+        // make hashmap
+        Map<String, Object> objMap = new HashMap<>();
+        objMap.put("train", train);
+        for (Seat seat : seats) {
+            objMap.put(seat.getName(), seat);
+        }
+        ApiFuture<WriteResult> future = firestoreRepository.getDb().collection("").document("").set(objMap);
     }
 
     @Bean

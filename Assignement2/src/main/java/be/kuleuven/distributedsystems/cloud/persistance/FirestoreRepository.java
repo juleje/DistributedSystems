@@ -8,6 +8,7 @@ import com.google.cloud.firestore.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -21,7 +22,11 @@ import static be.kuleuven.distributedsystems.cloud.auth.SecurityFilter.getUser;
 @Component
 public class FirestoreRepository {
 
+    @Resource(name = "db")
     private Firestore db;
+    public Firestore getDb(){
+        return db;
+    }
     private DateTimeFormatter formatter;
 
     public FirestoreRepository(){
