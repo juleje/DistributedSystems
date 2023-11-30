@@ -31,6 +31,7 @@ admin user :
 - password: admintest
 
 ## Questions
-- how to get publicKey? PUBLIC_KEY(JWT.decode(token).getKeyId())
+- public key van url vinden... hoe?
+- pubsub werkt niet deployed
 - deadline was 15 dec nu 8dec?
-- deploy error: Could not determine appengine environment, did you package your application? Run 'mvn package appengine:deploy'
+- authentication hoe krijg admin role
