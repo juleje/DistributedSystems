@@ -1,5 +1,7 @@
 package be.kuleuven.distributedsystems.cloud;
 
+import be.kuleuven.distributedsystems.cloud.entities.Seat;
+import be.kuleuven.distributedsystems.cloud.entities.Train;
 import be.kuleuven.distributedsystems.cloud.persistance.LocalDateTimeTypeAdapter;
 import be.kuleuven.distributedsystems.cloud.persistance.TrainDTO;
 import be.kuleuven.distributedsystems.cloud.persistance.TrainsDTO;
@@ -21,7 +23,9 @@ import reactor.netty.http.client.HttpClient;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
 @SpringBootApplication
@@ -46,11 +50,16 @@ public class Application {
         TrainsDTO trainsDTO = gson.fromJson(data, TrainsDTO.class);
         System.out.println(trainsDTO.getTrains());
         TrainDTO trainDTO = trainsDTO.getTrains().get(0);
-        try {
-            System.out.println(trainDTO.getSeats());
-        } catch (NullPointerException e) {
-            System.out.println(e);
+        List<Seat> seats = trainDTO.getSeats();
+        String trainCompany = "DataCompany";
+        UUID trainId = UUID.randomUUID();
+        for (Seat seat : seats) {
+            seat.setTrainCompany(trainCompany);
+            seat.setTrainId(trainId);
+            seat.setSeatId(UUID.randomUUID());
         }
+        System.out.println(seats.get(0));
+        Train train = new Train(trainCompany, trainId, trainDTO.getName(), trainDTO.getLocation(), trainDTO.getImage());
     }
 
     @Bean

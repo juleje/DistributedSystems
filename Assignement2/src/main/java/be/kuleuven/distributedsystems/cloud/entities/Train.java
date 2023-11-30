@@ -23,9 +23,15 @@ public class Train {
     public String getTrainCompany() {
         return trainCompany;
     }
+    public void setTrainCompany(String trainCompany) {
+        this.trainCompany = trainCompany;
+    }
 
     public UUID getTrainId() {
         return trainId;
+    }
+    public void setTrainId(UUID trainId) {
+        this.trainId = trainId;
     }
 
     public String getName() {
