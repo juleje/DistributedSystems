@@ -5,31 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/auth/CustomRSAPublicKey.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/sendgrid/EmailController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/RESTController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/RESTController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/appengine-staging/cloud-3.0.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/appengine-staging/cloud-3.0.war" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter$FirebaseAuthentication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter$FirebaseAuthentication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/RESTController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/RESTController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/MessagePublisher.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/MessagePublisher.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/cloud-3.0.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/cloud-3.0.war" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/cloud-3.0.war.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/cloud-3.0.war.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter$FirebaseAuthentication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter$FirebaseAuthentication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/RESTController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/RESTController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/MessagePublisher.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/MessagePublisher.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/cloud-3.0/WEB-INF/classes/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +89,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
     &quot;spring.configuration.checksum&quot;: &quot;a1234b3161b4fbfdfb96dd576b65bbea&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -157,7 +158,9 @@
       <workItem from="1701164300756" duration="1098000" />
       <workItem from="1701165561508" duration="8091000" />
       <workItem from="1701180248671" duration="478000" />
-      <workItem from="1701186346983" duration="8029000" />
+      <workItem from="1701186346983" duration="11399000" />
+      <workItem from="1701263772531" duration="9360000" />
+      <workItem from="1701348272919" duration="11545000" />
     </task>
     <task id="LOCAL-00001" summary="pubsub create topic &amp; subscription">
       <created>1700181735241</created>
@@ -188,6 +191,15 @@
     <option name="LAST_COMMIT_MESSAGE" value="pubsub create topic &amp; subscription" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter.java</url>
+          <line>126</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="org.apache.catalina.connector.RequestFacade" memberName="request" />

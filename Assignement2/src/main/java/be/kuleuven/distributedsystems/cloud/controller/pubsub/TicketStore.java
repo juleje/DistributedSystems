@@ -1,5 +1,6 @@
 package be.kuleuven.distributedsystems.cloud.controller.pubsub;
 
+import be.kuleuven.distributedsystems.cloud.controller.sendgrid.EmailController;
 import be.kuleuven.distributedsystems.cloud.entities.Booking;
 import be.kuleuven.distributedsystems.cloud.entities.Quote;
 import be.kuleuven.distributedsystems.cloud.entities.Ticket;
@@ -36,6 +37,9 @@ public class TicketStore {
     private FirestoreRepository firestore;
 
     @Autowired
+    private EmailController emailController;
+
+    @Autowired
     public TicketStore(WebClient.Builder builder){
         this.builder = builder;
 
@@ -49,9 +53,7 @@ public class TicketStore {
 
     @PostMapping("confirmQuotes")
     public void processSubscriberMessage(@RequestBody LinkedHashMap body) throws Exception {
-        System.out.println("I'm inn!!!!");
-
-        /*
+        System.out.println("Message deliverd");
         LinkedHashMap<String, String> wrapped = (LinkedHashMap) body.get("message");
         String bytesString =  wrapped.get("data");
         // Decode Base64 string to byte array
@@ -65,9 +67,6 @@ public class TicketStore {
 
         BookingDTO bookingDTO = mapper.readValue(utf8String, new TypeReference<BookingDTO>(){});
         confirmQuotes(bookingDTO.getQuotes(),bookingDTO.getUser());
-
-         */
-
     }
 
     //"/trains/c3c7dec3-4901-48ce-970d-dd9418ed9bcf/seats/3865d890-f659-4c55-bf84-3b3a79cb377a/ticket?customer={customer}&bookingReference={bookingReference}&key=JViZPgNadspVcHsMbDFrdGg0XXxyiE",
@@ -125,8 +124,10 @@ public class TicketStore {
             Booking booking = new Booking(bookingReference, LocalDateTime.now(),tickets,user);
             try {
                 firestore.addBooking(booking);
+                emailController.sendConfirmationMailSucceded(quotes,user);
             } catch (ExecutionException | InterruptedException e) {
                 System.out.println("fail the transaction");
+                emailController.sendConfirmationMailFailed(quotes,user);
             }
         }
 

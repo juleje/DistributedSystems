@@ -1,6 +1,7 @@
 package be.kuleuven.distributedsystems.cloud.auth;
 
 import be.kuleuven.distributedsystems.cloud.entities.User;
+import com.auth0.jwk.*;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -9,6 +10,12 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -26,17 +33,25 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.*;
+
+import static be.kuleuven.distributedsystems.cloud.Application.projectIdPub;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
-    private static final String pubKeyUrl = "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com";
+    //"https://www.googleapis.com/oauth2/v3/certs"
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -57,7 +72,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                 try {
                     roles[0] = json.getString("roles");
                 } catch (JSONException e) {
-                    System.out.println(e.getMessage());
+                    System.out.println("User has no role: "+e.getMessage());
                 }
                 user = new User(json.getString("email"),  roles);
             } catch (JSONException e) {
@@ -81,37 +96,74 @@ public class SecurityFilter extends OncePerRequestFilter {
 
 
 
+            String pubKeyUrl = "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com";
+            String kid = JWT.decode(token).getKeyId();
+
+            System.out.println("0bbd299e8562e72f2e8d7f019ba7bf011aef55ca".equals(kid));
+
+
+
+            // idToken comes from the client app (shown above)
+            FirebaseToken decodedToken = null;
+            try {
+                decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
+            } catch (FirebaseAuthException e) {
+                throw new RuntimeException(e);
+            }
+            String uid = decodedToken.getUid();
+            System.out.println(uid);
+/*
 
             // get public keys
-            JsonObject publicKeys = getPublicKeysJson();
+            JsonObject publicKeys = getPublicKeysJson(pubKeyUrl);
 
+            String publicKeyB64 = null;
             for (Map.Entry<String, JsonElement> entry: publicKeys.entrySet()) {
-                System.out.println(entry.getKey());
-                System.out.println(entry.getValue().toString());
-                //Jwts.parser().setSigningKey(publicKey).parse(token.getTokenId());
+                if(entry.getKey().equals(kid)){
+                    publicKeyB64=entry.getValue().toString();
+                }
             }
 
-            //jwk om keys terug te krijgen
-
-//            RSAKeyProvider rsaKeyProvider = new
-            //eigen interface maken voor rsakeyprovider
-            /*
-            var kid = JWT.decode(token).getKeyId();
-
-            Algorithm algorithm = Algorithm.RSA256(publicKey,null);
-            DecodedJWT jwt = JWT.require(algorithm)
-                    .withIssuer("https://securetoken.google.com/demo-distributed-systems-kul")
-                    .withAudience("projectId")//todo
-                    .build()
-                    .verify(token);
-            System.out.println(jwt.getClaim("email"));
+            if(publicKeyB64!=null){
+                String cleanPublickey = publicKeyB64.replaceAll("-----BEGIN CERTIFICATE-----","").replaceAll("-----END CERTIFICATE-----","");
 
 
-             */
+                try {
 
 
 
+                    byte[] publicKeyBytes = Base64.getDecoder().decode(cleanPublickey);
 
+                    // Create an X.509 encoded key specification
+                    X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKeyBytes);
+
+                    // Initialize the KeyFactory with RSA algorithm
+                    KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+
+                    // Generate RSAPublicKey from the key specification
+                    PublicKey publicKey = keyFactory.generatePublic(keySpec);
+                    if (publicKey instanceof java.security.interfaces.RSAPublicKey) {
+                        java.security.interfaces.RSAPublicKey rsaPublicKey = (java.security.interfaces.RSAPublicKey) publicKey;
+                        System.out.println("RSAPublicKey: " + rsaPublicKey);
+
+                        Algorithm algorithm = Algorithm.RSA256(rsaPublicKey, null);
+                        DecodedJWT jwt = JWT.require(algorithm)
+                                .withIssuer("https://securetoken.google.com/" + projectIdPub)
+                                .withAudience(projectIdPub)
+                                .build()
+                                .verify(token);
+                        System.out.println(jwt.getClaim("email"));
+                    } else {
+                        System.out.println("The public key is not an RSAPublicKey.");
+                    }
+
+
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+
+            }
+ */
         }else {
             System.out.println("User is not authenticated");
         }
@@ -121,7 +173,9 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     }
 
-    private JsonObject getPublicKeysJson() throws IOException {
+
+
+    private JsonObject getPublicKeysJson(String pubKeyUrl) throws IOException {
         // get public keys
         URI uri = URI.create(pubKeyUrl);
         GenericUrl url = new GenericUrl(uri);
@@ -138,6 +192,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         return jsonObject;
     }
+
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {

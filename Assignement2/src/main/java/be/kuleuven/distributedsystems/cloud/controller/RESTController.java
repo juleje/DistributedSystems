@@ -7,6 +7,7 @@ import be.kuleuven.distributedsystems.cloud.persistance.FirestoreRepository;
 import be.kuleuven.distributedsystems.cloud.controller.pubsub.MessagePublisher;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.pubsub.v1.Publisher;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.*;
@@ -30,11 +31,13 @@ public class RESTController {
     @Autowired
     private MessagePublisher messagePublisher;
 
-    /*
+/*
+
     //todo delete
     @Autowired
     private TicketStore ticketStore;
-     */
+
+ */
 
     @GetMapping("/getTrains")
     public Collection<Train> getTrains() {
@@ -120,16 +123,19 @@ public class RESTController {
             String message = new Gson().toJson(dto);
             ByteString data = ByteString.copyFromUtf8(message);
             PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
-            System.out.println("PublisherMessag builed");
             ApiFuture<String> response = publisher.publish(pubsubMessage);
             System.out.println(response.toString());
             System.out.println(response.isDone());
+            System.out.println(response.isCancelled());
+
             publisher.shutdown();
 
-           /*
+
+            /*
             //todo delete
             ticketStore.confirmQuotes(body, user.getEmail());
-            */
+             */
+
             return ResponseEntity.ok().body("Booking confirmed");
         }catch (Exception ex){
             ex.printStackTrace();

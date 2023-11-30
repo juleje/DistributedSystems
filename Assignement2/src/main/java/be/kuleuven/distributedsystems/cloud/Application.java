@@ -5,8 +5,11 @@ import com.google.api.gax.grpc.GrpcTransportChannel;
 import com.google.api.gax.rpc.FixedTransportChannelProvider;
 import com.google.api.gax.rpc.TransportChannel;
 import com.google.api.gax.rpc.TransportChannelProvider;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.cloud.pubsub.v1.SubscriptionAdminClient;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.pubsub.v1.PushConfig;
 import com.google.pubsub.v1.Subscription;
 import com.google.pubsub.v1.SubscriptionName;
@@ -42,6 +45,14 @@ public class Application {
     public static void main(String[] args) throws IOException {
         System.setProperty("server.port", System.getenv().getOrDefault("PORT", "8080"));
         ApplicationContext context = SpringApplication.run(Application.class, args);
+
+        //TODO: delete
+        FirebaseOptions options = FirebaseOptions.builder()
+                .setCredentials(GoogleCredentials.getApplicationDefault())
+                .setProjectId(projectIdPub)
+                .build();
+
+        FirebaseApp.initializeApp(options);
 
         // TODO: (level 2) load this data into Firestore
         String data = new String(new ClassPathResource("data.json").getInputStream().readAllBytes());
