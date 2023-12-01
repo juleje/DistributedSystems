@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="convert DTO to objects">
+    <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="changes in application class:&#10;- FirestoreRepository&#10;- @autowired constructor&#10;- make hashmap">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -133,7 +132,8 @@
       <workItem from="1700216121901" duration="1497000" />
       <workItem from="1700217706947" duration="329000" />
       <workItem from="1701348225289" duration="1932000" />
-      <workItem from="1701362694274" duration="6265000" />
+      <workItem from="1701362694274" duration="6306000" />
+      <workItem from="1701441568882" duration="1449000" />
     </task>
     <task id="LOCAL-00001" summary="pubsub create topic &amp; subscription">
       <created>1700181735241</created>
@@ -170,7 +170,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701367989862</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="changes in application class:&#10;- FirestoreRepository&#10;- @autowired constructor&#10;- make hashmap">
+      <created>1701375383140</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1701375383140</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -203,7 +210,8 @@
     <MESSAGE value="pubsub create topic &amp; subscription" />
     <MESSAGE value="firestore extension: read data" />
     <MESSAGE value="convert DTO to objects" />
-    <option name="LAST_COMMIT_MESSAGE" value="convert DTO to objects" />
+    <MESSAGE value="changes in application class:&#10;- FirestoreRepository&#10;- @autowired constructor&#10;- make hashmap" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes in application class:&#10;- FirestoreRepository&#10;- @autowired constructor&#10;- make hashmap" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -1,7 +1,9 @@
 package be.kuleuven.distributedsystems.cloud.persistance;
 
 import be.kuleuven.distributedsystems.cloud.entities.Booking;
+import be.kuleuven.distributedsystems.cloud.entities.Seat;
 import be.kuleuven.distributedsystems.cloud.entities.Ticket;
+import be.kuleuven.distributedsystems.cloud.entities.Train;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
@@ -22,7 +24,7 @@ import static be.kuleuven.distributedsystems.cloud.auth.SecurityFilter.getUser;
 @Component
 public class FirestoreRepository {
 
-    @Resource(name = "db")
+    @Resource
     private Firestore db;
     public Firestore getDb(){
         return db;
@@ -127,4 +129,29 @@ public class FirestoreRepository {
         return maxUsers;
     }
 
+    public void addJsonData(Train train, List<Seat> seats) throws ExecutionException, InterruptedException {
+        Map<String, Object> trainMap = new HashMap<>();
+        trainMap.put("id", train.getTrainId());
+        trainMap.put("company", train.getTrainCompany());
+        trainMap.put("name", train.getName());
+        trainMap.put("image", train.getImage());
+        trainMap.put("location", train.getLocation());
+
+        List<Map<String,Object>> seatsList = new ArrayList<>();
+        for (Seat seat : seats) {
+            Map<String, Object> seatData = new HashMap<>();
+            seatData.put("trainCompany",seat.getTrainCompany());
+            seatData.put("trainId",seat.getTrainId().toString());
+            seatData.put("seatId",seat.getSeatId().toString());
+            seatData.put("time",seat.getTime().format(formatter));
+            seatData.put("type",seat.getType());
+            seatData.put("name",seat.getName());
+            seatData.put("price",seat.getPrice());
+            seatsList.add(seatData);
+        }
+        trainMap.put("seats",seatsList);
+
+        ApiFuture<WriteResult> future = db.collection("trains").document(train.getTrainId().toString()).set(trainMap);
+        future.get();
+    }
 }

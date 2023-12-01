@@ -26,6 +26,7 @@ import reactor.netty.http.client.HttpClient;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 @EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
 @SpringBootApplication
@@ -42,7 +43,7 @@ public class Application {
     }
 
     @SuppressWarnings("unchecked")
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
         System.setProperty("server.port", System.getenv().getOrDefault("PORT", "8080"));
         ApplicationContext context = SpringApplication.run(Application.class, args);
@@ -67,12 +68,7 @@ public class Application {
         Train train = new Train(trainCompany, trainId, trainDTO.getName(), trainDTO.getLocation(), trainDTO.getImage());
 
         // make hashmap
-        Map<String, Object> objMap = new HashMap<>();
-        objMap.put("train", train);
-        for (Seat seat : seats) {
-            objMap.put(seat.getName(), seat);
-        }
-        ApiFuture<WriteResult> future = firestoreRepository.getDb().collection("").document("").set(objMap);
+        firestoreRepository.addJsonData(train, seats);
     }
 
     @Bean
