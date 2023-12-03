@@ -24,11 +24,7 @@ import static be.kuleuven.distributedsystems.cloud.auth.SecurityFilter.getUser;
 @Component
 public class FirestoreRepository {
 
-    @Resource
     private Firestore db;
-    public Firestore getDb(){
-        return db;
-    }
     private DateTimeFormatter formatter;
 
     public FirestoreRepository(){
@@ -149,9 +145,11 @@ public class FirestoreRepository {
             seatData.put("price",seat.getPrice());
             seatsList.add(seatData);
         }
-        trainMap.put("seats",seatsList);
-
+        trainMap.put("seats", seatsList);
+        System.out.println(seatsList.get(0));
+        //System.out.println(trainMap);
         ApiFuture<WriteResult> future = db.collection("trains").document(train.getTrainId().toString()).set(trainMap);
+        System.out.println(db);
         future.get();
     }
 }

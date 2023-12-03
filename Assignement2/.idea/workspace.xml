@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="changes in application class:&#10;- FirestoreRepository&#10;- @autowired constructor&#10;- make hashmap">
+    <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="bean error">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/Application.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/Application.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter$FirebaseAuthentication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter$FirebaseAuthentication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +136,10 @@
       <workItem from="1700217706947" duration="329000" />
       <workItem from="1701348225289" duration="1932000" />
       <workItem from="1701362694274" duration="6306000" />
-      <workItem from="1701441568882" duration="1449000" />
+      <workItem from="1701441568882" duration="3456000" />
+      <workItem from="1701518076923" duration="1213000" />
+      <workItem from="1701528470309" duration="3808000" />
+      <workItem from="1701628514030" duration="837000" />
     </task>
     <task id="LOCAL-00001" summary="pubsub create topic &amp; subscription">
       <created>1700181735241</created>
@@ -177,7 +183,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701375383140</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="bean error">
+      <created>1701443144873</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1701443144873</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -211,7 +224,8 @@
     <MESSAGE value="firestore extension: read data" />
     <MESSAGE value="convert DTO to objects" />
     <MESSAGE value="changes in application class:&#10;- FirestoreRepository&#10;- @autowired constructor&#10;- make hashmap" />
-    <option name="LAST_COMMIT_MESSAGE" value="changes in application class:&#10;- FirestoreRepository&#10;- @autowired constructor&#10;- make hashmap" />
+    <MESSAGE value="bean error" />
+    <option name="LAST_COMMIT_MESSAGE" value="bean error" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
