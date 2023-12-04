@@ -58,7 +58,7 @@ public class Application {
         List<Seat> seats = trainDTO.getSeats();
 
         // make objects
-        String trainCompany = "DataCompany";
+        String trainCompany = "DNet Train Company";
         UUID trainId = UUID.randomUUID();
         for (Seat seat : seats) {
             seat.setTrainCompany(trainCompany);

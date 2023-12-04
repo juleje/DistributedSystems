@@ -5,16 +5,10 @@ import be.kuleuven.distributedsystems.cloud.entities.Seat;
 import be.kuleuven.distributedsystems.cloud.entities.Ticket;
 import be.kuleuven.distributedsystems.cloud.entities.Train;
 import com.google.api.core.ApiFuture;
-import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -127,13 +121,20 @@ public class FirestoreRepository {
 
     public void addJsonData(Train train, List<Seat> seats) throws ExecutionException, InterruptedException {
         Map<String, Object> trainMap = new HashMap<>();
-        trainMap.put("id", train.getTrainId());
+        String trainId = train.getTrainId().toString();
+        trainMap.put("id", trainId);
         trainMap.put("company", train.getTrainCompany());
         trainMap.put("name", train.getName());
         trainMap.put("image", train.getImage());
         trainMap.put("location", train.getLocation());
+        List<Seat> seatsList = new ArrayList<>();
+       // trainMap.put("seats", seatsList);
+        ApiFuture<WriteResult> future1 = db.collection("trains").document(trainId).set(trainMap);
+        boolean done = future1.isDone();
+        while (!done){
+            done = future1.isDone();
+        }
 
-        List<Map<String,Object>> seatsList = new ArrayList<>();
         for (Seat seat : seats) {
             Map<String, Object> seatData = new HashMap<>();
             seatData.put("trainCompany",seat.getTrainCompany());
@@ -143,13 +144,8 @@ public class FirestoreRepository {
             seatData.put("type",seat.getType());
             seatData.put("name",seat.getName());
             seatData.put("price",seat.getPrice());
-            seatsList.add(seatData);
+            db.collection("trains").document(trainId).collection("seats").add(seatData);
         }
-        trainMap.put("seats", seatsList);
-        System.out.println(seatsList.get(0));
-        //System.out.println(trainMap);
-        ApiFuture<WriteResult> future = db.collection("trains").document(train.getTrainId().toString()).set(trainMap);
-        System.out.println(db);
-        future.get();
+
     }
 }

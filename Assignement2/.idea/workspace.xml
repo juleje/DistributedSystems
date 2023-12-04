@@ -6,10 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="bean error">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/Application.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/Application.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter$FirebaseAuthentication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter$FirebaseAuthentication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/auth/SecurityFilter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,26 +52,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/gertj/OneDrive/Bureaublad/School/Master/Semester 1/Distributed Systems/git/Assignement2&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;a1234b3161b4fbfdfb96dd576b65bbea&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/gertj/OneDrive/Bureaublad/School/Master/Semester 1/Distributed Systems/git/Assignement2",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.tabs",
+    "spring.configuration.checksum": "a1234b3161b4fbfdfb96dd576b65bbea",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -238,5 +238,8 @@
         <watch expression="((RequestFacade)((RequestWrapper)((HeaderWriterRequest)request).request).request).request" custom="org.apache.catalina.connector.RequestFacade,org.springframework.security.web.firewall.RequestWrapper,org.springframework.security.web.header.HeaderWriterFilter.HeaderWriterRequest" />
       </configuration>
     </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Assignement2$Application.ic" NAME="Application Coverage Results" MODIFIED="1701714274035" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
