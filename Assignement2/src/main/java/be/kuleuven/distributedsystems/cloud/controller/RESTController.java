@@ -31,14 +31,6 @@ public class RESTController {
     @Autowired
     private MessagePublisher messagePublisher;
 
-/*
-
-    //todo delete
-    @Autowired
-    private TicketStore ticketStore;
-
- */
-
     @GetMapping("/getTrains")
     public Collection<Train> getTrains() {
         return webClient.getTrains();
@@ -124,17 +116,8 @@ public class RESTController {
             ByteString data = ByteString.copyFromUtf8(message);
             PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
             ApiFuture<String> response = publisher.publish(pubsubMessage);
-            System.out.println(response.toString());
-            System.out.println(response.isDone());
-            System.out.println(response.isCancelled());
 
             publisher.shutdown();
-
-
-            /*
-            //todo delete
-            ticketStore.confirmQuotes(body, user.getEmail());
-             */
 
             return ResponseEntity.ok().body("Booking confirmed");
         }catch (Exception ex){

@@ -53,7 +53,6 @@ public class TicketStore {
 
     @PostMapping("confirmQuotes")
     public void processSubscriberMessage(@RequestBody LinkedHashMap body) throws Exception {
-        System.out.println("Message deliverd");
         LinkedHashMap<String, String> wrapped = (LinkedHashMap) body.get("message");
         String bytesString =  wrapped.get("data");
         // Decode Base64 string to byte array
@@ -115,19 +114,20 @@ public class TicketStore {
 
 
         //409 WebClientResponseException
-
+        Booking booking = new Booking(bookingReference, LocalDateTime.now(),tickets,user);
         if(crashed){
             for (Ticket ticket:tickets) {
                 removeTicket(ticket.getTrainCompany(),ticket.getTrainId(),ticket.getSeatId());
             }
+            System.out.println("fail the transaction");
+            emailController.sendConfirmationMailFailed(booking);
         }else{
-            Booking booking = new Booking(bookingReference, LocalDateTime.now(),tickets,user);
             try {
                 firestore.addBooking(booking);
-                emailController.sendConfirmationMailSucceded(quotes,user);
+                emailController.sendConfirmationMailSucceded(booking);
             } catch (ExecutionException | InterruptedException e) {
                 System.out.println("fail the transaction");
-                emailController.sendConfirmationMailFailed(quotes,user);
+                emailController.sendConfirmationMailFailed(booking);
             }
         }
 

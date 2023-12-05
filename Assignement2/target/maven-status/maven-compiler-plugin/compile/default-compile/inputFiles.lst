@@ -12,6 +12,7 @@ C:\Users\jules\Desktop\KUL\Master\Distributed Systems\DistributedSystems\Assigne
 C:\Users\jules\Desktop\KUL\Master\Distributed Systems\DistributedSystems\Assignement2\src\main\java\be\kuleuven\distributedsystems\cloud\entities\Ticket.java
 C:\Users\jules\Desktop\KUL\Master\Distributed Systems\DistributedSystems\Assignement2\src\main\java\be\kuleuven\distributedsystems\cloud\controller\pubsub\BookingDTO.java
 C:\Users\jules\Desktop\KUL\Master\Distributed Systems\DistributedSystems\Assignement2\src\main\java\be\kuleuven\distributedsystems\cloud\persistance\FirestoreRepository.java
+C:\Users\jules\Desktop\KUL\Master\Distributed Systems\DistributedSystems\Assignement2\src\main\java\be\kuleuven\distributedsystems\cloud\controller\sendgrid\EmailController.java
 C:\Users\jules\Desktop\KUL\Master\Distributed Systems\DistributedSystems\Assignement2\src\main\java\be\kuleuven\distributedsystems\cloud\entities\Seat.java
 C:\Users\jules\Desktop\KUL\Master\Distributed Systems\DistributedSystems\Assignement2\src\main\java\be\kuleuven\distributedsystems\cloud\controller\pubsub\TicketStore.java
 C:\Users\jules\Desktop\KUL\Master\Distributed Systems\DistributedSystems\Assignement2\src\main\java\be\kuleuven\distributedsystems\cloud\controller\RESTController.java

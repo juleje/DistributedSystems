@@ -45,6 +45,8 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.*;
+import java.io.ByteArrayInputStream;
+
 
 import static be.kuleuven.distributedsystems.cloud.Application.projectIdPub;
 
@@ -95,24 +97,8 @@ public class SecurityFilter extends OncePerRequestFilter {
             }
 
 
-
             String pubKeyUrl = "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com";
             String kid = JWT.decode(token).getKeyId();
-
-            System.out.println("0bbd299e8562e72f2e8d7f019ba7bf011aef55ca".equals(kid));
-
-
-
-            // idToken comes from the client app (shown above)
-            FirebaseToken decodedToken = null;
-            try {
-                decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
-            } catch (FirebaseAuthException e) {
-                throw new RuntimeException(e);
-            }
-            String uid = decodedToken.getUid();
-            System.out.println(uid);
-/*
 
             // get public keys
             JsonObject publicKeys = getPublicKeysJson(pubKeyUrl);
@@ -125,26 +111,24 @@ public class SecurityFilter extends OncePerRequestFilter {
             }
 
             if(publicKeyB64!=null){
-                String cleanPublickey = publicKeyB64.replaceAll("-----BEGIN CERTIFICATE-----","").replaceAll("-----END CERTIFICATE-----","");
-
+                String publickeyWithoutBegin = publicKeyB64.replaceAll("-----BEGIN CERTIFICATE-----","");
+                String publicKeyWithoutEnd = publickeyWithoutBegin.replaceAll("-----END CERTIFICATE-----","");
+                String publicKeyWithoutEnter = publicKeyWithoutEnd.replaceAll("\\\\n","");
+                String cleanPublickey =publicKeyWithoutEnter.replaceAll("\"","");
 
                 try {
 
-
-
                     byte[] publicKeyBytes = Base64.getDecoder().decode(cleanPublickey);
+                    // Convert byte array to InputStream
+                    ByteArrayInputStream inputStream = new ByteArrayInputStream(publicKeyBytes);
 
-                    // Create an X.509 encoded key specification
-                    X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKeyBytes);
+                    CertificateFactory f = CertificateFactory.getInstance("X.509");
+                    X509Certificate certificate = (X509Certificate) f.generateCertificate(inputStream);
+                            //f.generateCertificate(publicKeyBytes);
+                    PublicKey publicKey = certificate.getPublicKey();
 
-                    // Initialize the KeyFactory with RSA algorithm
-                    KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-
-                    // Generate RSAPublicKey from the key specification
-                    PublicKey publicKey = keyFactory.generatePublic(keySpec);
                     if (publicKey instanceof java.security.interfaces.RSAPublicKey) {
                         java.security.interfaces.RSAPublicKey rsaPublicKey = (java.security.interfaces.RSAPublicKey) publicKey;
-                        System.out.println("RSAPublicKey: " + rsaPublicKey);
 
                         Algorithm algorithm = Algorithm.RSA256(rsaPublicKey, null);
                         DecodedJWT jwt = JWT.require(algorithm)
@@ -157,15 +141,19 @@ public class SecurityFilter extends OncePerRequestFilter {
                         System.out.println("The public key is not an RSAPublicKey.");
                     }
 
+                    // Close the ByteArrayInputStream if necessary
+                    inputStream.close();
+
 
                 }catch (Exception ex){
                     ex.printStackTrace();
+                    response.sendError(401);
                 }
-
             }
- */
+
         }else {
             System.out.println("User is not authenticated");
+            response.sendError(401);
         }
 
 

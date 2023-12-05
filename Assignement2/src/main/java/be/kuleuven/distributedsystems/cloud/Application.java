@@ -46,13 +46,14 @@ public class Application {
         System.setProperty("server.port", System.getenv().getOrDefault("PORT", "8080"));
         ApplicationContext context = SpringApplication.run(Application.class, args);
 
+        /*
         //TODO: delete
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.getApplicationDefault())
                 .setProjectId(projectIdPub)
                 .build();
-
         FirebaseApp.initializeApp(options);
+         */
 
         // TODO: (level 2) load this data into Firestore
         String data = new String(new ClassPathResource("data.json").getInputStream().readAllBytes());

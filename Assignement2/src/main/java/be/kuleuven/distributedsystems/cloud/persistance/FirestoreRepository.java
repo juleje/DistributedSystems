@@ -26,25 +26,21 @@ public class FirestoreRepository {
     private DateTimeFormatter formatter;
 
     public FirestoreRepository(){
-
-       /*
-        //DEV env
+        /*
+  //DEV env
         FirestoreOptions firestoreOptions =
                 FirestoreOptions.getDefaultInstance().toBuilder()
                         .setEmulatorHost("localhost:8084")
                         .setCredentials(new FirestoreOptions.EmulatorCredentials())
                         .setProjectId("demo-distributed-systems-kul")
                         .build();
-        */
 
-
-
+         */
         //PUB env
         FirestoreOptions firestoreOptions =
                 FirestoreOptions.getDefaultInstance().toBuilder()
                         .setProjectId(projectIdPub)
                         .build();
-
 
         db = firestoreOptions.getService();
         formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
