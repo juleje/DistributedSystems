@@ -149,15 +149,13 @@ public class FirestoreRepository {
 
     }
     public boolean trainCollectionCheck() throws ExecutionException, InterruptedException {
-        Boolean returnBoolean = false;
         ApiFuture<QuerySnapshot> query = db.collection("trains").get();
         QuerySnapshot querySnapshot = query.get();
-        List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
-        for (QueryDocumentSnapshot document : documents) {
-            if (document.getData().isEmpty()){
-                returnBoolean = true;
-            }
+        if (querySnapshot.isEmpty()) {
+            return true;
         }
-        return returnBoolean;
+        else {
+            return false;
+        }
     }
 }
