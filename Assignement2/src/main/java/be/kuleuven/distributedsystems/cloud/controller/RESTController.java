@@ -30,7 +30,7 @@ public class RESTController {
     private MessagePublisher messagePublisher;
 
     @GetMapping("/getTrains")
-    public Collection<Train> getTrains() {
+    public Collection<Train> getTrains() throws ExecutionException, InterruptedException {
         return webClient.getTrains();
     }
 

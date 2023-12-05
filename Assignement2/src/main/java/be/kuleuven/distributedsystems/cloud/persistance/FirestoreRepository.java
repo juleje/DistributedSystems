@@ -41,6 +41,15 @@ public class FirestoreRepository {
         List<Ticket> tickets = (List<Ticket>) data.get("tickets");
         return new Booking(id,time,tickets,customer);
     }
+    private Train mapQueryDocumentSnapshotToTrain(QueryDocumentSnapshot snapshot){
+        Map<String, Object> data = snapshot.getData();
+        UUID id = UUID.fromString((String) data.get("id"));
+        String trainCompany = (String) data.get("company");
+        String name = (String) data.get("name");
+        String location = (String) data.get("location");
+        String image = (String) data.get("image");
+        return new Train(trainCompany, id, name, location, image);
+    }
     public Collection<Booking> getBookings() throws ExecutionException, InterruptedException {
         List<QueryDocumentSnapshot> snapshots = db.collection("bookings").get().get().getDocuments();
         List<Booking> userBookings = new ArrayList<>();
@@ -157,5 +166,16 @@ public class FirestoreRepository {
         else {
             return false;
         }
+    }
+
+    public Collection<? extends Train> getTrains() throws ExecutionException, InterruptedException {
+        ApiFuture<QuerySnapshot> query = db.collection("trains").get();
+        QuerySnapshot querySnapshot = query.get();
+        List<QueryDocumentSnapshot> snapshots = querySnapshot.getDocuments();
+        List<Train> trains = new ArrayList<>();
+        for (QueryDocumentSnapshot snapshot : snapshots) {
+            trains.add(mapQueryDocumentSnapshotToTrain(snapshot));
+        }
+        return trains;
     }
 }

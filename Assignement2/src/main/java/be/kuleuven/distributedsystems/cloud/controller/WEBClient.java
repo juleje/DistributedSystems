@@ -26,7 +26,8 @@ public class WEBClient {
     private final WebClient webClientReliableTrains;
     private final WebClient webClientUnReliableTrains;
     private final String reliableTrainsKey = "JViZPgNadspVcHsMbDFrdGg0XXxyiE";
-
+    @Autowired
+    private FirestoreRepository firestoreRepository;
 
     @Autowired
     public WEBClient(Builder builder){
@@ -40,7 +41,7 @@ public class WEBClient {
                 .build();
     }
 
-    public Collection<Train> getTrains() {
+    public Collection<Train> getTrains() throws ExecutionException, InterruptedException {
         Collection<Train> returnable = new ArrayList<>();
         returnable.addAll(webClientReliableTrains
                 .get()
@@ -52,6 +53,9 @@ public class WEBClient {
                 .bodyToMono(new ParameterizedTypeReference<CollectionModel<Train>>() {})
                 .block()
                 .getContent());
+
+        returnable.addAll(firestoreRepository.getTrains());
+
         try{
             returnable.addAll(webClientUnReliableTrains
                     .get()
@@ -203,6 +207,10 @@ public class WEBClient {
 
     public static boolean isReliableTrainCompany(String trainCompany) {
         return Objects.equals(trainCompany, "reliabletrains.com");
+    }
+
+    public static boolean isDNetTrainCompany(String trainCompany) {
+        return Objects.equals(trainCompany, "DNet Train Company");
     }
 
 }
