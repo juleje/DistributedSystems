@@ -49,26 +49,29 @@ public class Application {
         ApplicationContext context = SpringApplication.run(Application.class, args);
 
         // TODO: (level 2) load this data into Firestore
-        String data = new String(new ClassPathResource("data.json").getInputStream().readAllBytes());
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
-                .create();
-        TrainsDTO trainsDTO = gson.fromJson(data, TrainsDTO.class);
-        TrainDTO trainDTO = trainsDTO.getTrains().get(0);
-        List<Seat> seats = trainDTO.getSeats();
+        Boolean trainCollectionEmpty = firestoreRepository.trainCollectionCheck();
+        if (trainCollectionEmpty == true) {
+            String data = new String(new ClassPathResource("data.json").getInputStream().readAllBytes());
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
+                    .create();
+            TrainsDTO trainsDTO = gson.fromJson(data, TrainsDTO.class);
+            TrainDTO trainDTO = trainsDTO.getTrains().get(0);
+            List<Seat> seats = trainDTO.getSeats();
 
-        // make objects
-        String trainCompany = "DNet Train Company";
-        UUID trainId = UUID.randomUUID();
-        for (Seat seat : seats) {
-            seat.setTrainCompany(trainCompany);
-            seat.setTrainId(trainId);
-            seat.setSeatId(UUID.randomUUID());
+            // make objects
+            String trainCompany = "DNet Train Company";
+            UUID trainId = UUID.randomUUID();
+            for (Seat seat : seats) {
+                seat.setTrainCompany(trainCompany);
+                seat.setTrainId(trainId);
+                seat.setSeatId(UUID.randomUUID());
+            }
+            Train train = new Train(trainCompany, trainId, trainDTO.getName(), trainDTO.getLocation(), trainDTO.getImage());
+
+            // make hashmap
+            firestoreRepository.addJsonData(train, seats);
         }
-        Train train = new Train(trainCompany, trainId, trainDTO.getName(), trainDTO.getLocation(), trainDTO.getImage());
-
-        // make hashmap
-        firestoreRepository.addJsonData(train, seats);
     }
 
     @Bean

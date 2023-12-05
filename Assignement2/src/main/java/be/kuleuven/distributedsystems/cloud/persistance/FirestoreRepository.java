@@ -148,4 +148,12 @@ public class FirestoreRepository {
         }
 
     }
+    public boolean trainCollectionCheck() throws ExecutionException, InterruptedException {
+        if (db.collection("trains").get().get().getDocuments().equals(null)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
