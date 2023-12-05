@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="trainCollectionEmptyCheck">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubsub-debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/pubsub-debug.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/Application.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,7 +198,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701779834366</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="trainCollectionEmptyCheck">
+      <created>1701784508744</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1701784508744</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

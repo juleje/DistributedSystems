@@ -50,6 +50,7 @@ public class Application {
 
         // TODO: (level 2) load this data into Firestore
         Boolean trainCollectionEmpty = firestoreRepository.trainCollectionCheck();
+        System.out.println(trainCollectionEmpty);
         if (trainCollectionEmpty) {
             String data = new String(new ClassPathResource("data.json").getInputStream().readAllBytes());
             Gson gson = new GsonBuilder()
