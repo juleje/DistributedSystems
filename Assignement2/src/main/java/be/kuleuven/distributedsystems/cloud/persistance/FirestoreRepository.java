@@ -262,7 +262,7 @@ public class FirestoreRepository {
         db.collection("trains").document(ticket.getTrainId().toString()).collection("seats").document(ticket.getSeatId().toString()).collection("tickets").add(ticket);
     }
 
-    public void removeTicket(UUID trainId, UUID seatId) {
-        db.collection("trains").document(trainId.toString()).collection("seats").document(seatId.toString()).collection("tickets").document().delete();
+    public void removeTicket(Ticket ticket) {
+        db.collection("trains").document(ticket.getTrainId().toString()).collection("seats").document(ticket.getSeatId().toString()).collection("tickets").document(ticket.getTicketId().toString()).delete();
     }
 }

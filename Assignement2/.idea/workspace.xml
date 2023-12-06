@@ -4,11 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="getAvailableSeats &amp; getTrainTimes">
+    <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="confirmQuotes &amp; removeTicket">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/pubsub/MessagePublisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/pubsub/MessagePublisher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/MessagePublisher.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/MessagePublisher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +147,8 @@
       <workItem from="1701518076923" duration="1213000" />
       <workItem from="1701528470309" duration="3808000" />
       <workItem from="1701628514030" duration="837000" />
-      <workItem from="1701849862015" duration="12431000" />
+      <workItem from="1701849862015" duration="12767000" />
+      <workItem from="1701891980678" duration="305000" />
     </task>
     <task id="LOCAL-00001" summary="pubsub create topic &amp; subscription">
       <created>1700181735241</created>
@@ -246,7 +255,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701855041207</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="confirmQuotes &amp; removeTicket">
+      <created>1701890743292</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1701890743292</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -285,7 +301,8 @@
     <MESSAGE value="getTrains()" />
     <MESSAGE value="getTrain &amp; getSeat" />
     <MESSAGE value="getAvailableSeats &amp; getTrainTimes" />
-    <option name="LAST_COMMIT_MESSAGE" value="getAvailableSeats &amp; getTrainTimes" />
+    <MESSAGE value="confirmQuotes &amp; removeTicket" />
+    <option name="LAST_COMMIT_MESSAGE" value="confirmQuotes &amp; removeTicket" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

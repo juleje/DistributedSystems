@@ -122,7 +122,7 @@ public class TicketStore {
 
         if(crashed){
             for (Ticket ticket:tickets) {
-                removeTicket(ticket.getTrainCompany(),ticket.getTrainId(),ticket.getSeatId());
+                removeTicket(ticket);
             }
         }else{
             Booking booking = new Booking(bookingReference, LocalDateTime.now(), tickets, user);
@@ -134,58 +134,58 @@ public class TicketStore {
         }
     }
 
-    private void removeTicket(String trainCompany, UUID trainId, UUID seatId) {
+    private void removeTicket(Ticket ticket) {
         boolean succeeded = false;
         while(!succeeded){
             try{
-                if(isReliableTrainCompany(trainCompany)){
-                    Ticket ticket = webClientReliableTrains
+                if(isReliableTrainCompany(ticket.getTrainCompany())){
+                    Ticket ticketToRemove = webClientReliableTrains
                             .get()
                             .uri(uriBuilder -> uriBuilder
-                                    .pathSegment("trains/"+trainId)
-                                    .pathSegment("seats/"+seatId)
+                                    .pathSegment("trains/"+ticket.getTrainId())
+                                    .pathSegment("seats/"+ticket.getSeatId())
                                     .pathSegment("ticket")
                                     .queryParam("key",reliableTrainsKey)
                                     .build())
                             .retrieve()
                             .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
                             .block();
-                    System.out.println("ACID property: when booking a ticket the system has failed. Rollback ticket:" + ticket.getTicketId());
+                    System.out.println("ACID property: when booking a ticket the system has failed. Rollback ticket:" + ticketToRemove.getTicketId());
                     webClientReliableTrains
                             .delete()
                             .uri(uriBuilder -> uriBuilder
-                                    .pathSegment("trains/"+trainId)
-                                    .pathSegment("seats/"+seatId)
-                                    .pathSegment("ticket"+ticket.getTicketId())
+                                    .pathSegment("trains/"+ticketToRemove.getTrainId())
+                                    .pathSegment("seats/"+ticketToRemove.getSeatId())
+                                    .pathSegment("ticket"+ticketToRemove.getTicketId())
                                     .queryParam("key",reliableTrainsKey)
                                     .build())
                             .retrieve()
                             .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
                             .block();
                     succeeded = true;
-                } else if (isDNetTrainCompany(trainCompany)) {
+                } else if (isDNetTrainCompany(ticket.getTrainCompany())) {
                     //TODO
-                    firestore.removeTicket(trainId, seatId);
+                    firestore.removeTicket(ticket);
                     succeeded = true;
-                } else if(isUnReliableTrainCompany(trainCompany)){
-                    Ticket ticket = webClientUnReliableTrains
+                } else if(isUnReliableTrainCompany(ticket.getTrainCompany())) {
+                    Ticket ticketToRemove = webClientUnReliableTrains
                             .get()
                             .uri(uriBuilder -> uriBuilder
-                                    .pathSegment("trains/"+trainId)
-                                    .pathSegment("seats/"+seatId)
+                                    .pathSegment("trains/"+ticket.getTrainId())
+                                    .pathSegment("seats/"+ticket.getSeatId())
                                     .pathSegment("ticket")
                                     .queryParam("key",reliableTrainsKey)
                                     .build())
                             .retrieve()
                             .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
                             .block();
-                    System.out.println("ACID propertie: when booking a ticket the system has failed. Rollback ticket:" + ticket.getTicketId());
+                    System.out.println("ACID property: when booking a ticket the system has failed. Rollback ticket:" + ticketToRemove.getTicketId());
                     webClientUnReliableTrains
                             .delete()
                             .uri(uriBuilder -> uriBuilder
-                                    .pathSegment("trains/"+trainId)
-                                    .pathSegment("seats/"+seatId)
-                                    .pathSegment("ticket/"+ticket.getTicketId())
+                                    .pathSegment("trains/"+ticketToRemove.getTrainId())
+                                    .pathSegment("seats/"+ticketToRemove.getSeatId())
+                                    .pathSegment("ticket/"+ticketToRemove.getTicketId())
                                     .queryParam("key",reliableTrainsKey)
                                     .build())
                             .retrieve()
