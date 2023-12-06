@@ -10,11 +10,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -70,55 +73,35 @@ public class TicketStore {
 
     //"/trains/c3c7dec3-4901-48ce-970d-dd9418ed9bcf/seats/3865d890-f659-4c55-bf84-3b3a79cb377a/ticket?customer={customer}&bookingReference={bookingReference}&key=JViZPgNadspVcHsMbDFrdGg0XXxyiE",
     public void confirmQuotes(List<Quote> quotes,String user) {
-        UUID bookingReference = UUID.randomUUID();
+        String bookingReference = UUID.randomUUID().toString();
+
+
+        String[] referenceAndUserFromCrash = needRecoverFromCrashCrash(quotes);
+        if(referenceAndUserFromCrash!=null){
+            bookingReference = referenceAndUserFromCrash[0];
+            user = referenceAndUserFromCrash[1];
+            quotes = quotesYetToBook(quotes);
+        }
+
 
         List<Ticket> tickets = new ArrayList<>();
         boolean crashed = false;
         for (Quote quote:quotes) {
-            if(isReliableTrainCompany(quote.getTrainCompany())){
-                tickets.add(webClientReliableTrains
-                        .put()
-                        .uri(uriBuilder -> uriBuilder
-                                .pathSegment("trains/"+quote.getTrainId())
-                                .pathSegment("seats/"+quote.getSeatId())
-                                .pathSegment("ticket")
-                                .queryParam("customer",user)
-                                .queryParam("bookingReference",bookingReference)
-                                .queryParam("key", trainsKey)
-                                .build())
-                        .retrieve()
-                        .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
-                        .block());
-            }else if(isUnReliableTrainCompany(quote.getTrainCompany())){
-                try{
-                    tickets.add(webClientUnReliableTrains
-                            .put()
-                            .uri(uriBuilder -> uriBuilder
-                                    .pathSegment("trains/"+quote.getTrainId())
-                                    .pathSegment("/seats/"+quote.getSeatId())
-                                    .pathSegment("/ticket")
-                                    .queryParam("customer",user)
-                                    .queryParam("bookingReference",bookingReference)
-                                    .queryParam("key", trainsKey)
-                                    .build())
-                            .retrieve()
-                            .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
-                            .block());
-                }catch (Exception ex){
-                    System.out.println("There was a problem with booking a ticket: "+ex.getMessage());
-                    crashed = true;
-                    break;
-                }
+            try{
+                tickets.add(bookTicket(quote,user,bookingReference));
+
+            }catch (Exception ex) {
+                System.out.println("There was a problem with booking a ticket: " + ex.getMessage());
+                crashed = true;
+                break;
             }
         }
 
 
         //409 WebClientResponseException
-        Booking booking = new Booking(bookingReference, LocalDateTime.now(),tickets,user);
+        Booking booking = new Booking(UUID.fromString(bookingReference), LocalDateTime.now(),tickets,user);
         if(crashed){
-            for (Ticket ticket:tickets) {
-                removeTicket(ticket.getTrainCompany(),ticket.getTrainId(),ticket.getSeatId());
-            }
+            rollback(tickets);
             System.out.println("fail the transaction");
             emailController.sendConfirmationMailFailed(booking);
         }else{
@@ -126,6 +109,7 @@ public class TicketStore {
                 firestore.addBooking(booking);
                 emailController.sendConfirmationMailSucceded(booking);
             } catch (ExecutionException | InterruptedException e) {
+                rollback(tickets);
                 System.out.println("fail the transaction");
                 emailController.sendConfirmationMailFailed(booking);
             }
@@ -133,24 +117,126 @@ public class TicketStore {
 
     }
 
-    private void removeTicket(String trainCompany, UUID trainId, UUID seatId) {
+    private List<Quote> quotesYetToBook(List<Quote> quotes) {
+        List<Quote> quotesYetToBook = new ArrayList<>();
+        for (Quote q:quotes) {
+            boolean serviceUnReachable = true;
+            while(serviceUnReachable){
+                try{
+                    getTicket(q.getTrainCompany(),q.getTrainId(),q.getSeatId());
+                    System.out.println("Allready booked");
+                    serviceUnReachable = false;
+                }catch (WebClientResponseException ex){
+                    if(ex.getStatusCode().equals(HttpStatusCode.valueOf(404))){
+                        quotesYetToBook.add(q);
+                        serviceUnReachable=false;
+                    }
+                }
+            }
 
+        }
+        return quotesYetToBook;
+    }
+
+    private String[] needRecoverFromCrashCrash(List<Quote> quotes) {
+        Ticket t = null;
+        for (Quote q:quotes) {
+            boolean serviceUnReachable = true;
+            while(serviceUnReachable){
+                try{
+                    t = getTicket(q.getTrainCompany(),q.getTrainId(),q.getSeatId());
+                    System.out.println("Allready booked");
+                    serviceUnReachable = false;
+                }catch (WebClientResponseException ex){
+                    if(ex.getStatusCode().equals(HttpStatusCode.valueOf(404))){
+                        serviceUnReachable=false;
+                    }
+                }
+            }
+        }
+        if(t== null){
+            return null;
+        }
+        return new String[]{t.getBookingReference(),t.getCustomer()};
+    }
+
+    private Ticket bookTicket(Quote quote, String user, String bookingReference) {
+        if(isReliableTrainCompany(quote.getTrainCompany())){
+            return webClientReliableTrains
+                    .put()
+                    .uri(uriBuilder -> uriBuilder
+                            .pathSegment("trains/"+quote.getTrainId())
+                            .pathSegment("seats/"+quote.getSeatId())
+                            .pathSegment("ticket")
+                            .queryParam("customer",user)
+                            .queryParam("bookingReference",bookingReference)
+                            .queryParam("key", trainsKey)
+                            .build())
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
+                    .block();
+        }else if(isUnReliableTrainCompany(quote.getTrainCompany())){
+            return webClientUnReliableTrains
+                    .put()
+                    .uri(uriBuilder -> uriBuilder
+                            .pathSegment("trains/"+quote.getTrainId())
+                            .pathSegment("/seats/"+quote.getSeatId())
+                            .pathSegment("/ticket")
+                            .queryParam("customer",user)
+                            .queryParam("bookingReference",bookingReference)
+                            .queryParam("key", trainsKey)
+                            .build())
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
+                    .block();
+        }
+        return null;
+    }
+
+    private void rollback(List<Ticket> tickets) {
+        for (Ticket ticket:tickets) {
+            if(ticket!=null){
+                removeTicket(ticket.getTrainCompany(),ticket.getTrainId(),ticket.getSeatId());
+            }
+        }
+    }
+
+    private Ticket getTicket(String trainCompany, UUID trainId, UUID seatId){
+        if(isReliableTrainCompany(trainCompany)){
+            return webClientReliableTrains
+                    .get()
+                    .uri(uriBuilder -> uriBuilder
+                            .pathSegment("trains/"+trainId)
+                            .pathSegment("seats/"+seatId)
+                            .pathSegment("ticket")
+                            .queryParam("key", trainsKey)
+                            .build())
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
+                    .block();
+        }else if(isUnReliableTrainCompany(trainCompany)){
+            return webClientUnReliableTrains
+                    .get()
+                    .uri(uriBuilder -> uriBuilder
+                            .pathSegment("trains/"+trainId)
+                            .pathSegment("seats/"+seatId)
+                            .pathSegment("ticket")
+                            .queryParam("key", trainsKey)
+                            .build())
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
+                    .block();
+        }
+        return null;
+    }
+
+    private void removeTicket(String trainCompany, UUID trainId, UUID seatId) {
         boolean succed = false;
 
         while(!succed){
             try{
                 if(isReliableTrainCompany(trainCompany)){
-                    Ticket ticket = webClientReliableTrains
-                            .get()
-                            .uri(uriBuilder -> uriBuilder
-                                    .pathSegment("trains/"+trainId)
-                                    .pathSegment("seats/"+seatId)
-                                    .pathSegment("ticket")
-                                    .queryParam("key", trainsKey)
-                                    .build())
-                            .retrieve()
-                            .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
-                            .block();
+                    Ticket ticket = getTicket(trainCompany,trainId,seatId);
                     System.out.println("ACID propertie: when booking a ticket the system has failed. Rollback ticket:" + ticket.getTicketId());
                     webClientReliableTrains
                             .delete()
@@ -165,17 +251,7 @@ public class TicketStore {
                             .block();
                     succed = true;
                 }else if(isUnReliableTrainCompany(trainCompany)){
-                    Ticket ticket = webClientUnReliableTrains
-                            .get()
-                            .uri(uriBuilder -> uriBuilder
-                                    .pathSegment("trains/"+trainId)
-                                    .pathSegment("seats/"+seatId)
-                                    .pathSegment("ticket")
-                                    .queryParam("key", trainsKey)
-                                    .build())
-                            .retrieve()
-                            .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
-                            .block();
+                    Ticket ticket = getTicket(trainCompany,trainId,seatId);
                     System.out.println("ACID propertie: when booking a ticket the system has failed. Rollback ticket:" + ticket.getTicketId());
                     webClientUnReliableTrains
                             .delete()

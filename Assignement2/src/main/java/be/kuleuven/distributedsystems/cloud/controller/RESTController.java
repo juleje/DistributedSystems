@@ -101,13 +101,13 @@ public class RESTController {
         try{
             //Config Pub/Sub
             Publisher publisher = messagePublisher.publisher();
+
             /*
             //DEV env
             messagePublisher.topic();
             messagePublisher.subscribe();
-             */
 
-            System.out.println(publisher.getTopicNameString());
+             */
 
             //Publish
             User user = getUser();
@@ -115,14 +115,14 @@ public class RESTController {
             String message = new Gson().toJson(dto);
             ByteString data = ByteString.copyFromUtf8(message);
             PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
-            ApiFuture<String> response = publisher.publish(pubsubMessage);
+            publisher.publish(pubsubMessage);
 
             publisher.shutdown();
 
             return ResponseEntity.ok().body("Booking confirmed");
         }catch (Exception ex){
             ex.printStackTrace();
-            return ResponseEntity.status(503).body("There was a problem with the Unreliable Train Company: " + ex.getMessage());
+            return ResponseEntity.status(500).body("There was a problem with the PubSup service: " + ex.getMessage());
         }
     }
 

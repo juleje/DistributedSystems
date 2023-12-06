@@ -31,8 +31,7 @@ public class MessagePublisher {
 
         return Publisher
                 .newBuilder(topicName)
-                .build();
-
+               .build();
         /*
         //DEV env
         TopicName topicName = TopicName.of(projectIdDev, topicId);
@@ -42,7 +41,9 @@ public class MessagePublisher {
                 .setChannelProvider(channel)
                 .setCredentialsProvider(credentialsProvider)
                 .build();
+
          */
+
     }
 
     public void topic() throws IOException {
