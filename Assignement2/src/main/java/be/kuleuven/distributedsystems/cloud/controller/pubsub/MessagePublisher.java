@@ -78,7 +78,7 @@ public class MessagePublisher {
         try{
             subscriptionAdminClient.createSubscription(subscriptionName, topicName, pushConfig, 60);
         }catch (Exception ex){
-            System.out.println("Something went wrong with creating the subscriptoin: "+ex.getMessage());
+            System.out.println("Something went wrong with creating the subscription: "+ex.getMessage());
         }
 
     }

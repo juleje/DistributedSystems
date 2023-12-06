@@ -1,10 +1,8 @@
 package be.kuleuven.distributedsystems.cloud.controller.pubsub;
 
-import be.kuleuven.distributedsystems.cloud.controller.WEBClient;
 import be.kuleuven.distributedsystems.cloud.entities.Booking;
 import be.kuleuven.distributedsystems.cloud.entities.Quote;
 import be.kuleuven.distributedsystems.cloud.entities.Ticket;
-import be.kuleuven.distributedsystems.cloud.entities.User;
 import be.kuleuven.distributedsystems.cloud.persistance.FirestoreRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,8 +21,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
-import static be.kuleuven.distributedsystems.cloud.controller.WEBClient.isReliableTrainCompany;
-import static be.kuleuven.distributedsystems.cloud.controller.WEBClient.isUnReliableTrainCompany;
+import static be.kuleuven.distributedsystems.cloud.controller.WEBClient.*;
 
 @RestController
 @RequestMapping("/subscription")
@@ -71,7 +68,6 @@ public class TicketStore {
     //"/trains/c3c7dec3-4901-48ce-970d-dd9418ed9bcf/seats/3865d890-f659-4c55-bf84-3b3a79cb377a/ticket?customer={customer}&bookingReference={bookingReference}&key=JViZPgNadspVcHsMbDFrdGg0XXxyiE",
     public void confirmQuotes(List<Quote> quotes,String user) {
         UUID bookingReference = UUID.randomUUID();
-
         List<Ticket> tickets = new ArrayList<>();
         boolean crashed = false;
         for (Quote quote:quotes) {
@@ -89,7 +85,17 @@ public class TicketStore {
                         .retrieve()
                         .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
                         .block());
-            }else if(isUnReliableTrainCompany(quote.getTrainCompany())){
+            } else if (isDNetTrainCompany(quote.getTrainCompany())) {
+                String trainCompany = quote.getTrainCompany();
+                UUID trainId = quote.getTrainId();
+                UUID seatId = quote.getSeatId();
+                UUID ticketId = UUID.randomUUID();
+                String customer = user;
+                String bookingReferenceString = bookingReference.toString();
+                Ticket ticket = new Ticket(trainCompany, trainId, seatId, ticketId, customer, bookingReferenceString);
+                tickets.add(ticket);
+                firestore.addTicketToSeat(ticket);
+            } else if(isUnReliableTrainCompany(quote.getTrainCompany())){
                 try{
                     tickets.add(webClientUnReliableTrains
                             .put()
@@ -112,7 +118,6 @@ public class TicketStore {
             }
         }
 
-
         //409 WebClientResponseException
 
         if(crashed){
@@ -120,21 +125,18 @@ public class TicketStore {
                 removeTicket(ticket.getTrainCompany(),ticket.getTrainId(),ticket.getSeatId());
             }
         }else{
-            Booking booking = new Booking(bookingReference, LocalDateTime.now(),tickets,user);
+            Booking booking = new Booking(bookingReference, LocalDateTime.now(), tickets, user);
             try {
                 firestore.addBooking(booking);
             } catch (ExecutionException | InterruptedException e) {
                 System.out.println("fail the transaction");
             }
         }
-
     }
 
     private void removeTicket(String trainCompany, UUID trainId, UUID seatId) {
-
-        boolean succed = false;
-
-        while(!succed){
+        boolean succeeded = false;
+        while(!succeeded){
             try{
                 if(isReliableTrainCompany(trainCompany)){
                     Ticket ticket = webClientReliableTrains
@@ -148,7 +150,7 @@ public class TicketStore {
                             .retrieve()
                             .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
                             .block();
-                    System.out.println("ACID propertie: when booking a ticket the system has failed. Rollback ticket:" + ticket.getTicketId());
+                    System.out.println("ACID property: when booking a ticket the system has failed. Rollback ticket:" + ticket.getTicketId());
                     webClientReliableTrains
                             .delete()
                             .uri(uriBuilder -> uriBuilder
@@ -160,8 +162,12 @@ public class TicketStore {
                             .retrieve()
                             .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
                             .block();
-                    succed = true;
-                }else if(isUnReliableTrainCompany(trainCompany)){
+                    succeeded = true;
+                } else if (isDNetTrainCompany(trainCompany)) {
+                    //TODO
+                    firestore.removeTicket(trainId, seatId);
+                    succeeded = true;
+                } else if(isUnReliableTrainCompany(trainCompany)){
                     Ticket ticket = webClientUnReliableTrains
                             .get()
                             .uri(uriBuilder -> uriBuilder
@@ -185,14 +191,11 @@ public class TicketStore {
                             .retrieve()
                             .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
                             .block();
-                    succed = true;
+                    succeeded = true;
                 }
-            }catch (Exception ex){
+            } catch (Exception ex){
                 System.out.println("There was a problem with deleting an ticket, try again.");
             }
-
         }
-
     }
-
 }
