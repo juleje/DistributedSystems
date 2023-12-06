@@ -208,23 +208,37 @@ public class FirestoreRepository {
     }
 
     public Collection<LocalDateTime> getTrainTimes(String trainId) throws ExecutionException, InterruptedException {
-        ApiFuture<QuerySnapshot> query = db.collection("trains").get();
+        ApiFuture<QuerySnapshot> query = db.collection("trains").document(trainId).collection("seats").get();
         QuerySnapshot querySnapshot = query.get();
         List<QueryDocumentSnapshot> snapshots = querySnapshot.getDocuments();
-        List<Train> trains = new ArrayList<>();
+        List<Seat> seats = new ArrayList<>();
         for (QueryDocumentSnapshot snapshot : snapshots) {
-            trains.add(mapQueryDocumentSnapshotToTrain(snapshot));
+            seats.add(mapQueryDocumentSnapshotToSeat(snapshot));
         }
-        Train returnTrain = new Train();
-        for (Train train : trains) {
-            if (train.getTrainId().equals(trainId)) {
-                returnTrain = train;
-            }
+        Set<LocalDateTime> uniqueTimesSet = new HashSet<>();
+        for (Seat seat : seats) {
+            // Assuming Seat class has a method getTime() to get the time parameter
+            LocalDateTime time = seat.getTime();
+            uniqueTimesSet.add(time);
         }
-        return returnTrain.g;
+        return (Collection<LocalDateTime>) uniqueTimesSet.stream().sorted();
     }
 
-    public Collection<Seat> getAvailableSeats(String trainId, String time) {
+    public Collection<Seat> getAvailableSeats(String trainId, String time) throws ExecutionException, InterruptedException {
+        ApiFuture<QuerySnapshot> query = db.collection("trains").document(trainId).collection("seats").get();
+        QuerySnapshot querySnapshot = query.get();
+        List<QueryDocumentSnapshot> snapshots = querySnapshot.getDocuments();
+        List<Seat> seats = new ArrayList<>();
+        for (QueryDocumentSnapshot snapshot : snapshots) {
+            seats.add(mapQueryDocumentSnapshotToSeat(snapshot));
+        }
+        List<Seat> availableSeats = new ArrayList<>();
+        for(Seat seat : seats) {
+            if (seat.getTime().equals(LocalDateTime.parse(time, formatter))) {
+                availableSeats.add(seat);
+            }
+        }
+        return availableSeats;
     }
 
     public Seat getSeat(String trainId, String seatId) throws ExecutionException, InterruptedException {

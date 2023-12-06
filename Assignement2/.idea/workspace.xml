@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="getTrains()">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/WEBClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/WEBClient.java" afterDir="false" />
+    <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="getTrain &amp; getSeat">
       <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -138,7 +136,7 @@
       <workItem from="1701518076923" duration="1213000" />
       <workItem from="1701528470309" duration="3808000" />
       <workItem from="1701628514030" duration="837000" />
-      <workItem from="1701849862015" duration="3147000" />
+      <workItem from="1701849862015" duration="3706000" />
     </task>
     <task id="LOCAL-00001" summary="pubsub create topic &amp; subscription">
       <created>1700181735241</created>
@@ -231,7 +229,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701807316612</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="getTrain &amp; getSeat">
+      <created>1701854289125</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1701854289125</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -268,7 +273,8 @@
     <MESSAGE value="bean error" />
     <MESSAGE value="trainCollectionEmptyCheck" />
     <MESSAGE value="getTrains()" />
-    <option name="LAST_COMMIT_MESSAGE" value="getTrains()" />
+    <MESSAGE value="getTrain &amp; getSeat" />
+    <option name="LAST_COMMIT_MESSAGE" value="getTrain &amp; getSeat" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

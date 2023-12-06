@@ -139,7 +139,7 @@ public class WEBClient {
         return null;
     }
 
-    public Collection<Seat> getAvailableSeats(String companyId, String trainId, String time) {
+    public Collection<Seat> getAvailableSeats(String companyId, String trainId, String time) throws ExecutionException, InterruptedException {
         if(isReliableTrainCompany(companyId)){
             return webClientReliableTrains
                     .get()
