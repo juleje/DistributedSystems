@@ -9,9 +9,11 @@ import com.google.cloud.firestore.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import static be.kuleuven.distributedsystems.cloud.auth.SecurityFilter.getUser;
 
@@ -31,6 +33,7 @@ public class FirestoreRepository {
 
         db = firestoreOptions.getService();
         formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        //formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy'T'HH:mm:ss");
     }
 
     private Booking mapQueryDocumentSnapshotToBooking(QueryDocumentSnapshot snapshot){
@@ -50,6 +53,15 @@ public class FirestoreRepository {
         String image = (String) data.get("image");
         return new Train(trainCompany, id, name, location, image);
     }
+    private Train mapDocumentSnapshotToTrain(DocumentSnapshot document) {
+        Map<String, Object> data = document.getData();
+        UUID id = UUID.fromString((String) data.get("id"));
+        String trainCompany = (String) data.get("company");
+        String name = (String) data.get("name");
+        String location = (String) data.get("location");
+        String image = (String) data.get("image");
+        return new Train(trainCompany, id, name, location, image);
+    }
     private Seat mapQueryDocumentSnapshotToSeat(QueryDocumentSnapshot snapshot){
         Map<String, Object> data = snapshot.getData();
         String trainCompany = (String) data.get("trainCompany");
@@ -59,7 +71,7 @@ public class FirestoreRepository {
         String name = (String) data.get("name");
         String type = (String) data.get("type");
         Double price = (double) data.get("price");
-        return new Seat(trainCompany, trainId, seatId, time, name, type, price);
+        return new Seat(trainCompany, trainId, seatId, time, type, name, price);
     }
     public Collection<Booking> getBookings() throws ExecutionException, InterruptedException {
         List<QueryDocumentSnapshot> snapshots = db.collection("bookings").get().get().getDocuments();
@@ -180,6 +192,7 @@ public class FirestoreRepository {
     }
 
     public Collection<? extends Train> getTrains() throws ExecutionException, InterruptedException {
+        System.out.println("getTrains");
         ApiFuture<QuerySnapshot> query = db.collection("trains").get();
         QuerySnapshot querySnapshot = query.get();
         List<QueryDocumentSnapshot> snapshots = querySnapshot.getDocuments();
@@ -191,23 +204,38 @@ public class FirestoreRepository {
     }
 
     public Train getTrain(String trainId) throws ExecutionException, InterruptedException {
+        ApiFuture<DocumentSnapshot> future = db.collection("trains").document(trainId).get();
+        DocumentSnapshot document = future.get();
+        if (document.exists()) {
+            return mapDocumentSnapshotToTrain(document);
+        } else {
+            return null;
+        }
+
+        /*System.out.println("getTrain");
         ApiFuture<QuerySnapshot> query = db.collection("trains").get();
+        System.out.println(query);
         QuerySnapshot querySnapshot = query.get();
+        System.out.println(querySnapshot);
         List<QueryDocumentSnapshot> snapshots = querySnapshot.getDocuments();
+        System.out.println(snapshots);
         List<Train> trains = new ArrayList<>();
         for (QueryDocumentSnapshot snapshot : snapshots) {
             trains.add(mapQueryDocumentSnapshotToTrain(snapshot));
         }
+        System.out.println(trains);
         Train returnTrain = new Train();
         for (Train train : trains) {
             if (train.getTrainId().equals(trainId)) {
                 returnTrain = train;
             }
         }
-        return returnTrain;
+        System.out.println(returnTrain);
+        return returnTrain;*/
     }
 
     public Collection<LocalDateTime> getTrainTimes(String trainId) throws ExecutionException, InterruptedException {
+        System.out.println("getTrainTimes");
         ApiFuture<QuerySnapshot> query = db.collection("trains").document(trainId).collection("seats").get();
         QuerySnapshot querySnapshot = query.get();
         List<QueryDocumentSnapshot> snapshots = querySnapshot.getDocuments();
@@ -217,45 +245,41 @@ public class FirestoreRepository {
         }
         Set<LocalDateTime> uniqueTimesSet = new HashSet<>();
         for (Seat seat : seats) {
-            // Assuming Seat class has a method getTime() to get the time parameter
             LocalDateTime time = seat.getTime();
             uniqueTimesSet.add(time);
         }
-        return (Collection<LocalDateTime>) uniqueTimesSet.stream().sorted();
+        List<LocalDateTime> sortedList = new ArrayList<>(uniqueTimesSet);
+        Collections.sort(sortedList);
+        return sortedList;
     }
 
     public Collection<Seat> getAvailableSeats(String trainId, String time) throws ExecutionException, InterruptedException {
-        ApiFuture<QuerySnapshot> query = db.collection("trains").document(trainId).collection("seats").get();
+        LocalDateTime dateTime = LocalDateTime.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        String formattedString = dateTime.format(formatter);
+
+        ApiFuture<QuerySnapshot> query = db.collection("trains").document(trainId).collection("seats").whereEqualTo("time", formattedString).get();
         QuerySnapshot querySnapshot = query.get();
         List<QueryDocumentSnapshot> snapshots = querySnapshot.getDocuments();
-        List<Seat> seats = new ArrayList<>();
-        for (QueryDocumentSnapshot snapshot : snapshots) {
-            seats.add(mapQueryDocumentSnapshotToSeat(snapshot));
-        }
+        System.out.println(snapshots.get(0));
         List<Seat> availableSeats = new ArrayList<>();
-        for(Seat seat : seats) {
-            if (seat.getTime().equals(LocalDateTime.parse(time, formatter))) {
-                availableSeats.add(seat);
-            }
+        for (QueryDocumentSnapshot snapshot : snapshots) {
+            Seat seat = mapQueryDocumentSnapshotToSeat(snapshot);
+            availableSeats.add(seat);
         }
+        System.out.println(availableSeats.get(0));
         return availableSeats;
     }
 
     public Seat getSeat(String trainId, String seatId) throws ExecutionException, InterruptedException {
-        ApiFuture<QuerySnapshot> query = db.collection("trains").document(trainId).collection("seats").get();
+        System.out.println("getSeat");
+        ApiFuture<QuerySnapshot> query = db.collection("trains").document(trainId).collection("seats").whereEqualTo("seatId", seatId).get();
         QuerySnapshot querySnapshot = query.get();
         List<QueryDocumentSnapshot> snapshots = querySnapshot.getDocuments();
-        List<Seat> seats = new ArrayList<>();
+        Seat seat = null;
         for (QueryDocumentSnapshot snapshot : snapshots) {
-            seats.add(mapQueryDocumentSnapshotToSeat(snapshot));
+            seat = mapQueryDocumentSnapshotToSeat(snapshot);
         }
-        Seat returnSeat = new Seat();
-        for (Seat seat : seats) {
-            if (seat.getSeatId().equals(seatId)) {
-                returnSeat = seat;
-            }
-        }
-        return returnSeat;
+        return seat;
     }
 
     public void addTicketToSeat(Ticket ticket) {

@@ -43,7 +43,7 @@ public class WEBClient {
 
     public Collection<Train> getTrains() throws ExecutionException, InterruptedException {
         Collection<Train> returnable = new ArrayList<>();
-        returnable.addAll(webClientReliableTrains
+        /*returnable.addAll(webClientReliableTrains
                 .get()
                 .uri(uriBuilder -> uriBuilder
                         .pathSegment("trains")
@@ -52,11 +52,11 @@ public class WEBClient {
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<CollectionModel<Train>>() {})
                 .block()
-                .getContent());
+                .getContent());*/
 
         returnable.addAll(firestoreRepository.getTrains());
 
-        try{
+        /*try{
             returnable.addAll(webClientUnReliableTrains
                     .get()
                     .uri(uriBuilder -> uriBuilder
@@ -69,7 +69,7 @@ public class WEBClient {
                     .getContent());
         }catch (Exception ex){
             System.out.println("There went something wrong with the Unreliable Train Company: "+ex.getMessage());
-        }
+        }*/
 
         return returnable;
     }
@@ -154,7 +154,6 @@ public class WEBClient {
                     .bodyToMono(new ParameterizedTypeReference<CollectionModel<Seat>>() {})
                     .block()
                     .getContent();
-
         }else if(isUnReliableTrainCompany(companyId)){
             return webClientUnReliableTrains
                     .get()
