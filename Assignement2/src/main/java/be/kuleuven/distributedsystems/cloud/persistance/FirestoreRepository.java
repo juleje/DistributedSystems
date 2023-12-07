@@ -4,18 +4,19 @@ import be.kuleuven.distributedsystems.cloud.entities.Booking;
 import be.kuleuven.distributedsystems.cloud.entities.Seat;
 import be.kuleuven.distributedsystems.cloud.entities.Ticket;
 import be.kuleuven.distributedsystems.cloud.entities.Train;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
-import static be.kuleuven.distributedsystems.cloud.Application.projectIdPub;
 import static be.kuleuven.distributedsystems.cloud.auth.SecurityFilter.getUser;
-
+import static be.kuleuven.distributedsystems.cloud.Application.*;
 @Component
 public class FirestoreRepository {
 
@@ -75,7 +76,8 @@ public class FirestoreRepository {
         String trainCompany = (String) data.get("trainCompany");
         UUID trainId = UUID.fromString((String) data.get("trainId"));
         UUID seatId = UUID.fromString((String) data.get("seatId"));
-        LocalDateTime time = LocalDateTime.parse((String) data.get("time"), formatter);
+        String timeString = (String) data.get("time");
+        LocalDateTime time = LocalDateTime.parse(timeString, formatter);
         String name = (String) data.get("name");
         String type = (String) data.get("type");
         Double price = (double) data.get("price");
@@ -178,6 +180,7 @@ public class FirestoreRepository {
             seatData.put("type",seat.getType());
             seatData.put("name",seat.getName());
             seatData.put("price",seat.getPrice());
+            seatData.put("ticket","");
             db.collection("trains").document(trainId).collection("seats").add(seatData);
         }
 
@@ -237,8 +240,13 @@ public class FirestoreRepository {
         LocalDateTime dateTime = LocalDateTime.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         String formattedString = dateTime.format(formatter);
 
-        //todo are seats available after booking
-        ApiFuture<QuerySnapshot> query = db.collection("trains").document(trainId).collection("seats").whereEqualTo("time", formattedString).get();
+        ApiFuture<QuerySnapshot> query = db.collection("trains")
+                .document(trainId)
+                .collection("seats")
+                .whereEqualTo("time", formattedString)
+                .whereEqualTo("ticket","")
+                .get();
+
         QuerySnapshot querySnapshot = query.get();
         List<QueryDocumentSnapshot> snapshots = querySnapshot.getDocuments();
 
@@ -263,18 +271,90 @@ public class FirestoreRepository {
         return seat;
     }
 
-    //TODO WERKT NIET
     public void addTicketToSeat(Ticket ticket) {
-        db.collection("trains").document(ticket.getTrainId().toString()).collection("seats").document(ticket.getSeatId().toString()).collection("tickets").add(ticket);
+
+        Map<String, Object> ticketData = new HashMap<>();
+        ticketData.put("trainCompany",ticket.getTrainCompany());
+        ticketData.put("trainId",ticket.getTrainId().toString());
+        ticketData.put("seatId",ticket.getSeatId().toString());
+        ticketData.put("ticketId",ticket.getTicketId().toString());
+        ticketData.put("customer",ticket.getCustomer());
+        ticketData.put("bookingReference",ticket.getBookingReference());
+
+
+        CollectionReference seatsCollection = db
+                .collection("trains")
+                .document(ticket.getTrainId().toString())
+                .collection("seats");
+        Query query = seatsCollection.whereEqualTo("seatId", ticket.getSeatId().toString());
+
+        try {
+            // Execute the query
+            ApiFuture<QuerySnapshot> querySnapshot = query.get();
+            for (QueryDocumentSnapshot document : querySnapshot.get().getDocuments()) {
+                // Get the reference to the document
+                DocumentReference docRef = document.getReference();
+
+                // Create a map with the new field and its value
+                Map<String, Object> data = new HashMap<>();
+                data.put("ticket", ticketData);
+
+                // Update the document with the new field
+                docRef.set(data, SetOptions.merge()).get();
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    //TODO CONTROLEER
-    public void removeTicket(String trainId, String seatId, String ticketId) {
-        db.collection("trains").document(trainId).collection("seats").document(seatId).collection("tickets").document(ticketId).delete();
+    public void removeTicket(String trainId, String seatId) {
+        CollectionReference seatsCollection = db
+                .collection("trains")
+                .document(trainId)
+                .collection("seats");
+        Query query = seatsCollection.whereEqualTo("seatId",seatId);
+
+        try {
+            // Execute the query
+            ApiFuture<QuerySnapshot> querySnapshot = query.get();
+            for (QueryDocumentSnapshot document : querySnapshot.get().getDocuments()) {
+                // Get the reference to the document
+                DocumentReference docRef = document.getReference();
+
+                // Create a map with the new field and its value
+                Map<String, Object> data = new HashMap<>();
+                data.put("ticket", "");
+
+                // Update the document with the new field
+                docRef.set(data, SetOptions.merge()).get();
+
+                System.out.println("Document updated successfully.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
-    public Ticket getTicket(String trainCompany, UUID trainId, UUID seatId) {
-        //todo
+    public Ticket getTicket(String trainId, String seatId) throws ExecutionException, InterruptedException {
+        ApiFuture<QuerySnapshot> query = db.collection("trains").document(trainId).collection("seats").whereEqualTo("seatId", seatId).get();
+        QuerySnapshot querySnapshot = query.get();
+        List<QueryDocumentSnapshot> snapshots = querySnapshot.getDocuments();
+        for (QueryDocumentSnapshot snapshot : snapshots) {
+            Map<String, Object> data = snapshot.getData();
+            try{
+                HashMap<String,String> ticketMap = (HashMap<String,String>) data.get("ticket");
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                return objectMapper.convertValue(ticketMap, Ticket.class);
+
+            }catch (ClassCastException ex){
+                throw new WebClientResponseException(404,"no ticket for seat",null,null,null);
+            }
+
+        }
         return null;
+
     }
 }

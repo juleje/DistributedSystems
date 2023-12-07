@@ -72,7 +72,7 @@ public class TicketStore {
     }
 
     //"/trains/c3c7dec3-4901-48ce-970d-dd9418ed9bcf/seats/3865d890-f659-4c55-bf84-3b3a79cb377a/ticket?customer={customer}&bookingReference={bookingReference}&key=JViZPgNadspVcHsMbDFrdGg0XXxyiE",
-    public void confirmQuotes(List<Quote> quotes,String user) {
+    public void confirmQuotes(List<Quote> quotes,String user) throws ExecutionException, InterruptedException {
         String bookingReference = UUID.randomUUID().toString();
 
         String[] referenceAndUserFromCrash = needRecoverFromCrashCrash(quotes);
@@ -114,7 +114,7 @@ public class TicketStore {
         }
     }
 
-    private List<Quote> quotesYetToBook(List<Quote> quotes) {
+    private List<Quote> quotesYetToBook(List<Quote> quotes) throws ExecutionException, InterruptedException {
         List<Quote> quotesYetToBook = new ArrayList<>();
         for (Quote q:quotes) {
             boolean serviceUnReachable = true;
@@ -135,7 +135,7 @@ public class TicketStore {
         return quotesYetToBook;
     }
 
-    private String[] needRecoverFromCrashCrash(List<Quote> quotes) {
+    private String[] needRecoverFromCrashCrash(List<Quote> quotes) throws ExecutionException, InterruptedException {
         Ticket t = null;
         for (Quote q:quotes) {
             boolean serviceUnReachable = true;
@@ -187,14 +187,11 @@ public class TicketStore {
                     .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
                     .block();
         }else if (isDNetTrainCompany(quote.getTrainCompany())) {
-            //todo transaction
             String trainCompany = quote.getTrainCompany();
             UUID trainId = quote.getTrainId();
             UUID seatId = quote.getSeatId();
             UUID ticketId = UUID.randomUUID();
-            String customer = user;
-            String bookingReferenceString = bookingReference.toString();
-            Ticket ticket = new Ticket(trainCompany, trainId, seatId, ticketId, customer, bookingReferenceString);
+            Ticket ticket = new Ticket(trainCompany, trainId, seatId, ticketId, user, bookingReference);
             firestore.addTicketToSeat(ticket);
             return ticket;
         }
@@ -209,7 +206,7 @@ public class TicketStore {
         }
     }
 
-    private Ticket getTicket(String trainCompany, UUID trainId, UUID seatId){
+    private Ticket getTicket(String trainCompany, UUID trainId, UUID seatId) throws ExecutionException, InterruptedException {
         if(isReliableTrainCompany(trainCompany)){
             return webClientReliableTrains
                     .get()
@@ -235,7 +232,7 @@ public class TicketStore {
                     .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
                     .block();
         } else if (isDNetTrainCompany(trainCompany)) {
-            firestore.getTicket(trainCompany,trainId,seatId);
+            return firestore.getTicket(trainId.toString(),seatId.toString());
         }
         return null;
     }
@@ -261,9 +258,7 @@ public class TicketStore {
                             .block();
                     succed = true;
                 } else if (isDNetTrainCompany(trainCompany)) {
-                    //TODO getTicket
-                    Ticket ticket = getTicket(trainCompany,trainId,seatId);
-                    firestore.removeTicket(ticket.getTrainId().toString(),ticket.getSeatId().toString(),ticket.getTicketId().toString());
+                    firestore.removeTicket(trainId.toString(),seatId.toString());
                     succed = true;
                 } else if(isUnReliableTrainCompany(trainCompany)) {
                     Ticket ticket = getTicket(trainCompany,trainId,seatId);
