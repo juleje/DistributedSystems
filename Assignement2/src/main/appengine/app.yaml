@@ -14,7 +14,7 @@ automatic_scaling:
   max_concurrent_requests: 50
   min_pending_latency: 5000ms
   max_pending_latency: 15000ms
-  target_cpu_utilization: 0.7 #This parameter controls the scaling based on the number of requests. If you want to reduce the number of instances created, you can try lowering this value.
-  target_throughput_utilization: 0.7 #to scale based on CPU utilization, you can adjust this value to a higher threshold to trigger scaling less frequently.
+  target_cpu_utilization: 0.9 #This parameter controls the scaling based on the number of requests. If you want to reduce the number of instances created, you can try lowering this value.
+  target_throughput_utilization: 0.9 #to scale based on CPU utilization, you can adjust this value to a higher threshold to trigger scaling less frequently.
 
 service_account: distributedsystems-597e7@appspot.gserviceaccount.com
