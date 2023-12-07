@@ -4,8 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="bean error">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+=======
+    <list default="true" id="773065b6-ab0f-406d-80f9-ee5bfc476a86" name="Changes" comment="confirmQuotes &amp; removeTicket">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/RESTController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/RESTController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/WEBClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/controller/WEBClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/controller/pubsub/TicketStore.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/be/kuleuven/distributedsystems/cloud/persistance/FirestoreRepository.class" afterDir="false" />
+>>>>>>> Firestore_EXT1
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +37,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="datareading_in_rest" />
+        <entry key="$PROJECT_DIR$/.." value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -65,7 +79,11 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+<<<<<<< HEAD
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+=======
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.tabs&quot;,
+>>>>>>> Firestore_EXT1
     &quot;spring.configuration.checksum&quot;: &quot;a1234b3161b4fbfdfb96dd576b65bbea&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -76,6 +94,9 @@
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="be.kuleuven.distributedsystems.cloud.controller" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="be.kuleuven.distributedsystems.cloud.persistance" />
     </key>
   </component>
   <component name="RunManager">
@@ -128,6 +149,7 @@
       <workItem from="1700211477124" duration="3926000" />
       <workItem from="1700216121901" duration="1497000" />
       <workItem from="1700217706947" duration="329000" />
+<<<<<<< HEAD
       <workItem from="1700234672668" duration="12000" />
       <workItem from="1700561868352" duration="4936000" />
       <workItem from="1700665725031" duration="4335000" />
@@ -143,6 +165,18 @@
       <workItem from="1701769177357" duration="11751000" />
       <workItem from="1701869648530" duration="10356000" />
       <workItem from="1701961776127" duration="1529000" />
+=======
+      <workItem from="1701348225289" duration="1932000" />
+      <workItem from="1701362694274" duration="6306000" />
+      <workItem from="1701441568882" duration="3456000" />
+      <workItem from="1701518076923" duration="1213000" />
+      <workItem from="1701528470309" duration="3808000" />
+      <workItem from="1701628514030" duration="837000" />
+      <workItem from="1701849862015" duration="12767000" />
+      <workItem from="1701891980678" duration="703000" />
+      <workItem from="1701936391710" duration="692000" />
+      <workItem from="1701943720155" duration="13671000" />
+>>>>>>> Firestore_EXT1
     </task>
     <task id="LOCAL-00001" summary="pubsub create topic &amp; subscription">
       <created>1700181735241</created>
@@ -151,7 +185,119 @@
       <option name="project" value="LOCAL" />
       <updated>1700181735241</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="firestore extension: read data">
+      <created>1701294177806</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1701294177806</updated>
+    </task>
+    <task id="LOCAL-00003" summary="firestore extension: read data">
+      <created>1701349117311</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1701349117311</updated>
+    </task>
+    <task id="LOCAL-00004" summary="convert DTO to objects">
+      <created>1701365030380</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1701365030380</updated>
+    </task>
+    <task id="LOCAL-00005" summary="convert DTO to objects">
+      <created>1701367989862</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1701367989862</updated>
+    </task>
+    <task id="LOCAL-00006" summary="changes in application class:&#10;- FirestoreRepository&#10;- @autowired constructor&#10;- make hashmap">
+      <created>1701375383140</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1701375383140</updated>
+    </task>
+    <task id="LOCAL-00007" summary="bean error">
+      <created>1701443144873</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1701443144873</updated>
+    </task>
+    <task id="LOCAL-00008" summary="trainCollectionEmptyCheck">
+      <created>1701779834366</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1701779834366</updated>
+    </task>
+    <task id="LOCAL-00009" summary="trainCollectionEmptyCheck">
+      <created>1701784508744</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1701784508744</updated>
+    </task>
+    <task id="LOCAL-00010" summary="trainCollectionEmptyCheck">
+      <created>1701789982652</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1701789982652</updated>
+    </task>
+    <task id="LOCAL-00011" summary="trainCollectionEmptyCheck">
+      <created>1701792077155</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1701792077155</updated>
+    </task>
+    <task id="LOCAL-00012" summary="trainCollectionEmptyCheck">
+      <created>1701794151147</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1701794151147</updated>
+    </task>
+    <task id="LOCAL-00013" summary="getTrains()">
+      <created>1701807316612</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1701807316612</updated>
+    </task>
+    <task id="LOCAL-00014" summary="getTrain &amp; getSeat">
+      <created>1701854289125</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1701854289125</updated>
+    </task>
+    <task id="LOCAL-00015" summary="getAvailableSeats &amp; getTrainTimes">
+      <created>1701855041207</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1701855041207</updated>
+    </task>
+    <task id="LOCAL-00016" summary="confirmQuotes &amp; removeTicket">
+      <created>1701890743292</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1701890743292</updated>
+    </task>
+    <task id="LOCAL-00017" summary="confirmQuotes &amp; removeTicket">
+      <created>1701892678059</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1701892678059</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -162,7 +308,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="Firestore_EXT1" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -170,7 +328,16 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="pubsub create topic &amp; subscription" />
-    <option name="LAST_COMMIT_MESSAGE" value="pubsub create topic &amp; subscription" />
+    <MESSAGE value="firestore extension: read data" />
+    <MESSAGE value="convert DTO to objects" />
+    <MESSAGE value="changes in application class:&#10;- FirestoreRepository&#10;- @autowired constructor&#10;- make hashmap" />
+    <MESSAGE value="bean error" />
+    <MESSAGE value="trainCollectionEmptyCheck" />
+    <MESSAGE value="getTrains()" />
+    <MESSAGE value="getTrain &amp; getSeat" />
+    <MESSAGE value="getAvailableSeats &amp; getTrainTimes" />
+    <MESSAGE value="confirmQuotes &amp; removeTicket" />
+    <option name="LAST_COMMIT_MESSAGE" value="confirmQuotes &amp; removeTicket" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

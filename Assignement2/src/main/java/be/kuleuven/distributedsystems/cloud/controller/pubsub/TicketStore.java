@@ -1,6 +1,7 @@
 package be.kuleuven.distributedsystems.cloud.controller.pubsub;
 
 import be.kuleuven.distributedsystems.cloud.controller.sendgrid.EmailController;
+
 import be.kuleuven.distributedsystems.cloud.entities.Booking;
 import be.kuleuven.distributedsystems.cloud.entities.Quote;
 import be.kuleuven.distributedsystems.cloud.entities.Ticket;
@@ -24,8 +25,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
-import static be.kuleuven.distributedsystems.cloud.controller.WEBClient.isReliableTrainCompany;
-import static be.kuleuven.distributedsystems.cloud.controller.WEBClient.isUnReliableTrainCompany;
+import static be.kuleuven.distributedsystems.cloud.controller.WEBClient.*;
 
 @RestController
 @RequestMapping("/subscription")
@@ -75,7 +75,6 @@ public class TicketStore {
     public void confirmQuotes(List<Quote> quotes,String user) {
         String bookingReference = UUID.randomUUID().toString();
 
-
         String[] referenceAndUserFromCrash = needRecoverFromCrashCrash(quotes);
         if(referenceAndUserFromCrash!=null){
             bookingReference = referenceAndUserFromCrash[0];
@@ -97,7 +96,6 @@ public class TicketStore {
             }
         }
 
-
         //409 WebClientResponseException
         Booking booking = new Booking(UUID.fromString(bookingReference), LocalDateTime.now(),tickets,user);
         if(crashed){
@@ -114,7 +112,6 @@ public class TicketStore {
                 emailController.sendConfirmationMailFailed(booking);
             }
         }
-
     }
 
     private List<Quote> quotesYetToBook(List<Quote> quotes) {
@@ -189,6 +186,17 @@ public class TicketStore {
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
                     .block();
+        }else if (isDNetTrainCompany(quote.getTrainCompany())) {
+            //todo transaction
+            String trainCompany = quote.getTrainCompany();
+            UUID trainId = quote.getTrainId();
+            UUID seatId = quote.getSeatId();
+            UUID ticketId = UUID.randomUUID();
+            String customer = user;
+            String bookingReferenceString = bookingReference.toString();
+            Ticket ticket = new Ticket(trainCompany, trainId, seatId, ticketId, customer, bookingReferenceString);
+            firestore.addTicketToSeat(ticket);
+            return ticket;
         }
         return null;
     }
@@ -226,6 +234,8 @@ public class TicketStore {
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
                     .block();
+        } else if (isDNetTrainCompany(trainCompany)) {
+            firestore.getTicket(trainCompany,trainId,seatId);
         }
         return null;
     }
@@ -250,7 +260,12 @@ public class TicketStore {
                             .bodyToMono(new ParameterizedTypeReference<Ticket>() {})
                             .block();
                     succed = true;
-                }else if(isUnReliableTrainCompany(trainCompany)){
+                } else if (isDNetTrainCompany(trainCompany)) {
+                    //TODO getTicket
+                    Ticket ticket = getTicket(trainCompany,trainId,seatId);
+                    firestore.removeTicket(ticket.getTrainId().toString(),ticket.getSeatId().toString(),ticket.getTicketId().toString());
+                    succed = true;
+                } else if(isUnReliableTrainCompany(trainCompany)) {
                     Ticket ticket = getTicket(trainCompany,trainId,seatId);
                     System.out.println("ACID propertie: when booking a ticket the system has failed. Rollback ticket:" + ticket.getTicketId());
                     webClientUnReliableTrains
@@ -266,12 +281,9 @@ public class TicketStore {
                             .block();
                     succed = true;
                 }
-            }catch (Exception ex){
+            } catch (Exception ex){
                 System.out.println("There was a problem with deleting an ticket, try again.");
             }
-
         }
-
     }
-
 }

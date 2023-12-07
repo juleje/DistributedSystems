@@ -32,7 +32,7 @@ public class RESTController {
     private MessagePublisher messagePublisher;
 
     @GetMapping("/getTrains")
-    public Collection<Train> getTrains() {
+    public Collection<Train> getTrains() throws ExecutionException, InterruptedException {
         return webClient.getTrains();
     }
 
@@ -59,14 +59,14 @@ public class RESTController {
     @GetMapping("/getAvailableSeats")
     public ResponseEntity<?>  getAvailableSeats(@RequestParam String trainCompany, @RequestParam String trainId, @RequestParam String time) {
 
-        Collection<Seat> unordedSeats;
+        Collection<Seat> unorderedSeats;
         try{
-            unordedSeats = new ArrayList<>(webClient.getAvailableSeats(trainCompany, trainId, time));
+            unorderedSeats = new ArrayList<>(webClient.getAvailableSeats(trainCompany, trainId, time));
         }catch (Exception ex){
             return ResponseEntity.status(503).body("There was a problem with the Unreliable Train Company: "+ex.getMessage());
         }
 
-        List<Seat> orderSeats = new ArrayList<>(unordedSeats);
+        List<Seat> orderSeats = new ArrayList<>(unorderedSeats);
         orderSeats.sort(Comparator.comparing(Seat::getName));
         List<Seat> firstClass = new ArrayList<>();
         List<Seat> secondClass = new ArrayList<>();

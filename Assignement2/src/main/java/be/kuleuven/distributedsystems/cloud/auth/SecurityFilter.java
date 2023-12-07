@@ -53,8 +53,6 @@ import static be.kuleuven.distributedsystems.cloud.Application.projectIdPub;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
-    //"https://www.googleapis.com/oauth2/v3/certs"
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 

@@ -1,5 +1,7 @@
 package be.kuleuven.distributedsystems.cloud.entities;
 
+import com.google.gson.annotations.Expose;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -7,6 +9,7 @@ public class Seat {
     private String trainCompany;
     private UUID trainId;
     private UUID seatId;
+
     private LocalDateTime time;
     private String type;
     private String name;
@@ -28,13 +31,22 @@ public class Seat {
     public String getTrainCompany() {
         return trainCompany;
     }
+    public void setTrainCompany(String trainCompany) {
+        this.trainCompany = trainCompany;
+    }
 
     public UUID getTrainId() {
         return trainId;
     }
+    public void setTrainId(UUID trainId) {
+        this.trainId = trainId;
+    }
 
     public UUID getSeatId() {
         return this.seatId;
+    }
+    public void setSeatId(UUID seatId) {
+        this.seatId = seatId;
     }
 
     public LocalDateTime getTime() {
@@ -68,4 +80,5 @@ public class Seat {
     public int hashCode() {
         return this.trainCompany.hashCode() * this.trainId.hashCode() * this.seatId.hashCode();
     }
+
 }

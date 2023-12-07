@@ -1,13 +1,24 @@
+<<<<<<< HEAD
 be\kuleuven\distributedsystems\cloud\controller\pubsub\MessagePublisher.class
+=======
+>>>>>>> Firestore_EXT1
 be\kuleuven\distributedsystems\cloud\controller\WEBClient.class
 be\kuleuven\distributedsystems\cloud\controller\WEBClient$4.class
+be\kuleuven\distributedsystems\cloud\persistance\LocalDateTimeTypeAdapter.class
+be\kuleuven\distributedsystems\cloud\persistance\TrainsDTO.class
 be\kuleuven\distributedsystems\cloud\controller\RESTController.class
 be\kuleuven\distributedsystems\cloud\controller\WEBClient$6.class
 be\kuleuven\distributedsystems\cloud\controller\WEBClient$3.class
+<<<<<<< HEAD
 be\kuleuven\distributedsystems\cloud\auth\CustomRSAPublicKey.class
 be\kuleuven\distributedsystems\cloud\controller\WEBClient$2.class
 be\kuleuven\distributedsystems\cloud\controller\sendgrid\EmailController.class
 be\kuleuven\distributedsystems\cloud\Application.class
 be\kuleuven\distributedsystems\cloud\controller\WEBClient$1.class
 be\kuleuven\distributedsystems\cloud\controller\pubsub\TicketStore$7.class
+=======
+be\kuleuven\distributedsystems\cloud\persistance\TrainDTO.class
+be\kuleuven\distributedsystems\cloud\controller\WEBClient$2.class
+be\kuleuven\distributedsystems\cloud\controller\WEBClient$1.class
+>>>>>>> Firestore_EXT1
 be\kuleuven\distributedsystems\cloud\controller\WEBClient$5.class

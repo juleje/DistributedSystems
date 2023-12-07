@@ -26,7 +26,8 @@ public class WEBClient {
     private final WebClient webClientReliableTrains;
     private final WebClient webClientUnReliableTrains;
     private final String reliableTrainsKey = "JViZPgNadspVcHsMbDFrdGg0XXxyiE";
-
+    @Autowired
+    private FirestoreRepository firestoreRepository;
 
     @Autowired
     public WEBClient(Builder builder){
@@ -40,7 +41,7 @@ public class WEBClient {
                 .build();
     }
 
-    public Collection<Train> getTrains() {
+    public Collection<Train> getTrains() throws ExecutionException, InterruptedException {
         Collection<Train> returnable = new ArrayList<>();
         returnable.addAll(webClientReliableTrains
                 .get()
@@ -52,6 +53,9 @@ public class WEBClient {
                 .bodyToMono(new ParameterizedTypeReference<CollectionModel<Train>>() {})
                 .block()
                 .getContent());
+
+        returnable.addAll(firestoreRepository.getTrains());
+
         try{
             returnable.addAll(webClientUnReliableTrains
                     .get()
@@ -70,7 +74,7 @@ public class WEBClient {
         return returnable;
     }
 
-    public Train getTrain(String companyId, String trainId) {
+    public Train getTrain(String companyId, String trainId) throws ExecutionException, InterruptedException {
         if(isReliableTrainCompany(companyId)){
             return webClientReliableTrains
                     .get()
@@ -91,12 +95,14 @@ public class WEBClient {
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<Train>() {})
                     .block();
+        } else if (isDNetTrainCompany(companyId)) {
+            return firestoreRepository.getTrain(trainId);
         }
         return null;
     }
 
 
-    public Collection<LocalDateTime> getTrainTimes(String companyId, String trainId) {
+    public Collection<LocalDateTime> getTrainTimes(String companyId, String trainId) throws ExecutionException, InterruptedException {
         if(isReliableTrainCompany(companyId)){
             Collection<LocalDateTime> times =  webClientReliableTrains
                     .get()
@@ -127,11 +133,13 @@ public class WEBClient {
             List<LocalDateTime> returnable = new ArrayList<>(times);
             Collections.sort(returnable);
             return returnable;
+        } else if (isDNetTrainCompany(companyId)) {
+            return firestoreRepository.getTrainTimes(trainId);
         }
         return null;
     }
 
-    public Collection<Seat> getAvailableSeats(String companyId, String trainId, String time) {
+    public Collection<Seat> getAvailableSeats(String companyId, String trainId, String time) throws ExecutionException, InterruptedException {
         if(isReliableTrainCompany(companyId)){
             return webClientReliableTrains
                     .get()
@@ -146,7 +154,6 @@ public class WEBClient {
                     .bodyToMono(new ParameterizedTypeReference<CollectionModel<Seat>>() {})
                     .block()
                     .getContent();
-
         }else if(isUnReliableTrainCompany(companyId)){
             return webClientUnReliableTrains
                     .get()
@@ -161,14 +168,15 @@ public class WEBClient {
                     .bodyToMono(new ParameterizedTypeReference<CollectionModel<Seat>>() {})
                     .block()
                     .getContent();
+        } else if (isDNetTrainCompany(companyId)) {
+            return firestoreRepository.getAvailableSeats(trainId, time);
         }
         return null;
     }
 
     ///trains/c3c7dec3-4901-48ce-970d-dd9418ed9bcf/seats/3865d890-f659-4c55-bf84-3b3a79cb377a?key=JViZPgNadspVcHsMbDFrdGg0XXxyiE
-    public Seat getSeat(String trainCompany, String trainId, String seatId) {
+    public Seat getSeat(String trainCompany, String trainId, String seatId) throws ExecutionException, InterruptedException {
         if(isReliableTrainCompany(trainCompany)){
-
             return webClientReliableTrains
                     .get()
                     .uri(uriBuilder -> uriBuilder
@@ -179,7 +187,6 @@ public class WEBClient {
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<Seat>() {})
                     .block();
-
         }else if(isUnReliableTrainCompany(trainCompany)){
             return webClientUnReliableTrains
                     .get()
@@ -191,6 +198,8 @@ public class WEBClient {
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<Seat>() {})
                     .block();
+        } else if (isDNetTrainCompany(trainCompany)) {
+            return firestoreRepository.getSeat(trainId, seatId);
         }
         return null;
     }
@@ -203,6 +212,10 @@ public class WEBClient {
 
     public static boolean isReliableTrainCompany(String trainCompany) {
         return Objects.equals(trainCompany, "reliabletrains.com");
+    }
+
+    public static boolean isDNetTrainCompany(String trainCompany) {
+        return Objects.equals(trainCompany, "DNet Train Company");
     }
 
 }
