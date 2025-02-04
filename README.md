@@ -1,9 +1,17 @@
-# DistributedSystems
-Repo for lab sessions for distributed systems of the master Informatica
+# DNetTickets
+DNetTickets is an application developed for the Distributed Systems course in the Master's program in Informatics. It simulates the functionality of the NMBS website for purchasing train tickets.
 
-## Students
-Jules Verbessen
-Gert-Jan Gillis
+## Project Overview
+This project is divided into two parts:
+- Fundamentals – Learning core distributed system concepts such as: Java RMI, OpenAPI, REST
+- DNetTickets Application – Building a microservice-based distributed system, covering:
+  - Java Spring Boot for backend development
+  - Pub/Sub for indirect communication
+  - NoSQL Firestore database
+  - Role-based access control with Firebase
+  - Deployment with Google Cloud Engine and autoscaling 
+
+This project provides hands-on experience with designing, developing, and deploying distributed systems in a cloud environment.
 
 ## Run
 - Run emulator: in assignment2: firebase emulators:start --project demo-distributed-systems-kul
@@ -30,8 +38,3 @@ admin user :
 - username: admin@mail.be
 - password: admintest
 
-## Questions
-- public key van url vinden... hoe?
-- pubsub werkt niet deployed
-- deadline was 15 dec nu 8dec?
-- authentication hoe krijg admin role
